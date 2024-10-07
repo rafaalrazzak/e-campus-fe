@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { CalendarIcon, Paperclip } from "lucide-react"
+import { Paperclip } from "lucide-react"
 import Link from "next/link"
 
 interface Link {
@@ -12,12 +12,13 @@ interface BlogCardProps {
   date: string
   title: string
   content: string
+  author: string
   links: Link[]
 }
 
 function CardIcon({ icon }: { icon: string }) {
   return (
-    <div className="p-2 w-10 h-10 flex items-center justify-center">
+    <div className="p-2 size-10 flex items-center justify-center">
       <span className="text-lg font-bold">{icon}</span>
     </div>
   )
@@ -26,8 +27,15 @@ function CardIcon({ icon }: { icon: string }) {
 function CardDate({ date }: { date: string }) {
   return (
     <div className="flex items-center text-sm text-muted-foreground">
-      <CalendarIcon className="mr-1 h-4 w-4" />
       {date}
+    </div>
+  )
+}
+
+function CardAuthor({ author }: { author: string }) {
+  return (
+    <div className="flex items-center text-sm font-medium text-gray-600">
+      Diposting oleh {author}
     </div>
   )
 }
@@ -51,14 +59,15 @@ function CardLinks({ links }: { links: Link[] }) {
   )
 }
 
-export default function BlogCard({ icon, date, title, content, links }: BlogCardProps) {
+export default function BlogCard({ icon, date, title, content, author, links }: BlogCardProps) {
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="w-full">
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardIcon icon={icon} />
         <CardDate date={date} />
       </CardHeader>
       <CardContent>
+        <CardAuthor author={author} />
         <h2 className="mb-2 text-lg font-bold">{title}</h2>
         <p className="text-sm mb-4">{content}</p>
       </CardContent>

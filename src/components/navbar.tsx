@@ -1,84 +1,266 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Menu } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type NavLink = {
   href: string;
   label: string;
+  description?: string;
+  children?: Omit<NavLink, "children">[];
 };
 
 const navLinks: NavLink[] = [
-  { href: '#', label: 'Home' },
-  { href: '#', label: 'About' },
-  { href: '#', label: 'Services' },
-  { href: '#', label: 'Contact' },
+  { href: "/", label: "Beranda" },
+  {
+    href: "/academic",
+    label: "Akademik",
+    children: [
+      {
+        href: "/academic/learn",
+        label: "Belajar",
+        description: "Belajar di kelas dan daring"
+      },
+      {
+        href: "/academic/academic-calendar",
+        label: "Kalender Akademik",
+        description: "Kalender akademik untuk semester ini"
+      },
+      {
+        href: "/academic/academic-schedule",
+        label: "Jadwal Kuliah",
+        description: "Jadwal kuliah untuk semester ini"
+      },
+      {
+        href: "/academic/academic-syllabus",
+        label: "Silabus",
+        description: "Silabus mata kuliah yang diajarkan"
+      },
+    ]
+  },
+  {
+    href: "/study",
+    label: "Prodi",
+    children: [
+      {
+        href: "/study/teknik-informatika",
+        label: "Teknik Informatika",
+        description: "Program studi Teknik Informatika"
+      },
+      {
+        href: "/study/sistem-informasi",
+        label: "Sistem Informasi",
+        description: "Program studi Sistem Informasi"
+      },
+      {
+        href: "/study/bisnis-digital",
+        label: "Bisnis Digital",
+        description: "Program studi Bisnis Digital"
+      },
+    ],
+  },
+  {
+    href: "/research",
+    label: "Riset",
+    children: [
+      {
+        href: "/research/study", label: "Penelitian",
+        description: "Penelitian yang dilakukan oleh dosen dan mahasiswa"
+      },
+
+      {
+        href: "/research/devotion", label: "Pengabdian Masyarakat",
+        description: "Pengabdian kepada masyarakat yang dilakukan oleh dosen dan mahasiswa"
+      },
+    ],
+  },
+
 ];
 
-const NavLink: React.FC<NavLink> = ({ href, label }) => (
-  <Link
-    href={href}
-    className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-    prefetch={false}
-  >
-    {label}
-  </Link>
-);
-
-const Logo: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <Link href="#" className={`flex items-center ${className}`} prefetch={false}>
+const Logo: React.FC = () => (
+  <Link href="/" className="flex items-center" prefetch={false}>
     <Image src="/logo.svg" alt="Acme Inc" width={32} height={32} />
     <span className="sr-only">Acme Inc</span>
   </Link>
 );
 
-const MenuIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="4" x2="20" y1="12" y2="12" />
-    <line x1="4" x2="20" y1="6" y2="6" />
-    <line x1="4" x2="20" y1="18" y2="18" />
-  </svg>
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => (
+  <li>
+    <NavigationMenuLink asChild>
+      <Link
+        ref={ref}
+        className={cn(
+          "block group select-none space-y-1 rounded-[1rem] p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/80  focus:bg-primary focus:text-primary-foreground",
+          className
+        )}
+        href={props.href!}
+        {...props}
+      >
+        <h2 className="text-sm font-medium leading-none group-hover:text-white">{title}</h2>
+        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-white/80">
+          {children}
+        </p>
+      </Link>
+    </NavigationMenuLink>
+  </li>
+));
+ListItem.displayName = "ListItem";
+
+const DesktopNav: React.FC = () => {
+  const pathname = usePathname();
+
+  return (
+    <NavigationMenu className="hidden lg:flex">
+      <NavigationMenuList>
+        {navLinks.map((link) => (
+          <NavigationMenuItem key={link.label}>
+            {link.children ? (
+              <>
+                <NavigationMenuTrigger>{link.label}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {link.children.map((child) => (
+                      <ListItem
+                        key={child.label}
+                        title={child.label}
+                        href={child.href}
+                      >
+                        {child.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </>
+            ) : (
+              <Link href={link.href} legacyBehavior passHref>
+                <NavigationMenuLink
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    pathname === link.href && "text-primary",
+                  )}
+                >
+                  {link.label}
+                </NavigationMenuLink>
+              </Link>
+            )}
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+};
+
+const MobileNavItem: React.FC<NavLink> = ({ href, label, children }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href || pathname.startsWith(`${href}/`);
+
+  return (
+    <AccordionItem value={label} className="border-none">
+      {children ? (
+        <>
+          <AccordionTrigger
+            className={cn("text-sm", isActive && "text-primary")}
+          >
+            {label}
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="flex flex-col space-y-2">
+              {children.map((child) => (
+                <Link
+                  key={child.label}
+                  href={child.href}
+                  className={cn(
+                    "py-2 pl-4 text-sm transition-colors hover:text-primary",
+                    pathname === child.href && "text-primary"
+                  )}
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
+          </AccordionContent>
+        </>
+      ) : (
+        <Link
+          href={href}
+          className={cn(
+            "flex h-10 items-center justify-between py-2 text-sm transition-colors hover:text-primary",
+            isActive && "text-primary"
+          )}
+        >
+          {label}
+        </Link>
+      )}
+    </AccordionItem>
+  );
+};
+
+const MobileNav: React.FC = () => (
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button
+        variant="outline"
+        size="icon"
+        className="lg:hidden"
+        aria-label="Open navigation menu"
+      >
+        <Menu className="h-6 w-6" />
+      </Button>
+    </SheetTrigger>
+    <SheetContent side="right" className="w-full max-w-xs p-0">
+      <nav className="mt-6 px-4">
+        <Accordion type="single" collapsible className="w-full">
+          {navLinks.map((link) => (
+            <MobileNavItem key={link.label} {...link} />
+          ))}
+        </Accordion>
+      </nav>
+      <div className="mt-6 p-4 border-t border-border">
+        <Button variant="primary" className="w-full">
+          Login
+        </Button>
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
 export const Navbar: React.FC = () => {
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 border-b border-border sticky top-0 bg-white z-50">
-      <div className="flex items-center lg:hidden w-full justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background px-4">
+      <div className="container flex h-16 items-center justify-between">
         <Logo />
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="mr-2">
-              <MenuIcon className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className='w-full'>
-            <nav className="grid gap-2 py-6">
-              {navLinks.map((link) => (
-                <NavLink key={link.label} {...link} />
-              ))}
-            </nav>
-          </SheetContent>
-        </Sheet>
+        <DesktopNav />
+        <div className="flex items-center gap-4">
+          <Button variant="primary" className="hidden lg:inline-flex">
+            Login
+          </Button>
+          <MobileNav />
+        </div>
       </div>
-      <Logo className="hidden lg:flex" />
-      <nav className="ml-auto hidden lg:flex gap-6 w-full">
-        {navLinks.map((link) => (
-          <NavLink key={link.label} {...link} />
-        ))}
-      </nav>
     </header>
   );
 };
