@@ -17,6 +17,7 @@ import {
   QrCodeIcon,
   UsersIcon,
   CheckCircleIcon,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -117,7 +118,7 @@ const SubjectCard = ({
 
         <div className="grid grid-cols-2 gap-y-2">
           <InfoItem
-            icon={<UsersIcon className="size-4 text-muted-foreground" />}
+            icon={<User className="size-4 text-muted-foreground" />}
             text={instructor}
           />
           <InfoItem
