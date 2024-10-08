@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar } from '../ui/calendar';
+import { Calendar } from "../ui/calendar";
 
 interface Event {
   date: Date;
@@ -10,17 +10,16 @@ interface AcademicCalendarProps {
   events: Event[];
 }
 
-export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({ events }) => {
-
+export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({
+  events,
+}) => {
   return (
     <Card className="w-full overflow-hidden">
-      <CardHeader className="bg-primary text-primary-foreground -m-4 p-4">
+      <CardHeader className="-m-4 bg-primary p-4 text-primary-foreground">
         <CardTitle className="text-2xl font-bold">Kalender Akademik</CardTitle>
       </CardHeader>
       <CardContent className="py-4">
-        <Calendar
-          events={events}
-        />
+        <Calendar events={events} />
       </CardContent>
     </Card>
   );

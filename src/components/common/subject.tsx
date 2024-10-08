@@ -93,8 +93,8 @@ const SubjectCard = ({
 
   return (
     <Card>
-      <CardHeader className={cn("p-4 -m-4", color, textColor)}>
-        <div className="flex justify-between items-center gap-4">
+      <CardHeader className={cn("-m-4 p-4", color, textColor)}>
+        <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-xl font-bold">{subject}</CardTitle>
           <Badge variant={badgeVariant} className="text-xs font-semibold">
             {text}
@@ -102,8 +102,8 @@ const SubjectCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4 my-4">
-        <div className="flex justify-between items-center">
+      <CardContent className="my-4 space-y-4">
+        <div className="flex items-center justify-between">
           <InfoItem
             icon={<ClockIcon className="size-5 text-muted-foreground" />}
             text={timeRange}
@@ -113,7 +113,7 @@ const SubjectCard = ({
           </Badge>
         </div>
 
-        <p className="text-lg font-medium line-clamp-2">{topic}</p>
+        <p className="line-clamp-2 text-lg font-medium">{topic}</p>
 
         <div className="grid grid-cols-2 gap-y-2">
           <InfoItem

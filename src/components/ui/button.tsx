@@ -54,7 +54,7 @@ const buttonVariants = cva(
       variant: "primary",
       size: "default",
     },
-  }
+  },
 );
 
 type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
@@ -78,7 +78,7 @@ type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
         formAction?: never;
         textToCopy?: never;
         onClick?: (
-          event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+          event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         ) => void;
       }
   );
@@ -104,7 +104,7 @@ const Button = React.forwardRef<
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp: React.ElementType = asChild ? Slot : asLink ? Link : "button";
 
@@ -135,7 +135,7 @@ const Button = React.forwardRef<
         {rightIcon && <span className="ml-2">{rightIcon}</span>}
       </Comp>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

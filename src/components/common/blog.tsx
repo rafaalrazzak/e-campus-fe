@@ -1,27 +1,32 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Paperclip } from "lucide-react"
-import Link from "next/link"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Paperclip } from "lucide-react";
+import Link from "next/link";
 
 interface Link {
-  text: string
-  url: string
+  text: string;
+  url: string;
 }
 
 interface BlogCardProps {
-  icon: string
-  date: string
-  title: string
-  content: string
-  author: string
-  links: Link[]
+  icon: string;
+  date: string;
+  title: string;
+  content: string;
+  author: string;
+  links: Link[];
 }
 
 function CardIcon({ icon }: { icon: string }) {
   return (
-    <div className="p-2 size-10 flex items-center justify-center">
+    <div className="flex size-10 items-center justify-center p-2">
       <span className="text-lg font-bold">{icon}</span>
     </div>
-  )
+  );
 }
 
 function CardDate({ date }: { date: string }) {
@@ -29,7 +34,7 @@ function CardDate({ date }: { date: string }) {
     <div className="flex items-center text-sm text-muted-foreground">
       {date}
     </div>
-  )
+  );
 }
 
 function CardAuthor({ author }: { author: string }) {
@@ -37,7 +42,7 @@ function CardAuthor({ author }: { author: string }) {
     <div className="flex items-center text-sm font-medium text-gray-600">
       Diposting oleh {author}
     </div>
-  )
+  );
 }
 
 function CardLinks({ links }: { links: Link[] }) {
@@ -50,16 +55,21 @@ function CardLinks({ links }: { links: Link[] }) {
           className="flex items-center text-sm text-blue-600 hover:underline"
         >
           <Paperclip className="mr-1 h-4 w-4" />
-          <span className="line-clamp-1">
-            {link.text}
-          </span>
+          <span className="line-clamp-1">{link.text}</span>
         </Link>
       ))}
     </div>
-  )
+  );
 }
 
-export default function BlogCard({ icon, date, title, content, author, links }: BlogCardProps) {
+export default function BlogCard({
+  icon,
+  date,
+  title,
+  content,
+  author,
+  links,
+}: BlogCardProps) {
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -69,11 +79,11 @@ export default function BlogCard({ icon, date, title, content, author, links }: 
       <CardContent>
         <CardAuthor author={author} />
         <h2 className="mb-2 text-lg font-bold">{title}</h2>
-        <p className="text-sm mb-4">{content}</p>
+        <p className="mb-4 text-sm">{content}</p>
       </CardContent>
       <CardFooter>
         <CardLinks links={links} />
       </CardFooter>
     </Card>
-  )
+  );
 }

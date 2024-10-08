@@ -43,8 +43,8 @@ const subjects: SubjectCardProps[] = [
 export default function Page() {
   return (
     <main>
-      <Hero className="items-start text-start gap-8" onlyImage>
-        <div className="flex flex-col md:flex-row justify-between gap-4">
+      <Hero className="items-start gap-8 text-start" onlyImage>
+        <div className="flex flex-col justify-between gap-4 md:flex-row">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-primary">Jadwal Hari Ini</h1>
             <p className="text-xl">{formatDate(new Date())}</p>

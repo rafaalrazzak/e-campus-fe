@@ -40,24 +40,24 @@ const navLinks: NavLink[] = [
       {
         href: "/academic/learn",
         label: "Belajar",
-        description: "Belajar di kelas dan daring"
+        description: "Belajar di kelas dan daring",
       },
       {
         href: "/academic/academic-calendar",
         label: "Kalender Akademik",
-        description: "Kalender akademik untuk semester ini"
+        description: "Kalender akademik untuk semester ini",
       },
       {
         href: "/academic/academic-schedule",
         label: "Jadwal Kuliah",
-        description: "Jadwal kuliah untuk semester ini"
+        description: "Jadwal kuliah untuk semester ini",
       },
       {
         href: "/academic/academic-syllabus",
         label: "Silabus",
-        description: "Silabus mata kuliah yang diajarkan"
+        description: "Silabus mata kuliah yang diajarkan",
       },
-    ]
+    ],
   },
   {
     href: "/study",
@@ -66,17 +66,17 @@ const navLinks: NavLink[] = [
       {
         href: "/study/teknik-informatika",
         label: "Teknik Informatika",
-        description: "Program studi Teknik Informatika"
+        description: "Program studi Teknik Informatika",
       },
       {
         href: "/study/sistem-informasi",
         label: "Sistem Informasi",
-        description: "Program studi Sistem Informasi"
+        description: "Program studi Sistem Informasi",
       },
       {
         href: "/study/bisnis-digital",
         label: "Bisnis Digital",
-        description: "Program studi Bisnis Digital"
+        description: "Program studi Bisnis Digital",
       },
     ],
   },
@@ -85,17 +85,19 @@ const navLinks: NavLink[] = [
     label: "Riset",
     children: [
       {
-        href: "/research/study", label: "Penelitian",
-        description: "Penelitian yang dilakukan oleh dosen dan mahasiswa"
+        href: "/research/study",
+        label: "Penelitian",
+        description: "Penelitian yang dilakukan oleh dosen dan mahasiswa",
       },
 
       {
-        href: "/research/devotion", label: "Pengabdian Masyarakat",
-        description: "Pengabdian kepada masyarakat yang dilakukan oleh dosen dan mahasiswa"
+        href: "/research/devotion",
+        label: "Pengabdian Masyarakat",
+        description:
+          "Pengabdian kepada masyarakat yang dilakukan oleh dosen dan mahasiswa",
       },
     ],
   },
-
 ];
 
 const Logo: React.FC = () => (
@@ -114,13 +116,15 @@ const ListItem = React.forwardRef<
       <Link
         ref={ref}
         className={cn(
-          "block group select-none space-y-1 rounded-[1rem] p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/80  focus:bg-primary focus:text-primary-foreground",
-          className
+          "group block select-none space-y-1 rounded-[1rem] p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/80 focus:bg-primary focus:text-primary-foreground",
+          className,
         )}
         href={props.href!}
         {...props}
       >
-        <h2 className="text-sm font-medium leading-none group-hover:text-white">{title}</h2>
+        <h2 className="text-sm font-medium leading-none group-hover:text-white">
+          {title}
+        </h2>
         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-white/80">
           {children}
         </p>
@@ -195,7 +199,7 @@ const MobileNavItem: React.FC<NavLink> = ({ href, label, children }) => {
                   href={child.href}
                   className={cn(
                     "py-2 pl-4 text-sm transition-colors hover:text-primary",
-                    pathname === child.href && "text-primary"
+                    pathname === child.href && "text-primary",
                   )}
                 >
                   {child.label}
@@ -209,7 +213,7 @@ const MobileNavItem: React.FC<NavLink> = ({ href, label, children }) => {
           href={href}
           className={cn(
             "flex h-10 items-center justify-between py-2 text-sm transition-colors hover:text-primary",
-            isActive && "text-primary"
+            isActive && "text-primary",
           )}
         >
           {label}
@@ -239,7 +243,7 @@ const MobileNav: React.FC = () => (
           ))}
         </Accordion>
       </nav>
-      <div className="mt-6 p-4 border-t border-border">
+      <div className="mt-6 border-t border-border p-4">
         <Button variant="primary" className="w-full">
           Login
         </Button>
