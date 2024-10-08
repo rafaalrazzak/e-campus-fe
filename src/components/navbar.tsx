@@ -254,7 +254,7 @@ const MobileNav: React.FC = () => (
 
 export const Navbar: React.FC = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background px-4">
+    <header className="container sticky top-0 z-50 mx-auto w-full border-b border-border bg-background px-4">
       <div className="container flex h-16 items-center justify-between">
         <Logo />
         <DesktopNav />
