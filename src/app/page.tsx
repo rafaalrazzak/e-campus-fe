@@ -1,10 +1,9 @@
 import BlogCard from "@/components/common/blog";
 import { AcademicCalendar } from "@/components/common/calendar";
-import { Navbar } from "@/components/navbar";
+import { Hero } from "@/components/common/hero";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book, Car, ChevronRight, ForkKnife, LandPlot, Laptop, Monitor, MoonStar, Presentation } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const links = [
@@ -140,25 +139,7 @@ const facilities = [
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <section className="relative h-[50vh] flex flex-col justify-center items-center text-center text-white p-8 overflow-hidden rounded-b-3xl">
-        <Image
-          src="https://assets.siakadcloud.com/uploads/sttnurulfikri/bgaplikasi/1405.jpg"
-          alt="Hero"
-          fill
-          className="object-cover object-center brightness-[0.3]"
-        />
-        <div className="relative z-10 space-y-4">
-          <h1 className="text-4xl font-bold">
-            Selamat datang di<br />E-Campus STT Nurul Fikri
-          </h1>
-          <p className="max-w-lg mx-auto text-balance">
-            Membangun masa depan melalui pendidikan teknologi yang inovatif dan berkualitas.
-          </p>
-          <Button variant="primary" size="lg">Daftar Sekarang</Button>
-        </div>
-      </section>
-
+      <Hero />
       <main className="container mx-auto px-4 py-8 gap-12 flex flex-col">
         <Card className="overflow-hidden p-0">
           <CardContent>
