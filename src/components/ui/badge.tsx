@@ -38,10 +38,11 @@ const badgeVariants = cva(
         "secondary-primary": "bg-secondary text-primary",
       },
       size: {
-        default: "px-2.5 py-0.5 text-xs",
-        sm: "px-2 py-0.5 text-xs",
-        lg: "px-3 py-1 text-sm",
-        none: "px-0 py-0 text-xs",
+        default: "h-10 px-2.5 py-0.5 text-xs",
+        sm: "h-8 px-2 py-0.5 text-xs",
+        lg: "h-11 px-3 py-1 text-sm",
+        none: "px-0 py-0 text-xs size-auto",
+        fit: "px-4 py-2 text-xs size-fit",
       },
     },
     defaultVariants: {
