@@ -56,7 +56,7 @@ const buttonVariants = cva(
       border: {
         default: "border",
         none: "border-none",
-      }
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -108,6 +108,8 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(
       leftIcon,
       rightIcon,
       children,
+      rounded,
+      border,
       ...props
     },
     ref,
@@ -115,7 +117,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(
     const Comp = asChild ? motion(Slot) : asLink ? motion(Link) : motion.button;
 
     const baseClasses = cn(
-      buttonVariants({ variant, size, className }),
+      buttonVariants({ variant, size, className, rounded, border }),
       "overflow-hidden relative",
     );
 
