@@ -23,7 +23,7 @@ const buttonVariants = cva(
         outline:
           "border border-border bg-background hover:bg-primary hover:text-primary-foreground",
         ghost: "hover:bg-primary hover:text-primary-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-primary underline-offset-4 hover:underline border-none",
         transparent: "hover:bg-primary/10",
         "success-outline": "border-success text-success",
         "destructive-outline": "border-destructive text-destructive",
@@ -117,7 +117,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(
     const Comp = asChild ? motion(Slot) : asLink ? motion(Link) : motion.button;
 
     const baseClasses = cn(
-      buttonVariants({ variant, size, className, rounded, border }),
+      buttonVariants({ border, variant, size, className, rounded }),
       "overflow-hidden relative",
     );
 
