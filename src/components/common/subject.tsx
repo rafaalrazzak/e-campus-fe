@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
 import {
   CalendarIcon,
   ClockIcon,
@@ -18,6 +19,7 @@ import {
   UsersIcon,
   CheckCircleIcon,
   User,
+  BookOpenText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +36,7 @@ export interface SubjectCardProps {
   instructor: string;
   room: string;
   participants: number;
+  linkCourse: string;
   onScan?: () => void;
 }
 
@@ -54,7 +57,7 @@ const InfoItem = ({
 }: InfoItemProps) => (
   <div
     className={cn(
-      "flex items-center gap-2",
+      "flex items-center gap-1",
       {
         "text-muted-foreground": color === "secondary",
         "text-dark": color === "dark",
@@ -67,8 +70,10 @@ const InfoItem = ({
       },
     )}
   >
-    {icon}
-    <span className={cn("font-medium", bold && "font-semibold")}>{text}</span>
+    <span className="shrink-0">{icon}</span>
+    <span className={cn("line-clamp-1 font-medium", bold && "font-semibold")}>
+      {text}
+    </span>
   </div>
 );
 
@@ -111,6 +116,7 @@ const SubjectCard = ({
   instructor,
   room,
   participants,
+  linkCourse,
   onScan,
 }: SubjectCardProps) => {
   const { color, text, badgeVariant, textColor } = statusConfig[status];
@@ -120,13 +126,17 @@ const SubjectCard = ({
       <CardHeader className={cn("-m-4 p-4", color, textColor)}>
         <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-xl font-bold">{subject}</CardTitle>
-          <Badge size="sm" variant={badgeVariant} className="text-xs font-semibold shrink-0">
+          <Badge
+            size="sm"
+            variant={badgeVariant}
+            className="shrink-0 text-xs font-semibold"
+          >
             {text}
           </Badge>
         </div>
       </CardHeader>
 
-      <CardContent className="my-4 space-y-4">
+      <CardContent className="my-4 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <InfoItem
             icon={<ClockIcon className="size-5" />}
@@ -135,31 +145,45 @@ const SubjectCard = ({
             size="lg"
             bold
           />
-          <Badge size="sm" variant={attendance === "Hadir" ? "success" : "warning"} className="shrink-0">
+          <Badge
+            size="sm"
+            variant={attendance === "Hadir" ? "success" : "warning"}
+            className="shrink-0"
+          >
             {attendance}
           </Badge>
         </div>
 
         <p className="line-clamp-2 text-lg font-medium">{topic}</p>
 
-        <div className="grid grid-cols-2 gap-y-2">
-          <InfoItem icon={<User className="size-4" />} text={instructor} />
-          <InfoItem icon={<MapPinIcon className="size-4" />} text={room} />
+        <div className="grid grid-cols-2 gap-3">
+          <InfoItem
+            icon={<User className="size-4" />}
+            text={instructor}
+            size="sm"
+          />
+          <InfoItem
+            icon={<MapPinIcon className="size-4" />}
+            text={room}
+            size="sm"
+          />
           <InfoItem
             icon={<UsersIcon className="size-4" />}
             text={`${participants} mahasiswa/i`}
+            size="sm"
           />
           <InfoItem
             icon={<CalendarIcon className="size-4 text-muted-foreground" />}
             text={duration}
+            size="sm"
           />
         </div>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="gap-2">
         {status === "done" ? (
-          <Button variant="outline" size="full" disabled>
-            <CheckCircleIcon className="mr-2 size-4" />
+          <Button variant="outline" size="full" disabled className="grow">
+            <CheckCircleIcon className="size-4" />
             Kehadiran Tercatat
           </Button>
         ) : (
@@ -168,11 +192,15 @@ const SubjectCard = ({
             size="full"
             onClick={onScan}
             disabled={status !== "active"}
+            className="grow"
           >
-            <QrCodeIcon className="mr-2 size-4" />
+            <QrCodeIcon className="size-4" />
             {status === "active" ? "Scan Kehadiran" : "Belum Dapat Scan"}
           </Button>
         )}
+        <Button asLink variant="secondary" size="icon" className="shrink-0" href={linkCourse}>
+          <BookOpenText className="size-4" />
+        </Button>
       </CardFooter>
     </Card>
   );
