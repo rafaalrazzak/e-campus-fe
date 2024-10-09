@@ -106,7 +106,7 @@ const statusConfig: Record<
   },
 };
 
-const SubjectCard = ({
+export const SubjectCard = ({
   status,
   duration,
   attendance,
@@ -205,5 +205,3 @@ const SubjectCard = ({
     </Card>
   );
 };
-
-export default SubjectCard;
