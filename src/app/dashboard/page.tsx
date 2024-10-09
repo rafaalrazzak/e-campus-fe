@@ -105,7 +105,6 @@ export default function Page() {
           <Button
             variant="secondary-primary"
             leftIcon={<CalendarDaysIcon size={16} />}
-            className="border"
           >
             Lihat Semua Jadwal
           </Button>
