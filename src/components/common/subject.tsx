@@ -40,12 +40,35 @@ export interface SubjectCardProps {
 interface InfoItemProps {
   icon: ReactNode;
   text: string | number;
+  color?: "secondary" | "dark" | "primary" | "success";
+  size?: "sm" | "lg";
+  bold?: boolean;
 }
 
-const InfoItem = ({ icon, text }: InfoItemProps) => (
-  <div className="flex items-center space-x-2 text-sm">
+const InfoItem = ({
+  icon,
+  text,
+  size,
+  bold,
+  color = "secondary",
+}: InfoItemProps) => (
+  <div
+    className={cn(
+      "flex items-center gap-2",
+      {
+        "text-muted-foreground": color === "secondary",
+        "text-dark": color === "dark",
+        "text-primary-foreground": color === "primary",
+        "text-success-foreground": color === "success",
+      },
+      {
+        "text-sm": size === "sm",
+        "text-lg": size === "lg",
+      },
+    )}
+  >
     {icon}
-    <span className="text-muted-foreground">{text}</span>
+    <span className={cn("font-medium", bold && "font-semibold")}>{text}</span>
   </div>
 );
 
@@ -106,8 +129,11 @@ const SubjectCard = ({
       <CardContent className="my-4 space-y-4">
         <div className="flex items-center justify-between">
           <InfoItem
-            icon={<ClockIcon className="size-5 text-muted-foreground" />}
+            icon={<ClockIcon className="size-5" />}
             text={timeRange}
+            color="dark"
+            size="lg"
+            bold
           />
           <Badge variant={attendance === "Hadir" ? "success" : "warning"}>
             {attendance}
@@ -117,16 +143,10 @@ const SubjectCard = ({
         <p className="line-clamp-2 text-lg font-medium">{topic}</p>
 
         <div className="grid grid-cols-2 gap-y-2">
+          <InfoItem icon={<User className="size-4" />} text={instructor} />
+          <InfoItem icon={<MapPinIcon className="size-4" />} text={room} />
           <InfoItem
-            icon={<User className="size-4 text-muted-foreground" />}
-            text={instructor}
-          />
-          <InfoItem
-            icon={<MapPinIcon className="size-4 text-muted-foreground" />}
-            text={room}
-          />
-          <InfoItem
-            icon={<UsersIcon className="size-4 text-muted-foreground" />}
+            icon={<UsersIcon className="size-4" />}
             text={`${participants} mahasiswa/i`}
           />
           <InfoItem
