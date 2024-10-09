@@ -4,13 +4,14 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import { ChevronDown, MapPinIcon, Route } from "lucide-react";
+import { ChevronDown, Leaf, Route } from "lucide-react";
 import { motion } from "framer-motion";
 
 export interface TransportationCardProps {
   title: string;
   travelTime: string;
   timeRange: string;
+  isReduceCarbon?: boolean;
   routes: RouteTransportationProps[];
 }
 
@@ -25,6 +26,7 @@ export function TransportationCard({
   title,
   travelTime,
   timeRange,
+  isReduceCarbon,
   routes,
 }: TransportationCardProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +40,17 @@ export function TransportationCard({
       <CardContent className="flex flex-col gap-4">
         <div className="flex w-full justify-between">
           <div className="flex flex-col gap-1">
-            <CardTitle className="text-xl font-bold">{title}</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-xl font-bold">
+              {title}
+
+              {isReduceCarbon && (
+                <Badge
+                  variant="success"
+                  size="fit"
+                  leftIcon={<Leaf size={16} />}
+                />
+              )}
+            </CardTitle>
             <Badge variant="secondary" size="fit">
               Waktu tempuh {travelTime}
             </Badge>
@@ -50,8 +62,10 @@ export function TransportationCard({
 
         <p className="text-sm text-secondary-foreground">
           Waktu tempuh dan rute ke kampus STT Nurul Fikri dari lokasi Anda.
-          Selalu pertimbangkan waktu dan rute terbaik.
+          Selalu pertimbangkan waktu tempuh agar tidak terlambat.
         </p>
+
+        <hr />
 
         <motion.div
           initial={{ height: 0, opacity: 0 }}
