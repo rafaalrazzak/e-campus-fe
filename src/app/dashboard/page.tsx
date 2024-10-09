@@ -1,11 +1,9 @@
 import { Hero } from "@/components/common/hero";
-import { Section } from "@/components/common/section";
-import SubjectCard, { SubjectCardProps } from "@/components/common/subject";
-import { TransportationCard, TransportationCardProps } from "@/components/common/transportation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/utils";
 import { CalendarDaysIcon, MapPinIcon, Search } from "lucide-react";
+import { TransportationClient } from "./transportation-client";
+import { SubjectCard, SubjectCardProps } from "@/components/common/subject";
 
 const subjects: SubjectCardProps[] = [
   {
@@ -46,56 +44,6 @@ const subjects: SubjectCardProps[] = [
   },
 ];
 
-const transportationData: TransportationCardProps[] = [
-  {
-    title: "Transportasi Umum",
-    travelTime: "30 menit",
-    timeRange: "14:00 - 14:30",
-    routes: [
-      {
-        placeName: "Stasiun Bojonggede",
-        travelTime: "20 menit",
-        arrivalTime: "14:16",
-      },
-      {
-        placeName: "Stasiun Citayam",
-        travelTime: "20 menit",
-        arrivalTime: "14:19",
-        badge: "Transit",
-      },
-      {
-        placeName: "Stasiun Depok",
-        travelTime: "20 menit",
-        arrivalTime: "14:27",
-      },
-      {
-        placeName: "Stasiun Depokbaru",
-        travelTime: "20 menit",
-        arrivalTime: "14:28",
-      },
-      {
-        placeName: "Stasiun Pondokcina",
-        travelTime: "20 menit",
-        arrivalTime: "14:31",
-      },
-      {
-        placeName: "Stasiun Univ. Indonesia",
-        travelTime: "20 menit",
-        arrivalTime: "14:34",
-      },
-    ],
-  },
-  {
-    title: "Transportasi Pribadi",
-    travelTime: "15 menit",
-    timeRange: "14:00 - 14:15",
-    routes: [
-      { placeName: "Rumah", travelTime: "10 menit", arrivalTime: "14:10" },
-      { placeName: "Kampus", travelTime: "5 menit", arrivalTime: "14:15" },
-    ],
-  },
-];
-
 export default function Page() {
   return (
     <>
@@ -120,27 +68,8 @@ export default function Page() {
         </div>
       </Hero>
 
-      <main className="container px-4">
-        <Section title="Transportasi menuju kampus">
-          <div className="flex flex-col gap-4">
-            <Input
-              leftIcon={<Search size={16} />}
-              placeholder="Cari lokasi Anda"
-            />
-
-            <Button
-              variant="secondary"
-              size="sm"
-              leftIcon={<MapPinIcon size={16} />}
-            >
-              Lokasi Saat Ini
-            </Button>
-          </div>
-
-          {transportationData.map((transport, index) => (
-            <TransportationCard key={index} {...transport} />
-          ))}
-        </Section>
+      <main className="container mx-auto px-4">
+        <TransportationClient />
       </main>
     </>
   );
