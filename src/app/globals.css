@@ -3,80 +3,80 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
-    --foreground: 0 0% 3.9%; /* HSL(0, 0%, 3.9%) | HEX: #060606 */
-    --border: 0 0% 89.8%; /* HSL(0, 0%, 89.8%) | HEX: #E3E3E3 */
+    :root {
+        --background: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --foreground: 0 0% 3.9%; /* HSL(0, 0%, 3.9%) | HEX: #060606 */
+        --border: 0 0% 89.8%; /* HSL(0, 0%, 89.8%) | HEX: #E3E3E3 */
 
-    --primary: 205 77% 45%; /* HSL(205, 77%, 45%) | HEX: #0094D8 */
-    --primary-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --primary: 205 77% 45%; /* HSL(205, 77%, 45%) | HEX: #0094D8 */
+        --primary-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --secondary: 0 0% 96%; /* HSL(0, 0%, 96%) | HEX: #F6F6F6 */
-    --secondary-foreground: 0 0% 15%; /* HSL(0, 0%, 15%) | HEX: #262626 */
+        --secondary: 0 0% 96%; /* HSL(0, 0%, 96%) | HEX: #F6F6F6 */
+        --secondary-foreground: 0 0% 15%; /* HSL(0, 0%, 15%) | HEX: #262626 */
 
-    --muted: 0 0% 96.1%; /* HSL(0, 0%, 96.1%) | HEX: #F6F6F6 */
-    --muted-foreground: 0 0% 45.1%; /* HSL(0, 0%, 45.1%) | HEX: #737373 */
+        --muted: 0 0% 96.1%; /* HSL(0, 0%, 96.1%) | HEX: #F6F6F6 */
+        --muted-foreground: 0 0% 45.1%; /* HSL(0, 0%, 45.1%) | HEX: #737373 */
 
-    --success: 145 63% 42%; /* HSL(145, 63%, 42%) | HEX: #3D9A2B */
-    --success-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --success: 145 63% 42%; /* HSL(145, 63%, 42%) | HEX: #3D9A2B */
+        --success-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --warning: 45 100% 50%; /* HSL(45, 100%, 50%) | HEX: #FFB94A */
-    --warning-foreground: 0 0% 20%; /* HSL(0, 0%, 20%) | HEX: #333333 */
+        --warning: 45 100% 50%; /* HSL(45, 100%, 50%) | HEX: #FFB94A */
+        --warning-foreground: 0 0% 20%; /* HSL(0, 0%, 20%) | HEX: #333333 */
 
-    --destructive: 0 84% 60%; /* HSL(0, 84%, 60%) | HEX: #FF4B3A */
-    --destructive-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --destructive: 0 84% 60%; /* HSL(0, 84%, 60%) | HEX: #FF4B3A */
+        --destructive-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --dark: 0 0% 4%; /* HSL(0, 0%, 4%) | HEX: #0A0A0A */
-    --dark-foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
+        --dark: 0 0% 4%; /* HSL(0, 0%, 4%) | HEX: #0A0A0A */
+        --dark-foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
 
-    --radius: 2rem;
-  }
+        --radius: 2rem;
+    }
 
-  .dark {
-    --background: 0 0% 3.9%; /* HSL(0, 0%, 3.9%) | HEX: #060606 */
-    --foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
-    --border: 0 0% 14.9%; /* HSL(0, 0%, 14.9%) | HEX: #262626 */
+    .dark {
+        --background: 0 0% 3.9%; /* HSL(0, 0%, 3.9%) | HEX: #060606 */
+        --foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
+        --border: 0 0% 14.9%; /* HSL(0, 0%, 14.9%) | HEX: #262626 */
 
-    --primary: 205 77% 45%; /* HSL(205, 77%, 45%) | HEX: #0094D8 */
-    --primary-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --primary: 205 77% 45%; /* HSL(205, 77%, 45%) | HEX: #0094D8 */
+        --primary-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --secondary: 0 0% 15%; /* HSL(0, 0%, 15%) | HEX: #262626 */
-    --secondary-foreground: 0 0% 96%; /* HSL(0, 0%, 96%) | HEX: #F6F6F6 */
+        --secondary: 0 0% 15%; /* HSL(0, 0%, 15%) | HEX: #262626 */
+        --secondary-foreground: 0 0% 96%; /* HSL(0, 0%, 96%) | HEX: #F6F6F6 */
 
-    --muted: 0 0% 14.9%; /* HSL(0, 0%, 14.9%) | HEX: #262626 */
-    --muted-foreground: 0 0% 63.9%; /* HSL(0, 0%, 63.9%) | HEX: #A0A0A0 */
+        --muted: 0 0% 14.9%; /* HSL(0, 0%, 14.9%) | HEX: #262626 */
+        --muted-foreground: 0 0% 63.9%; /* HSL(0, 0%, 63.9%) | HEX: #A0A0A0 */
 
-    --success: 145 63% 42%; /* HSL(145, 63%, 42%) | HEX: #3D9A2B */
-    --success-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --success: 145 63% 42%; /* HSL(145, 63%, 42%) | HEX: #3D9A2B */
+        --success-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --warning: 45 100% 50%; /* HSL(45, 100%, 50%) | HEX: #FFB94A */
-    --warning-foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
+        --warning: 45 100% 50%; /* HSL(45, 100%, 50%) | HEX: #FFB94A */
+        --warning-foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
 
-    --destructive: 0 63% 31%; /* HSL(0, 63%, 31%) | HEX: #A83226 */
-    --destructive-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --destructive: 0 63% 31%; /* HSL(0, 63%, 31%) | HEX: #A83226 */
+        --destructive-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
 
-    --dark: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
-    --dark-foreground: 0 0% 4%; /* HSL(0, 0%, 4%) | HEX: #0A0A0A */
+        --dark: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
+        --dark-foreground: 0 0% 4%; /* HSL(0, 0%, 4%) | HEX: #0A0A0A */
 
-    --radius: 2rem;
-  }
+        --radius: 2rem;
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }
