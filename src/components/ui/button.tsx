@@ -1,12 +1,15 @@
+"use client";
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link, { LinkProps } from "next/link";
+import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:opacity-90",
+  "relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -22,8 +25,6 @@ const buttonVariants = cva(
         ghost: "hover:bg-primary hover:text-primary-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         transparent: "hover:bg-primary/10",
-
-        // Outline variants
         "success-outline": "border-success text-success",
         "destructive-outline": "border-destructive text-destructive",
         "warning-outline": "border-warning text-warning",
@@ -31,8 +32,6 @@ const buttonVariants = cva(
         "secondary-outline": "border-secondary text-secondary",
         "muted-outline": "border-muted text-muted",
         "dark-outline": "border-dark text-dark",
-
-        // Secondary status variants (background is secondary, text reflects status)
         "secondary-success": "bg-secondary text-success",
         "secondary-destructive": "bg-secondary text-destructive",
         "secondary-warning": "bg-secondary text-warning",
@@ -59,8 +58,8 @@ const buttonVariants = cva(
 
 type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
   asChild?: boolean;
-  leftIcon?: React.ReactNode; // New: Optional left icon
-  rightIcon?: React.ReactNode; // New: Optional right icon
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 } & (
     | {
         asLink?: false;
@@ -87,10 +86,7 @@ type ButtonProps = ButtonBaseProps &
   Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href"> &
   Partial<Pick<LinkProps, "href">>;
 
-const Button = React.forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
-  ButtonProps
->(
+const Button = React.forwardRef<HTMLElement, ButtonProps>(
   (
     {
       className,
@@ -98,7 +94,6 @@ const Button = React.forwardRef<
       size,
       asChild = false,
       asLink = false,
-      href,
       leftIcon,
       rightIcon,
       children,
@@ -106,33 +101,28 @@ const Button = React.forwardRef<
     },
     ref,
   ) => {
-    const Comp: React.ElementType = asChild ? Slot : asLink ? Link : "button";
+    const Comp = asChild ? motion(Slot) : asLink ? motion(Link) : motion.button;
 
-    if (asLink) {
-      return (
-        <Link
-          className={cn(buttonVariants({ variant, size, className }))}
-          href={href!}
-          ref={ref as React.Ref<HTMLAnchorElement>}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-        >
-          {leftIcon && <span className="mr-2">{leftIcon}</span>}
-          {children}
-          {rightIcon && <span className="ml-2">{rightIcon}</span>}
-        </Link>
-      );
-    }
+    const baseClasses = cn(
+      buttonVariants({ variant, size, className }),
+      "overflow-hidden relative",
+    );
 
     return (
       <Comp
-        type="button"
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref as React.Ref<HTMLButtonElement>}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        // @ts-ignore - `asChild` is not a valid prop for `motion`
+        ref={ref}
+        whileHover={{ scale: 0.98, opacity: 0.9 }}
+        type={asLink ? undefined : "button"}
+        className={baseClasses}
+        whileTap={{ scale: 0.95, opacity: 0.6 }}
+        {...props}
       >
-        {leftIcon && <span className="mr-2">{leftIcon}</span>}
-        {children}
-        {rightIcon && <span className="ml-2">{rightIcon}</span>}
+        <span className="relative z-10 flex items-center gap-1">
+          {leftIcon && <span>{leftIcon}</span>}
+          {children}
+          {rightIcon && <span>{rightIcon}</span>}
+        </span>
       </Comp>
     );
   },
