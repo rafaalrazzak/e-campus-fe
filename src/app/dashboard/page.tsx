@@ -17,7 +17,7 @@ const subjects: SubjectCardProps[] = [
     participants: 20,
   },
   {
-    status: "inactive",
+    status: "active",
     duration: "90 min",
     attendance: "Belum Hadir",
     timeRange: "11:00 - 12:30",
@@ -47,11 +47,12 @@ export default function Page() {
         <div className="flex flex-col justify-between gap-4 md:flex-row">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-primary">Jadwal Hari Ini</h1>
-            <p className="text-xl">{formatDate(new Date())}</p>
+            <p className="text-lg">{formatDate(new Date())}</p>
           </div>
           <Button
             variant="secondary-primary"
             leftIcon={<CalendarDaysIcon size={16} />}
+            className="border"
           >
             Lihat Semua Jadwal
           </Button>
