@@ -3,7 +3,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
+} from "@/components/ui";
 import { Paperclip } from "lucide-react";
 import Link from "next/link";
 
@@ -62,7 +62,7 @@ function CardLinks({ links }: { links: Link[] }) {
   );
 }
 
-export default function BlogCard({
+export function BlogCard({
   icon,
   date,
   title,

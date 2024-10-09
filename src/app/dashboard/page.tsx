@@ -1,9 +1,8 @@
-import { Hero } from "@/components/common/hero";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { formatDate } from "@/lib/utils";
-import { CalendarDaysIcon, MapPinIcon, Search } from "lucide-react";
+import { CalendarDaysIcon } from "lucide-react";
 import { TransportationClient } from "./transportation-client";
-import { SubjectCard, SubjectCardProps } from "@/components/common/subject";
+import { Hero, SubjectCard, SubjectCardProps } from "@/components/common";
 
 const subjects: SubjectCardProps[] = [
   {

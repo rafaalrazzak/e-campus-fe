@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui";
 import { ChevronDown, Leaf, Route } from "lucide-react";
 import { motion } from "framer-motion";
 

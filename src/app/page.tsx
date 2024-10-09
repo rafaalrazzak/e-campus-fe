@@ -1,8 +1,11 @@
-import BlogCard from "@/components/common/blog";
-import { AcademicCalendar } from "@/components/common/calendar";
-import { Hero } from "@/components/common/hero";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AcademicCalendar, BlogCard, Hero } from "@/components/common";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui";
 import {
   Book,
   Car,

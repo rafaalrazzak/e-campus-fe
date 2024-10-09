@@ -2,14 +2,15 @@
 
 import { ReactNode } from "react";
 import {
+  Badge,
+  BadgeProps,
+  Button,
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge, BadgeProps } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui";
 
 import {
   CalendarIcon,

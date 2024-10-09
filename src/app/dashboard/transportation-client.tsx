@@ -1,14 +1,11 @@
 "use client";
 
-import { Hero } from "@/components/common/hero";
-import { Section } from "@/components/common/section";
 import {
+  Section,
   TransportationCard,
   TransportationCardProps,
-} from "@/components/common/transportation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+} from "@/components/common";
+import { Button, Input, Select } from "@/components/ui";
 import { useRouterStuff } from "@/hooks/use-router-stuff";
 import { MapPinIcon, Search } from "lucide-react";
 import { Suspense } from "react";

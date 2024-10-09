@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { AnimatedBackground } from "./animate-background";
+import { AnimatedBackground } from "@/components/common";
 
 export type HeroProps = {
   onlyImage?: boolean;
