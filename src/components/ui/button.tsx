@@ -22,9 +22,9 @@ const buttonVariants = cva(
         dark: "bg-dark text-dark-foreground",
         outline:
           "border border-border bg-background hover:bg-primary hover:text-primary-foreground",
-        ghost: "hover:bg-primary hover:text-primary-foreground",
+        ghost: "hover:bg-primary hover:text-primary-foreground border-none",
         link: "text-primary underline-offset-4 hover:underline border-none",
-        transparent: "hover:bg-primary/10",
+        transparent: "hover:bg-primary/10 border-none",
         "success-outline": "border-success text-success",
         "destructive-outline": "border-destructive text-destructive",
         "warning-outline": "border-warning text-warning",
