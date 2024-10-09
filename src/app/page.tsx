@@ -30,19 +30,19 @@ const infoSections = [
         title: "Teknik Informatika",
         description:
           "Program studi yang fokus pada pengembangan software dan sistem informasi.",
-        link: "/program-studi/teknik-informatika", // Link for more details
+        link: "/study/teknik-informatika",
       },
       {
         title: "Sistem Informasi",
         description:
           "Program studi yang menggabungkan teknologi informasi dengan proses bisnis.",
-        link: "/program-studi/sistem-informasi", // Link for more details
+        link: "/study/sistem-informasi",
       },
       {
         title: "Bisnis Digital",
         description:
           "Program studi yang memadukan teknologi informasi dengan manajemen bisnis.",
-        link: "/program-studi/bisnis-digital", // Link for more details
+        link: "/study/bisnis-digital",
       },
     ],
   },
@@ -53,12 +53,12 @@ const infoSections = [
         title: "Pendaftaran Mahasiswa Baru",
         description:
           "Informasi tentang jadwal dan prosedur pendaftaran mahasiswa baru.",
-        link: "/pendaftaran-mahasiswa-baru", // Link for more details
+        link: "/pendaftaran-mahasiswa-baru",
       },
       {
         title: "Beasiswa",
         description: "Berbagai program beasiswa yang tersedia untuk mahasiswa.",
-        link: "/beasiswa", // Link for more details
+        link: "/beasiswa",
       },
     ],
   },
@@ -191,7 +191,7 @@ export default function Home() {
                   {section.items.map((item) => (
                     <div key={item.title}>
                       <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-secondary-foreground">
                         {item.description}
                       </p>
                       <Button
@@ -199,9 +199,9 @@ export default function Home() {
                         variant="link"
                         size="none"
                         href={item.link}
+                        rightIcon={<ChevronRight className="size-4" />}
                       >
                         Lihat Selengkapnya
-                        <ChevronRight className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}
