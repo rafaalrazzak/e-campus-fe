@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function AnimatedBackground() {
   return (
-    <div className="absolute inset-0 -z-[1] pointer-events-none bg-white overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden bg-white">
       {/* SVG Dotted Pattern */}
       <motion.svg
         width="100%"
@@ -15,8 +15,8 @@ export function AnimatedBackground() {
         animate={{
           opacity: [0.7, 0.2, 0.7],
           scale: [1, 1.02, 1],
-          translateX: ['0%', '5%', '0%'],
-          translateY: ['0%', '10%', '0%'],
+          translateX: ["0%", "5%", "0%"],
+          translateY: ["0%", "10%", "0%"],
         }}
         transition={{
           duration: 6,
@@ -25,7 +25,12 @@ export function AnimatedBackground() {
         }}
       >
         <defs>
-          <pattern id="dots" patternUnits="userSpaceOnUse" width="50" height="50">
+          <pattern
+            id="dots"
+            patternUnits="userSpaceOnUse"
+            width="50"
+            height="50"
+          >
             <circle cx="25" cy="25" r="2" fill="rgba(173, 216, 230, 0.5)" />
           </pattern>
         </defs>

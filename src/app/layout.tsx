@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <Navbar />
-        <main className="flex flex-col gap-8 pb-8 mx-auto"> {children}</main>
+        <main className="mx-auto flex flex-col gap-8 pb-8"> {children}</main>
       </body>
     </html>
   );

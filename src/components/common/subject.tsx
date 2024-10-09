@@ -198,7 +198,13 @@ export const SubjectCard = ({
             {status === "active" ? "Scan Kehadiran" : "Belum Dapat Scan"}
           </Button>
         )}
-        <Button asLink variant="secondary" size="icon" className="shrink-0" href={linkCourse}>
+        <Button
+          asLink
+          variant="secondary"
+          size="icon"
+          className="shrink-0"
+          href={linkCourse}
+        >
           <BookOpenText className="size-4" />
         </Button>
       </CardFooter>
