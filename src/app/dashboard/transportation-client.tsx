@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { useRouterStuff } from "@/hooks/use-router-stuff";
 import { MapPinIcon, Search } from "lucide-react";
+import { Suspense } from "react";
 
 const transportationData: TransportationCardProps[] = [
   {
@@ -63,7 +64,7 @@ const transportationData: TransportationCardProps[] = [
   },
 ];
 
-export function TransportationClient() {
+function Client() {
   const { queryParams, searchParamsObj } = useRouterStuff();
   const selectedTransportation = searchParamsObj["transportation"] || "public";
 
@@ -117,5 +118,13 @@ export function TransportationClient() {
         <TransportationCard key={index} {...transport} />
       ))}
     </Section>
+  );
+}
+
+export function TransportationClient() {
+  return (
+    <Suspense>
+      <Client />
+    </Suspense>
   );
 }
