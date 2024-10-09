@@ -120,7 +120,7 @@ const SubjectCard = ({
       <CardHeader className={cn("-m-4 p-4", color, textColor)}>
         <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-xl font-bold">{subject}</CardTitle>
-          <Badge variant={badgeVariant} className="text-xs font-semibold">
+          <Badge size="sm" variant={badgeVariant} className="text-xs font-semibold">
             {text}
           </Badge>
         </div>
@@ -135,7 +135,7 @@ const SubjectCard = ({
             size="lg"
             bold
           />
-          <Badge variant={attendance === "Hadir" ? "success" : "warning"}>
+          <Badge size="sm" variant={attendance === "Hadir" ? "success" : "warning"}>
             {attendance}
           </Badge>
         </div>
