@@ -18,6 +18,7 @@ const subjects: SubjectCardProps[] = [
     instructor: "Dr. Smith",
     room: "Room 101",
     participants: 20,
+    linkCourse: "/academic/learn/web-development",
   },
   {
     status: "active",
@@ -26,9 +27,10 @@ const subjects: SubjectCardProps[] = [
     timeRange: "11:00 - 12:30",
     subject: "Database Systems",
     topic: "SQL Fundamentals",
-    instructor: "Prof. Johnson",
+    instructor: "Prof. Ilham Kurniawan Situmorang",
     room: "Room 202",
     participants: 25,
+    linkCourse: "/academic/learn/database-systems",
   },
   {
     status: "inactive",
@@ -40,6 +42,7 @@ const subjects: SubjectCardProps[] = [
     instructor: "Dr. Lee",
     room: "Room 303",
     participants: 18,
+    linkCourse: "/academic/learn/artificial-intelligence",
   },
 ];
 
