@@ -161,7 +161,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <main className="container mx-auto flex flex-col gap-12 px-4 py-8">
+      <main className="container mx-auto flex flex-col gap-8 px-4">
         <Card className="overflow-hidden p-0">
           <CardContent>
             <nav className="flex w-full items-center justify-center divide-x divide-border">
