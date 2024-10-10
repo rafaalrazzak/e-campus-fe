@@ -1,10 +1,12 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
 import { motion } from "framer-motion";
 
-export function AnimatedBackground() {
+export function AnimatedBackground({ className }: { className?: string }) {
     return (
-        <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden bg-white">
+        <div className={cn("pointer-events-none absolute inset-0 -z-[1] overflow-hidden bg-white", className)}>
             {/* SVG Dotted Pattern */}
             <motion.svg
                 width="100%"
