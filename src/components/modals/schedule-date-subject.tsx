@@ -99,7 +99,7 @@ const exampleSubjectSchedule: SubjectCalendarCardProps[] = [
 export function ScheduleModal({ showModal, setShowModal }: ScheduleModalProps) {
     return (
         <Modal showModal={showModal} setShowModal={setShowModal} className="max-w-screen-lg" title="Jadwal Perkuliahan">
-            <div className="grid max-h-[95vh] w-full gap-6 overflow-auto p-4">
+            <div className="grid max-h-[95vh] w-full gap-6 overflow-auto p-4 md:px-12 md:py-6">
                 <Calendar items={exampleSubjectSchedule} isSubject />
             </div>
         </Modal>
