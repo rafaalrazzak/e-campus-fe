@@ -50,11 +50,21 @@ const CalendarItem = <T extends boolean>({
 export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = false as T }: CalendarProps<T>) => {
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [viewMode, setViewMode] = useState<"month" | "list">("month");
+    const [viewMode, setViewMode] = useState<"month" | "list" | "monthSelect" | "yearSelect">("month");
 
-    const navigateMonth = useCallback((increment: number) => {
-        setCurrentDate((date) => new Date(date.getFullYear(), date.getMonth() + increment, 1));
-    }, []);
+    const navigate = useCallback(
+        (increment: number) => {
+            setCurrentDate((date) => {
+                if (viewMode === "yearSelect") {
+                    return new Date(date.getFullYear() + increment * 12, date.getMonth(), 1);
+                } else if (viewMode === "monthSelect") {
+                    return new Date(date.getFullYear() + increment, date.getMonth(), 1);
+                }
+                return new Date(date.getFullYear(), date.getMonth() + increment, 1);
+            });
+        },
+        [viewMode]
+    );
 
     const filteredItems = useMemo(() => items.filter((item) => item.date.getMonth() === currentDate.getMonth() && item.date.getFullYear() === currentDate.getFullYear()), [items, currentDate]);
 
@@ -133,6 +143,45 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
         [filteredItems, isSubject, onItemClick]
     );
 
+    const renderMonthSelect = () => (
+        <div className="grid grid-cols-3 gap-2">
+            {MONTHS.map((month, index) => (
+                <Button
+                    key={month}
+                    variant={currentDate.getMonth() === index ? "primary" : "outline"}
+                    onClick={() => {
+                        setCurrentDate(new Date(currentDate.getFullYear(), index, 1));
+                        setViewMode("month");
+                    }}
+                >
+                    {month}
+                </Button>
+            ))}
+        </div>
+    );
+
+    const renderYearSelect = () => {
+        const currentYear = currentDate.getFullYear();
+        const years = Array.from({ length: 12 }, (_, i) => currentYear - 5 + i);
+
+        return (
+            <div className="grid grid-cols-3 gap-2">
+                {years.map((year) => (
+                    <Button
+                        key={year}
+                        variant={year === currentYear ? "primary" : "outline"}
+                        onClick={() => {
+                            setCurrentDate(new Date(year, currentDate.getMonth(), 1));
+                            setViewMode("monthSelect");
+                        }}
+                    >
+                        {year}
+                    </Button>
+                ))}
+            </div>
+        );
+    };
+
     const renderItems = useMemo(() => {
         if (!selectedDate) return null;
 
@@ -140,14 +189,14 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
 
         return (
             <div className="mt-4 flex flex-col gap-4">
-                {itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
+                {isSubject && itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
 
-                {isSubject && itemsForSelectedDate.length && (
+                {isSubject && itemsForSelectedDate.length ? (
                     <div className="flex flex-col">
                         <span className="text-xs text-secondary-foreground">Jadwal kelas</span>
                         <span className="text-lg font-bold">{formatDate(selectedDate)}</span>
                     </div>
-                )}
+                ) : null}
                 <div className="flex flex-col gap-4">
                     {itemsForSelectedDate.map((item, index) => (
                         <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
@@ -158,26 +207,46 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
     }, [selectedDate, filteredItems, isSubject, onItemClick]);
 
     const toggleViewMode = () => {
-        setViewMode((prevMode) => (prevMode === "month" ? "list" : "month"));
+        setViewMode((prevMode) => {
+            switch (prevMode) {
+                case "month":
+                case "list":
+                    return "monthSelect";
+                case "monthSelect":
+                    return "yearSelect";
+                case "yearSelect":
+                    return "month";
+                default:
+                    return "month";
+            }
+        });
     };
 
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
                 <Button variant="ghost" className="flex items-center text-lg font-bold" onClick={toggleViewMode}>
-                    {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
+                    {viewMode === "yearSelect"
+                        ? `${currentDate.getFullYear() - 5} - ${currentDate.getFullYear() + 6}`
+                        : viewMode === "monthSelect"
+                          ? currentDate.getFullYear().toString()
+                          : `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
                     <ChevronDown className="ml-1 size-4" />
                 </Button>
+
                 <div className="flex space-x-2">
-                    <Button variant="outline" size="icon" onClick={() => navigateMonth(-1)}>
+                    <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
                         <ChevronLeft className="size-4" />
                     </Button>
-                    <Button variant="outline" size="icon" onClick={() => navigateMonth(1)}>
+                    <Button variant="outline" size="icon" onClick={() => navigate(1)}>
                         <ChevronRight className="size-4" />
                     </Button>
                 </div>
             </div>
-            {viewMode === "month" ? renderDayView : renderListView}
+            {viewMode === "month" && renderDayView}
+            {viewMode === "list" && renderListView}
+            {viewMode === "monthSelect" && renderMonthSelect()}
+            {viewMode === "yearSelect" && renderYearSelect()}
             {renderItems}
         </div>
     );
