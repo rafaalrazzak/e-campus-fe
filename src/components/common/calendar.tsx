@@ -1,12 +1,9 @@
+import type { BaseCalendarItem } from "@/components/ui";
+
 import { Calendar, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 
-type Event = {
-    date: Date;
-    title: string;
-};
-
 type AcademicCalendarProps = {
-    events: Event[];
+    events: BaseCalendarItem[];
 };
 
 export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({ events }) => {
@@ -16,7 +13,7 @@ export const AcademicCalendar: React.FC<AcademicCalendarProps> = ({ events }) =>
                 <CardTitle className="text-2xl font-bold">Kalender Akademik</CardTitle>
             </CardHeader>
             <CardContent className="py-4">
-                <Calendar events={events} />
+                <Calendar items={events} />
             </CardContent>
         </Card>
     );

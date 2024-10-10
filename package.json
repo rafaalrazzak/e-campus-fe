@@ -1,79 +1,79 @@
 {
-  "name": "e-campus-fe",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "preinstall": "bun --version || curl https://bun.sh/install | bash",
-    "prepare": "husky",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@radix-ui/react-accordion": "^1.2.1",
-    "@radix-ui/react-dialog": "^1.1.2",
-    "@radix-ui/react-navigation-menu": "^1.2.1",
-    "@radix-ui/react-slot": "^1.1.0",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^11.11.4",
-    "lucide-react": "^0.446.0",
-    "next": "14.2.13",
-    "react": "^18",
-    "react-dom": "^18",
-    "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "vaul": "^1.0.0"
-  },
-  "devDependencies": {
-    "@raflymln/eslint-config": "^1.2.1",
-    "@raflymln/prettier-config": "^1.0.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.13",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "postcss": "^8",
-    "prettier": "^3.3.3",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.tsx": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
-  "prettier": "@raflymln/prettier-config",
-  "eslintConfig": {
-    "settings": {
-      "import/extensions": [
-        ".ts",
-        ".tsx"
-      ]
+    "name": "e-campus-fe",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "preinstall": "bun --version || curl https://bun.sh/install | bash",
+        "prepare": "husky",
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
     },
-    "extends": [
-      "@raflymln/eslint-config"
-    ],
-    "rules": {
-      "tailwindcss/no-arbitrary-value": "off",
-      "tailwindcss/no-contradicting-classname": "off",
-      "tailwindcss/enforces-negative-arbitrary-values": "off",
-      "react/prop-types": "off",
-      "import/no-namespace": "off"
+    "dependencies": {
+        "@radix-ui/react-accordion": "^1.2.1",
+        "@radix-ui/react-dialog": "^1.1.2",
+        "@radix-ui/react-navigation-menu": "^1.2.1",
+        "@radix-ui/react-slot": "^1.1.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "date-fns": "^4.1.0",
+        "framer-motion": "^11.11.4",
+        "lucide-react": "^0.446.0",
+        "next": "14.2.13",
+        "react": "^18",
+        "react-dom": "^18",
+        "tailwind-merge": "^2.5.2",
+        "tailwindcss-animate": "^1.0.7",
+        "vaul": "^1.0.0"
+    },
+    "devDependencies": {
+        "@raflymln/eslint-config": "^1.2.1",
+        "@raflymln/prettier-config": "^1.0.0",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "eslint": "^8",
+        "eslint-config-next": "14.2.13",
+        "husky": "^9.1.6",
+        "lint-staged": "^15.2.10",
+        "postcss": "^8",
+        "prettier": "^3.3.3",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.ts": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.tsx": [
+            "eslint --fix",
+            "prettier --write"
+        ]
+    },
+    "prettier": "@raflymln/prettier-config",
+    "eslintConfig": {
+        "settings": {
+            "import/extensions": [
+                ".ts",
+                ".tsx"
+            ]
+        },
+        "extends": [
+            "@raflymln/eslint-config"
+        ],
+        "rules": {
+            "tailwindcss/no-arbitrary-value": "off",
+            "tailwindcss/no-contradicting-classname": "off",
+            "tailwindcss/enforces-negative-arbitrary-values": "off",
+            "react/prop-types": "off",
+            "import/no-namespace": "off"
+        }
     }
-  }
 }

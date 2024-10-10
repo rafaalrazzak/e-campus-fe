@@ -1,12 +1,13 @@
 "use client";
 
 import type { BadgeProps } from "@/components/ui";
-import type { ReactNode } from "react";
 
 import { Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-import { BookOpenText, CalendarIcon, CheckCircleIcon, ClockIcon, MapPinIcon, QrCodeIcon, User, UsersIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Book, BookOpenText, CalendarIcon, CheckCircleIcon, ClockIcon, MapPinIcon, QrCodeIcon, User, UsersIcon } from "lucide-react";
+import { useCallback, type ReactNode } from "react";
 
 type Status = "inactive" | "active" | "done";
 type Attendance = "Hadir" | "Tidak Hadir" | "Belum Hadir" | "Izin" | "Sakit";
@@ -131,6 +132,54 @@ export const SubjectCard = ({ status, duration, attendance, timeRange, subject, 
                     <BookOpenText className="size-4" />
                 </Button>
             </CardFooter>
+        </Card>
+    );
+};
+
+export type SubjectCalendarCardProps = {
+    subjectName: string;
+    duration: number;
+    date: Date;
+    room: string;
+    instructor: string;
+    topic: string;
+    onClick?: (item: SubjectCalendarCardProps) => void;
+};
+
+export const SubjectCalendarCard = ({ subjectName, duration, date, room, instructor, topic, onClick }: SubjectCalendarCardProps) => {
+    const handleClick = useCallback(() => {
+        if (onClick) {
+            onClick({ subjectName, duration, date, room, instructor, topic });
+        }
+    }, [onClick, subjectName, duration, date, room, instructor, topic]);
+
+    return (
+        <Card onClick={handleClick}>
+            <CardHeader className="flex flex-row justify-between">
+                <CardTitle>{subjectName}</CardTitle>
+                <Badge size="xs">{duration} menit</Badge>
+            </CardHeader>
+
+            <CardContent className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                    <User className="size-4 text-muted-foreground" />
+                    <span>{instructor}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <ClockIcon className="size-4 text-muted-foreground" />
+                    <span>
+                        {format(date, "HH:mm")} - {format(new Date(date.getTime() + duration * 60000), "HH:mm")}
+                    </span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <MapPinIcon className="size-4 text-muted-foreground" />
+                    <span>{room}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Book className="size-4 text-muted-foreground" />
+                    <span>{topic}</span>
+                </div>
+            </CardContent>
         </Card>
     );
 };
