@@ -6,7 +6,7 @@ import { CourseCard } from "@/components/common/course";
 import { Button } from "@/components/ui";
 import { formatDate } from "@/lib/utils";
 
-import { CalendarDaysIcon } from "lucide-react";
+import { BookOpen, CalendarDaysIcon } from "lucide-react";
 
 const subjects: SubjectCardProps[] = [
     {
@@ -53,11 +53,11 @@ export default function Page() {
             <Hero className="items-start gap-8 text-start" onlyImage>
                 <div className="flex flex-col justify-between gap-4 md:flex-row">
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold text-primary">Jadwal Hari Ini</h1>
+                        <h1 className="text-3xl font-bold text-primary">Jadwal Kuliah Hari Ini</h1>
                         <p className="text-lg">{formatDate(new Date())}</p>
                     </div>
                     <Button variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
-                        Lihat Semua Jadwal
+                        Semua Jadwal
                     </Button>
                 </div>
 
@@ -74,8 +74,8 @@ export default function Page() {
                 <Section
                     title="Mata kuliah"
                     button={
-                        <Button asLink href="/academic/courses" size="sm" variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
-                            Lihat Semua Mata Kuliah
+                        <Button asLink href="/academic/courses" size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
+                            Semua Mata Kuliah
                         </Button>
                     }
                 >

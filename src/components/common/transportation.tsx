@@ -32,17 +32,21 @@ export function TransportationCard({ title, travelTime, timeRange, isReduceCarbo
         <Card className="flex flex-col gap-4">
             <CardContent className="flex flex-col gap-4">
                 <div className="flex w-full justify-between">
-                    <div className="flex flex-col gap-1">
-                        <CardTitle className="flex items-center gap-2 text-xl font-bold">
-                            {title}
+                    <div className="flex flex-col gap-3">
+                        <CardTitle className="text-xl font-bold">{title}</CardTitle>
 
-                            {isReduceCarbon && <Badge variant="success" size="sm" leftIcon={<Leaf size={16} />} />}
-                        </CardTitle>
-                        <Badge variant="secondary" size="fit">
-                            Waktu tempuh {travelTime}
-                        </Badge>
+                        <div className="flex gap-2">
+                            <Badge variant="secondary" size="xs" className="shrink-0">
+                                {travelTime}
+                            </Badge>
+                            {isReduceCarbon && (
+                                <Badge variant="success" size="xs" leftIcon={<Leaf size={16} />} className="shrink-0">
+                                    Ayo kurangi emisi karbon
+                                </Badge>
+                            )}
+                        </div>
                     </div>
-                    <Badge variant="dark" size="sm">
+                    <Badge variant="dark" size="xs" className="shrink-0">
                         {timeRange}
                     </Badge>
                 </div>
