@@ -1,7 +1,8 @@
 import type { SubjectCardProps } from "@/components/common";
 
 import { TransportationClient } from "@/app/dashboard/transportation-client";
-import { Hero, SubjectCard } from "@/components/common";
+import { Hero, Section, SubjectCard } from "@/components/common";
+import { CourseCard } from "@/components/common/course";
 import { Button } from "@/components/ui";
 import { formatDate } from "@/lib/utils";
 
@@ -67,8 +68,19 @@ export default function Page() {
                 </div>
             </Hero>
 
-            <main className="container mx-auto px-4">
+            <main className="container mx-auto flex flex-col gap-8 px-4">
                 <TransportationClient />
+
+                <Section
+                    title="Mata kuliah"
+                    button={
+                        <Button asLink href="/academic/courses" size="sm" variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
+                            Lihat semua
+                        </Button>
+                    }
+                >
+                    <CourseCard name="Web Development" instructor="Dr. Smith" day="Senin" time="09:00 - 10:30" progress={50} />
+                </Section>
             </main>
         </>
     );
