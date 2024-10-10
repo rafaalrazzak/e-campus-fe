@@ -75,7 +75,7 @@ export default function Page() {
                     title="Mata kuliah"
                     button={
                         <Button asLink href="/academic/courses" size="sm" variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
-                            Lihat semua
+                            Lihat Semua Mata Kuliah
                         </Button>
                     }
                 >
