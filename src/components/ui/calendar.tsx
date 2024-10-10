@@ -9,7 +9,7 @@ import { cn, formatDate } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState, useMemo, useCallback } from "react";
 
-const DAYS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"] as const;
+const DAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"] as const;
 const MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"] as const;
 
 export type BaseCalendarItem = {
@@ -33,15 +33,7 @@ const CalendarItem = <T extends boolean>({
     onItemClick?: CalendarProps<T>["onItemClick"];
 }) => {
     if (isSubject) {
-        return (
-            <div className="flex flex-col gap-3">
-                <div>
-                    <span className="text-xs text-secondary-foreground">Jadwal kelas</span>
-                    <h1 className="font-bold">{formatDate(item.date)}</h1>
-                </div>
-                <SubjectCalendarCard {...(item as SubjectCalendarCardProps)} onClick={onItemClick as (item: SubjectCalendarCardProps) => void} />
-            </div>
-        );
+        return <SubjectCalendarCard {...(item as SubjectCalendarCardProps)} onClick={onItemClick as (item: SubjectCalendarCardProps) => void} />;
     }
 
     return (
@@ -58,6 +50,7 @@ const CalendarItem = <T extends boolean>({
 export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = false as T }: CalendarProps<T>) => {
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [viewMode, setViewMode] = useState<"month" | "list">("month");
 
     const navigateMonth = useCallback((increment: number) => {
         setCurrentDate((date) => new Date(date.getFullYear(), date.getMonth() + increment, 1));
@@ -68,8 +61,32 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
     const getDaysInMonth = useCallback((date: Date): Date[] => {
         const year = date.getFullYear();
         const month = date.getMonth();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        return Array.from({ length: daysInMonth }, (_, i) => new Date(year, month, i + 1));
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysArray = [];
+
+        // Calculate the number of days to add from the previous month
+        let prevMonthDays = firstDay.getDay() - 1; // Adjust for Monday start
+        if (prevMonthDays === -1) prevMonthDays = 6; // Sunday should be 6 days back from Monday
+
+        // Add days from previous month
+        for (let i = prevMonthDays; i > 0; i--) {
+            const prevMonthDay = new Date(year, month, -i + 1);
+            daysArray.push(prevMonthDay);
+        }
+
+        // Add days of current month
+        for (let i = 1; i <= lastDay.getDate(); i++) {
+            daysArray.push(new Date(year, month, i));
+        }
+
+        // Add days from next month to complete the grid
+        const remainingDays = 42 - daysArray.length;
+        for (let i = 1; i <= remainingDays; i++) {
+            daysArray.push(new Date(year, month + 1, i));
+        }
+
+        return daysArray;
     }, []);
 
     const hasItem = useCallback((date: Date) => filteredItems.some((item) => item.date.toDateString() === date.toDateString()), [filteredItems]);
@@ -105,24 +122,49 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
         [currentDate, selectedDate, getDaysInMonth, hasItem]
     );
 
+    const renderListView = useMemo(
+        () => (
+            <div className="space-y-2">
+                {filteredItems.map((item, index) => (
+                    <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
+                ))}
+            </div>
+        ),
+        [filteredItems, isSubject, onItemClick]
+    );
+
     const renderItems = useMemo(() => {
         if (!selectedDate) return null;
 
         const itemsForSelectedDate = filteredItems.filter((item) => item.date.toDateString() === selectedDate.toDateString());
 
         return (
-            <div className="mt-4 space-y-2">
-                {itemsForSelectedDate.map((item, index) => (
-                    <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
-                ))}
+            <div className="mt-4 flex flex-col gap-4">
+                {itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
+
+                {isSubject && itemsForSelectedDate.length && (
+                    <div className="flex flex-col">
+                        <span className="text-xs text-secondary-foreground">Jadwal kelas</span>
+                        <span className="text-lg font-bold">{formatDate(selectedDate)}</span>
+                    </div>
+                )}
+                <div className="flex flex-col gap-4">
+                    {itemsForSelectedDate.map((item, index) => (
+                        <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
+                    ))}
+                </div>
             </div>
         );
     }, [selectedDate, filteredItems, isSubject, onItemClick]);
 
+    const toggleViewMode = () => {
+        setViewMode((prevMode) => (prevMode === "month" ? "list" : "month"));
+    };
+
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-                <Button variant="ghost" className="flex items-center text-lg font-bold">
+                <Button variant="ghost" className="flex items-center text-lg font-bold" onClick={toggleViewMode}>
                     {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
                     <ChevronDown className="ml-1 size-4" />
                 </Button>
@@ -135,7 +177,7 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
                     </Button>
                 </div>
             </div>
-            {renderDayView}
+            {viewMode === "month" ? renderDayView : renderListView}
             {renderItems}
         </div>
     );
