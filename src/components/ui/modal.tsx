@@ -40,11 +40,11 @@ const DialogContent: React.FC<ContentProps> = ({ title, children, className }) =
         onOpenAutoFocus={(e: Event) => e.preventDefault()}
         onCloseAutoFocus={(e: Event) => e.preventDefault()}
         className={cn(
-            "animate-scale-in fixed inset-0 z-40 m-auto h-fit max-h-[calc(100vh-40px)] w-full max-w-md overflow-auto border border-secondary-dark bg-background p-0 shadow-xl sm:rounded-2xl",
+            "animate-scale-in fixed inset-0 z-40 m-auto h-fit max-h-[calc(100vh-240px)] w-fix max-w-[calc(100dvh-240px)] border border-secondary-dark bg-background p-0 shadow-xl sm:rounded-2xl overflow-hidden flex flex-col",
             className
         )}
     >
-        {title && <Dialog.Title className="sticky top-0 z-20 flex h-12 w-full items-center justify-center rounded-t-2xl border-b bg-background text-lg font-bold">{title}</Dialog.Title>}
+        {title && <Dialog.Title className="flex h-12 w-full shrink-0 items-center justify-center border-b bg-background text-lg font-bold">{title}</Dialog.Title>}
         {children}
     </Dialog.Content>
 );
