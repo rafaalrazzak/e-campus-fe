@@ -5,6 +5,7 @@ import { Navbar } from "@/components/common";
 import { Inter } from "next/font/google";
 
 import "@/app/globals.css";
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${inter.className} antialiased`}>
-                <Navbar />
-                <main className="mx-auto flex flex-col gap-8 pb-8"> {children}</main>
-            </body>
+            <Providers>
+                <body className={`${inter.className} antialiased`}>
+                    <Navbar />
+                    <main className="mx-auto flex flex-col gap-8 pb-8">{children}</main>
+                </body>
+            </Providers>
         </html>
     );
 }

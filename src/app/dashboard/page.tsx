@@ -1,11 +1,12 @@
 import type { SubjectCardProps } from "@/components/common";
 
+import Modals from "@/app/dashboard/modals";
+import { SeeScheduleClient } from "@/app/dashboard/see-schedule-client";
 import { TransportationClient } from "@/app/dashboard/transportation-client";
 import { Hero, Section, SubjectCard } from "@/components/common";
 import { CourseCard } from "@/components/common/course";
 import { Button } from "@/components/ui";
 import { URLS } from "@/constants/urls";
-import { formatDate } from "@/lib/utils";
 
 import { BookOpen, CalendarDaysIcon } from "lucide-react";
 
@@ -50,17 +51,15 @@ const subjects: SubjectCardProps[] = [
 
 export default function Page() {
     return (
-        <>
+        <Modals>
             <Hero className="items-start gap-8 text-start" onlyImage>
                 <div className="flex flex-col justify-between gap-4 md:flex-row">
                     <div className="space-y-2">
                         <h1 className="text-3xl font-bold text-primary">Jadwal Kuliah Hari Ini</h1>
-                        <Button variant="secondary">
-                            <p>{formatDate(new Date())}</p>
-                        </Button>
+                        <SeeScheduleClient />
                     </div>
                     <Button asLink href={URLS.dashboard.schedule} variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
-                        Semua Jadwal
+                        Lihat Jadwal
                     </Button>
                 </div>
 
@@ -78,13 +77,13 @@ export default function Page() {
                     title="Mata kuliah"
                     button={
                         <Button asLink href={URLS.dashboard.myCourses} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
-                            Semua Mata Kuliah
+                            Lihat Mata Kuliah
                         </Button>
                     }
                 >
                     <CourseCard name="Web Development" instructor="Dr. Smith" day="Senin" time="09:00 - 10:30" progress={50} />
                 </Section>
             </main>
-        </>
+        </Modals>
     );
 }
