@@ -34,6 +34,7 @@ const badgeVariants = cva("inline-flex items-center rounded-full border px-2.5 p
         },
         size: {
             default: "h-10 px-2.5 py-0.5 text-xs",
+            xs: "h-6 px-2 py-0.5 text-xs",
             sm: "h-8 px-2 py-0.5 text-xs",
             lg: "h-11 px-3 py-1 text-sm",
             none: "size-auto p-0 text-xs",
