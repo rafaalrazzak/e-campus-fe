@@ -1,5 +1,7 @@
 "use client";
 
+import type { NavLink } from "@/constants/contents";
+
 import {
     Accordion,
     AccordionContent,
@@ -17,6 +19,7 @@ import {
     SheetTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui";
+import { navLinks } from "@/constants/contents";
 import { cn } from "@/lib/utils";
 
 import { Menu } from "lucide-react";
@@ -24,81 +27,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
-type NavLink = {
-    href: string;
-    label: string;
-    description?: string;
-    children?: Omit<NavLink, "children">[];
-};
-
-const navLinks: NavLink[] = [
-    { href: "/", label: "Beranda" },
-    {
-        href: "/academic",
-        label: "Akademik",
-        children: [
-            {
-                href: "/academic/learn",
-                label: "Belajar",
-                description: "Belajar di kelas dan daring",
-            },
-            {
-                href: "/academic/academic-calendar",
-                label: "Kalender Akademik",
-                description: "Kalender akademik untuk semester ini",
-            },
-            {
-                href: "/academic/academic-schedule",
-                label: "Jadwal Kuliah",
-                description: "Jadwal kuliah untuk semester ini",
-            },
-            {
-                href: "/academic/academic-syllabus",
-                label: "Silabus",
-                description: "Silabus mata kuliah yang diajarkan",
-            },
-        ],
-    },
-    {
-        href: "/study",
-        label: "Prodi",
-        children: [
-            {
-                href: "/study/teknik-informatika",
-                label: "Teknik Informatika",
-                description: "Program studi Teknik Informatika",
-            },
-            {
-                href: "/study/sistem-informasi",
-                label: "Sistem Informasi",
-                description: "Program studi Sistem Informasi",
-            },
-            {
-                href: "/study/bisnis-digital",
-                label: "Bisnis Digital",
-                description: "Program studi Bisnis Digital",
-            },
-        ],
-    },
-    {
-        href: "/research",
-        label: "Riset",
-        children: [
-            {
-                href: "/research/study",
-                label: "Penelitian",
-                description: "Penelitian yang dilakukan oleh dosen dan mahasiswa",
-            },
-
-            {
-                href: "/research/devotion",
-                label: "Pengabdian Masyarakat",
-                description: "Pengabdian kepada masyarakat yang dilakukan oleh dosen dan mahasiswa",
-            },
-        ],
-    },
-];
 
 const Logo: React.FC = () => (
     <Link href="/" className="flex items-center" prefetch={false}>

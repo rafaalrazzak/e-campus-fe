@@ -1,52 +1,9 @@
 import { AcademicCalendar, BlogCard, Hero } from "@/components/common";
-import { Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui";
+import { landingFacilities, landingInfoSections, landingImportantLink, landingResearch } from "@/constants/contents";
 
-import { Book, Car, ChevronRight, ForkKnife, LandPlot, Laptop, Monitor, MoonStar, Presentation } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-
-const links = [
-    { href: "/vision-mission", text: "Visi Misi" },
-    { href: "/majors", text: "Program Studi" },
-    { href: "/curriculum", text: "Kurikulum" },
-];
-
-const infoSections = [
-    {
-        title: "Informasi Prodi",
-        items: [
-            {
-                title: "Teknik Informatika",
-                description: "Program studi yang fokus pada pengembangan software dan sistem informasi.",
-                link: "/study/teknik-informatika",
-            },
-            {
-                title: "Sistem Informasi",
-                description: "Program studi yang menggabungkan teknologi informasi dengan proses bisnis.",
-                link: "/study/sistem-informasi",
-            },
-            {
-                title: "Bisnis Digital",
-                description: "Program studi yang memadukan teknologi informasi dengan manajemen bisnis.",
-                link: "/study/bisnis-digital",
-            },
-        ],
-    },
-    {
-        title: "Informasi Umum",
-        items: [
-            {
-                title: "Pendaftaran Mahasiswa Baru",
-                description: "Informasi tentang jadwal dan prosedur pendaftaran mahasiswa baru.",
-                link: "/pendaftaran-mahasiswa-baru",
-            },
-            {
-                title: "Beasiswa",
-                description: "Berbagai program beasiswa yang tersedia untuk mahasiswa.",
-                link: "/beasiswa",
-            },
-        ],
-    },
-];
 
 const blogPosts = [
     {
@@ -87,49 +44,6 @@ const events = [
     { date: new Date(2024, 8, 30), title: "Pengumuman Beasiswa" },
 ];
 
-const facilities = [
-    {
-        icon: <Laptop className="size-6 shrink-0 text-primary" />,
-        title: "Laboratorium Komputer",
-        description: "Laboratorium komputer yang dilengkapi dengan perangkat dan software terkini.",
-    },
-    {
-        icon: <Book className="size-6 shrink-0 text-primary" />,
-        title: "Perpustakaan",
-        description: "Perpustakaan yang menyediakan berbagai koleksi buku dan jurnal terkini.",
-    },
-    {
-        icon: <ForkKnife className="size-6 shrink-0 text-primary" />,
-        title: "Kantin",
-        description: "Kantin yang menyediakan berbagai makanan dan minuman untuk memenuhi kebutuhan mahasiswa.",
-    },
-    {
-        icon: <Monitor className="size-6 shrink-0 text-primary" />,
-        title: "Ruang Kelas",
-        description: "Ruang kelas yang nyaman dan dilengkapi dengan perangkat multimedia.",
-    },
-    {
-        icon: <Presentation className="size-6 shrink-0 text-primary" />,
-        title: "Auditorium",
-        description: "Auditorium yang dilengkapi dengan perangkat audio visual untuk kegiatan seminar dan workshop.",
-    },
-    {
-        title: "Lapangan Olahraga",
-        description: "Lapangan olahraga yang dapat digunakan untuk berbagai kegiatan olahraga.",
-        icon: <LandPlot className="size-6 shrink-0 text-primary" />,
-    },
-    {
-        title: "Masjid dan Musholla",
-        description: "Tempat ibadah untuk melaksanakan shalat dan kegiatan keagamaan lainnya.",
-        icon: <MoonStar className="size-6 shrink-0 text-primary" />,
-    },
-    {
-        title: "Parkir Kendaraan",
-        description: "Area parkir kendaraan yang luas untuk memudahkan mahasiswa dan dosen dalam parkir.",
-        icon: <Car className="size-6 shrink-0 text-primary" />,
-    },
-];
-
 export default function Home() {
     return (
         <>
@@ -138,7 +52,7 @@ export default function Home() {
                 <Card className="overflow-hidden p-0">
                     <CardContent>
                         <nav className="flex w-full items-center justify-center divide-x divide-border">
-                            {links.map((link) => (
+                            {landingImportantLink.map((link) => (
                                 <Link key={link.href} href={link.href} className="flex-1 px-2 py-4 text-center text-sm transition-colors duration-200 hover:bg-muted">
                                     {link.text}
                                 </Link>
@@ -150,8 +64,8 @@ export default function Home() {
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <AcademicCalendar events={events} />
 
-                    <div className="space-y-8">
-                        {infoSections.map((section) => (
+                    <div className="flex flex-col gap-8">
+                        {landingInfoSections.map((section) => (
                             <Card key={section.title}>
                                 <CardHeader>
                                     <CardTitle>{section.title}</CardTitle>
@@ -181,7 +95,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        {facilities.map((facility) => (
+                        {landingFacilities.map((facility) => (
                             <Card key={facility.title}>
                                 <CardContent className="flex items-center gap-4">
                                     {facility.icon}
@@ -214,35 +128,25 @@ export default function Home() {
                     <div className="flex flex-col items-center space-y-4">
                         <h2 className="text-2xl font-bold">Riset dan Penelitian</h2>
                         <p className="max-w-lg text-center">STT Nurul Fikri memiliki berbagai program riset dan penelitian yang dilakukan oleh dosen dan mahasiswa.</p>
-                        <Button variant="outline" size="lg">
-                            Lihat Selengkapnya
-                        </Button>
                     </div>
 
                     <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Program Riset</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <p>Informasi tentang program riset yang sedang berlangsung di STT Nurul Fikri.</p>
-                                <Button variant="outline" size="sm">
-                                    Lihat Selengkapnya
-                                </Button>
-                            </CardContent>
-                        </Card>
+                        {landingResearch.map((research, index) => (
+                            <Card key={index}>
+                                <CardHeader>
+                                    <CardTitle>{research.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <p>{research.description}</p>
+                                </CardContent>
 
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Publikasi Ilmiah</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <p>Daftar publikasi ilmiah yang dihasilkan oleh dosen dan mahasiswa STT Nurul Fikri.</p>
-                                <Button variant="outline" size="sm">
-                                    Lihat Selengkapnya
-                                </Button>
-                            </CardContent>
-                        </Card>
+                                <CardFooter>
+                                    <Button asLink href={research.link} variant="outline" size="full">
+                                        Lihat Selengkapnya
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        ))}
                     </div>
                 </section>
             </main>

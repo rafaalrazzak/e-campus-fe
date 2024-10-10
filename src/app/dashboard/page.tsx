@@ -4,6 +4,7 @@ import { TransportationClient } from "@/app/dashboard/transportation-client";
 import { Hero, Section, SubjectCard } from "@/components/common";
 import { CourseCard } from "@/components/common/course";
 import { Button } from "@/components/ui";
+import { URLS } from "@/constants/urls";
 import { formatDate } from "@/lib/utils";
 
 import { BookOpen, CalendarDaysIcon } from "lucide-react";
@@ -54,9 +55,11 @@ export default function Page() {
                 <div className="flex flex-col justify-between gap-4 md:flex-row">
                     <div className="space-y-2">
                         <h1 className="text-3xl font-bold text-primary">Jadwal Kuliah Hari Ini</h1>
-                        <p className="text-lg">{formatDate(new Date())}</p>
+                        <Button variant="secondary">
+                            <p>{formatDate(new Date())}</p>
+                        </Button>
                     </div>
-                    <Button variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
+                    <Button asLink href={URLS.dashboard.schedule} variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
                         Semua Jadwal
                     </Button>
                 </div>
@@ -74,7 +77,7 @@ export default function Page() {
                 <Section
                     title="Mata kuliah"
                     button={
-                        <Button asLink href="/academic/courses" size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
+                        <Button asLink href={URLS.dashboard.myCourses} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
                             Semua Mata Kuliah
                         </Button>
                     }
