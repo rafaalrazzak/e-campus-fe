@@ -36,7 +36,7 @@ export function TransportationCard({ title, travelTime, timeRange, isReduceCarbo
                         <CardTitle className="flex items-center gap-2 text-xl font-bold">
                             {title}
 
-                            {isReduceCarbon && <Badge variant="success" size="fit" leftIcon={<Leaf size={16} />} />}
+                            {isReduceCarbon && <Badge variant="success" size="sm" leftIcon={<Leaf size={16} />} />}
                         </CardTitle>
                         <Badge variant="secondary" size="fit">
                             Waktu tempuh {travelTime}
