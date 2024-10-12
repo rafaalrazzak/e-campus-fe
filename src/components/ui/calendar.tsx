@@ -39,8 +39,8 @@ const CalendarItem = <T extends boolean>({
     return (
         <div className="flex items-center space-x-2 rounded bg-muted p-2 text-sm">
             <div className="h-4 w-1 rounded bg-primary" />
-            <div className="flex w-full justify-between gap-2 font-medium">
-                <span className="line-clamp-1">{(item as BaseCalendarItem).title}</span>
+            <div className="flex w-full items-center justify-between gap-2 font-medium">
+                <span className="line-clamp-2">{(item as BaseCalendarItem).title}</span>
                 <span className="shrink-0 text-muted-foreground">{item.date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}</span>
             </div>
         </div>
@@ -189,7 +189,7 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
 
         return (
             <div className="mt-4 flex flex-col gap-4">
-                {isSubject && itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
+                {itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
 
                 {isSubject && itemsForSelectedDate.length ? (
                     <div className="flex flex-col">
