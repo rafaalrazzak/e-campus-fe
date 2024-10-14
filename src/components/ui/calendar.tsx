@@ -17,7 +17,7 @@ export type BaseCalendarItem = {
     title: string;
 };
 
-type CalendarProps<T extends boolean> = {
+export type CalendarProps<T extends boolean> = {
     isSubject?: T;
     items: T extends true ? SubjectCalendarCardProps[] : BaseCalendarItem[];
     onItemClick?: (item: T extends true ? SubjectCalendarCardProps : BaseCalendarItem) => void;
