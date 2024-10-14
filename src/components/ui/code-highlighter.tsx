@@ -11,7 +11,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-type CodeHighlighterProps = {
+export type CodeHighlighterProps = {
     code: string;
     language: string;
     title?: string;

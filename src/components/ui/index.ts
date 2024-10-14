@@ -4,6 +4,7 @@ export * from "./badge";
 export * from "./button";
 export * from "./calendar";
 export * from "./card";
+export * from "./code-highlighter";
 export * from "./input";
 export * from "./modal";
 export * from "./navigation-menu";

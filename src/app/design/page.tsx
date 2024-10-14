@@ -4,6 +4,7 @@ import { BadgeDesigns } from "@/components/ui/story/badge.story";
 import { ButtonDesings } from "@/components/ui/story/button.story";
 import { CalendarDesigns } from "@/components/ui/story/calendar.story";
 import { CardDesigns } from "@/components/ui/story/card.story";
+import { CodeHighlighterDesigns } from "@/components/ui/story/code-hightlighter.story";
 
 const DesignPage: React.FC = () => (
     <div className="container mx-auto my-8 flex flex-col gap-8 px-4">
@@ -13,6 +14,7 @@ const DesignPage: React.FC = () => (
         <ButtonDesings />
         <CalendarDesigns />
         <CardDesigns />
+        <CodeHighlighterDesigns />
     </div>
 );
 
