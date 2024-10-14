@@ -220,7 +220,7 @@ const utilityStories: StoryComponent<ButtonProps>[] = [
 ];
 
 const ButtonShowcase: React.FC<{ stories: StoryComponent<ButtonProps>[] }> = ({ stories }) => (
-    <div>
+    <div className="flex flex-col gap-8">
         {stories.map((story, index) => (
             <BaseComponentStory key={index} {...story} />
         ))}

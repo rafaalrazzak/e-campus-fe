@@ -42,7 +42,7 @@ export const BaseStory: React.FC<{
                     ))}
 
                     {/* Gradient Overlay */}
-                    {!showAll && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />}
+                    {!showAll && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent" />}
                 </div>
             </Tabs>
 
@@ -74,16 +74,16 @@ type BaseComponentStoryProps<T> = {
 };
 
 export const BaseComponentStory = <T,>({ title, component: Component, props, code }: BaseComponentStoryProps<T>) => (
-    <div className="mb-8">
-        <h2 className="mb-2 text-xl font-semibold">{title}</h2>
+    <div className="flex flex-col gap-6">
+        <h2 className="text-xl font-semibold">{title}</h2>
         <Tabs defaultValue="preview">
-            <TabsList className="mb-4">
+            <TabsList className="flex w-fit gap-4">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
             <TabsContent value="preview">
-                <div className="mb-4">
-                    <Component key={title} {...(props as T)} /> {/* Ensure props are spread correctly */}
+                <div className="flex w-fit flex-col gap-4">
+                    <Component key={title} {...(props as T)} />
                 </div>
             </TabsContent>
             <TabsContent value="code">
