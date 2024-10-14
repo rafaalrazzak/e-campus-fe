@@ -24,8 +24,8 @@ export const BaseStory: React.FC<{
             <h1 className="text-3xl font-bold">{title}</h1>
 
             {/* Tabs Header */}
-            <Tabs defaultValue={tabs[0]?.label || "Tab 1"}>
-                <TabsList className="mb-4">
+            <Tabs defaultValue={tabs[0]?.label || "Tab 1"} className="flex flex-col gap-4">
+                <TabsList className="w-fit">
                     {tabs.map((tab) => (
                         <TabsTrigger key={tab.label} value={tab.label}>
                             {tab.label}

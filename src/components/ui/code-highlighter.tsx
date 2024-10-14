@@ -57,7 +57,7 @@ export function CodeHighlighter({ code, language, title, withIcon }: CodeHighlig
                     {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
                 </Button>
             </CardHeader>
-            <pre className="max-w-full overflow-hidden text-sm" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+            <pre className="max-w-full overflow-x-auto text-sm" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </Card>
     );
 }
