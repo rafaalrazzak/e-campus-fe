@@ -36,7 +36,7 @@ const buttonVariants = cva(
                 "secondary-success": "bg-secondary text-success",
                 "secondary-destructive": "bg-secondary text-destructive",
                 "secondary-warning": "bg-secondary text-warning",
-                "secondary-muted": "bg-secondary text-muted-foreground",
+                "secondary-muted": "bg-muted text-muted-foreground",
                 "secondary-dark": "bg-secondary text-dark",
                 "secondary-primary": "bg-secondary text-primary",
             },

@@ -20,7 +20,7 @@ export const BaseStory: React.FC<{
     }, []);
 
     return (
-        <div className="relative flex flex-col gap-6">
+        <div className="relative flex flex-col gap-4">
             <h1 className="text-3xl font-bold">{title}</h1>
 
             {/* Tabs Header */}
@@ -34,9 +34,9 @@ export const BaseStory: React.FC<{
                 </TabsList>
 
                 {/* Tabs Content */}
-                <div className={cn("relative rounded-lg border p-6 transition-all duration-300", showAll ? "max-h-full" : "max-h-72 overflow-hidden")}>
+                <div className={cn("rounded-lg border p-6 transition-all duration-300 ", showAll ? "max-h-full" : "max-h-72 overflow-hidden")}>
                     {tabs.map((tab) => (
-                        <TabsContent key={tab.label} value={tab.label}>
+                        <TabsContent key={tab.label} value={tab.label} className="flex flex-col gap-8 pb-1">
                             {tab.content}
                         </TabsContent>
                     ))}
@@ -44,25 +44,25 @@ export const BaseStory: React.FC<{
                     {/* Gradient Overlay */}
                     {!showAll && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent" />}
                 </div>
-            </Tabs>
 
-            {/* Show/Hide Button */}
-            <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
-                <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleShowAll}
-                    rightIcon={
-                        <ChevronDown
-                            className={cn("size-4 transform transition-transform", {
-                                "rotate-180": showAll,
-                            })}
-                        />
-                    }
-                >
-                    {showAll ? "Hide All" : "Show All"}
-                </Button>
-            </div>
+                {/* Show/Hide Button */}
+                <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
+                    <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={handleShowAll}
+                        rightIcon={
+                            <ChevronDown
+                                className={cn("size-4 transform transition-transform", {
+                                    "rotate-180": showAll,
+                                })}
+                            />
+                        }
+                    >
+                        {showAll ? "Hide All" : "Show All"}
+                    </Button>
+                </div>
+            </Tabs>
         </div>
     );
 };
@@ -75,7 +75,7 @@ type BaseComponentStoryProps<T> = {
 };
 
 export const BaseComponentStory = <T,>({ title, component: Component, props, code }: BaseComponentStoryProps<T>) => (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">{title}</h2>
         <Tabs defaultValue="preview">
             <TabsList className="flex w-fit gap-4">

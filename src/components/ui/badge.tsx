@@ -20,15 +20,15 @@ const badgeVariants = cva("inline-flex items-center rounded-full border px-2.5 p
             "destructive-outline": "border-destructive text-destructive",
             "warning-outline": "border-warning text-warning",
             "primary-outline": "border-primary text-primary",
-            "secondary-outline": "border-secondary text-secondary",
-            "muted-outline": "border-muted text-muted",
+            "secondary-outline": "border-secondary text-secondary-foreground",
+            "muted-outline": "border-muted text-muted-foreground",
             "dark-outline": "border-dark text-dark",
 
             // Secondary status variants (background is secondary, text reflects status)
             "secondary-success": "bg-secondary text-success",
             "secondary-destructive": "bg-secondary text-destructive",
             "secondary-warning": "bg-secondary text-warning",
-            "secondary-muted": "bg-secondary text-muted",
+            "secondary-muted": "bg-muted text-muted-foreground",
             "secondary-dark": "bg-secondary text-dark",
             "secondary-primary": "bg-secondary text-primary",
         },

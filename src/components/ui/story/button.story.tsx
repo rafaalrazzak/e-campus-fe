@@ -1,7 +1,7 @@
-import type { ButtonProps } from "@/components/ui/button";
+import type { ButtonProps } from "@/components/ui";
 import type { StoryComponent } from "@/components/ui/story/types";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { BaseComponentStory, BaseStory } from "@/components/ui/story/base";
 
 import { ArrowRight, Plus } from "lucide-react";
@@ -220,11 +220,11 @@ const utilityStories: StoryComponent<ButtonProps>[] = [
 ];
 
 const ButtonShowcase: React.FC<{ stories: StoryComponent<ButtonProps>[] }> = ({ stories }) => (
-    <div className="flex flex-col gap-8">
+    <>
         {stories.map((story, index) => (
             <BaseComponentStory key={index} {...story} />
         ))}
-    </div>
+    </>
 );
 
 const ButtonDesings: React.FC = () => (
