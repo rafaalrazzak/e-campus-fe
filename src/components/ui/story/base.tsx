@@ -47,9 +47,10 @@ export const BaseStory: React.FC<{
             </Tabs>
 
             {/* Show/Hide Button */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+            <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
                 <Button
                     variant="secondary"
+                    size="sm"
                     onClick={handleShowAll}
                     rightIcon={
                         <ChevronDown
