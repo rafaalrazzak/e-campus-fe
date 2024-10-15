@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { Drawer } from "vaul";
 
-type ModalProps = {
+export type ModalProps = {
     children: React.ReactNode;
     title?: string;
     className?: string;

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useState, useCallback } from "react";
 
-// Base Story component
 export const BaseStory: React.FC<{
     title: string;
     tabs: { label: string; content: React.ReactNode }[];

@@ -2,10 +2,15 @@
 
 import { ChevronDown } from "lucide-react";
 
-type SelectProps = {
-    options: { value: string; label: string }[];
-    onChange: (value: string) => void;
+type Option = {
     value: string;
+    label: string;
+};
+
+export type SelectProps = {
+    options: Option[];
+    value: string;
+    onChange?: (value: string) => void;
     placeholder?: string;
 };
 
@@ -13,24 +18,22 @@ export const Select: React.FC<SelectProps> = ({ options, onChange, value, placeh
     return (
         <div className="relative inline-block w-full">
             <select
-                className="block w-full appearance-none rounded-md border border-border bg-background px-4 py-2 pr-8 text-sm leading-tight hover:border-secondary focus:outline-none"
+                className="block w-full appearance-none rounded-md border border-border bg-background px-4 py-2 pr-8 text-sm leading-tight focus:border-secondary focus:outline-none"
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange && onChange(e.target.value)}
             >
                 {placeholder && (
                     <option value="" disabled>
                         {placeholder}
                     </option>
                 )}
-                {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
+                {options.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                        {label}
                     </option>
                 ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-                <ChevronDown size={16} />
-            </div>
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
         </div>
     );
 };
