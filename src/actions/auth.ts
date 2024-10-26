@@ -23,6 +23,8 @@ export const login = actionClient
                 token: string;
             }>("auth/login", { json: { email, password } });
 
+            console.log("🚀 ~ file: auth.ts ~ line 54 ~ actionClient.schema ~ response", response);
+
             if (!response.ok) {
                 throw new Error("Email atau password salah");
             }
@@ -30,12 +32,14 @@ export const login = actionClient
             return await response.json();
         },
         {
-            onSuccess: ({ data }) => {
+            onSuccess: async ({ data }) => {
                 if (!data) {
                     throw new Error("Data tidak ditemukan");
                 }
 
-                cookies().set("session_token", data.token, {
+                const cookieStore = await cookies();
+
+                cookieStore.set("session_token", data.token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
                     sameSite: "strict",
@@ -43,7 +47,7 @@ export const login = actionClient
                     path: "/",
                 });
 
-                serverToast.success("Berhasil login");
+                await serverToast.success("Berhasil login");
 
                 redirect("/dashboard");
             },

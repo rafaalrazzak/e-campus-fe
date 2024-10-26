@@ -6,15 +6,18 @@ import { cookies } from "next/headers";
 
 import "server-only";
 
-export function serverToast(message: string, options: ToastOptions) {
+export async function serverToast(message: string, options: ToastOptions) {
     let alerts: string[] = [];
-    const previousAlertCookie = cookies().get(Cookies.TOAST);
+
+    const cookiesStore = await cookies();
+
+    const previousAlertCookie = cookiesStore.get(Cookies.TOAST);
 
     if (previousAlertCookie) {
         alerts = JSON.parse(previousAlertCookie.value);
     }
 
-    cookies().set({
+    cookiesStore.set({
         name: Cookies.TOAST,
         httpOnly: false,
         value: JSON.stringify([

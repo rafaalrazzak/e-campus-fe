@@ -3,7 +3,7 @@ import { serverToast } from "@/lib/toast/server-toast";
 import { createSafeActionClient } from "next-safe-action";
 
 export const actionClient = createSafeActionClient({
-    handleServerError(e) {
-        serverToast.error(e.message);
+    async handleServerError(e) {
+        await serverToast.error(e.message);
     },
 });
