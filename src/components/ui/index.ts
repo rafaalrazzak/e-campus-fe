@@ -5,6 +5,7 @@ export * from "./button";
 export * from "./calendar";
 export * from "./card";
 export * from "./code-highlighter";
+export * from "./dropdown-menu";
 export * from "./input";
 export * from "./modal";
 export * from "./navigation-menu";
