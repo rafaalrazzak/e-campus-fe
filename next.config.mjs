@@ -8,8 +8,8 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: "cdn.kita.blue"
-            }
+                hostname: "cdn.kita.blue",
+            },
         ],
     },
 };

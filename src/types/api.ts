@@ -6,4 +6,4 @@ export type SessionData = {
     major: string;
     year: string;
     picture: string;
-}
+};

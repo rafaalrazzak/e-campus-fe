@@ -23,7 +23,7 @@ export const login = actionClient
             const response = await api.post<{
                 token: string;
             }>("auth/login", { json: { email, password } });
-            
+
             if (!response.ok) {
                 throw new Error("Email atau password salah");
             }

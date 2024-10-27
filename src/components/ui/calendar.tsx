@@ -229,8 +229,8 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
                     {viewMode === "yearSelect"
                         ? `${currentDate.getFullYear() - 5} - ${currentDate.getFullYear() + 6}`
                         : viewMode === "monthSelect"
-                        ? currentDate.getFullYear().toString()
-                        : `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
+                          ? currentDate.getFullYear().toString()
+                          : `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
                     <ChevronDown className="ml-1 size-4" />
                 </Button>
 

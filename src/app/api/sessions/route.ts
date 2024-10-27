@@ -17,9 +17,9 @@ export async function GET() {
 
     const session = await api.get<SessionData>("auth/session", {
         headers: {
-            "Authorization": sessionCookie.value,
-        }
-    })
+            Authorization: sessionCookie.value,
+        },
+    });
 
     if (!session) {
         return new Response(null, {
