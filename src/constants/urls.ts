@@ -1,5 +1,6 @@
 export const URLS = {
     home: "/",
+    login: "/login",
     visionMission: "/vision-mission",
     curriculum: "/curriculum",
     academnic: {

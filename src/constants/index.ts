@@ -1,4 +1,4 @@
 export const Cookies = {
-    SESSION: "session",
+    SESSION: "session_token",
     TOAST: "toast",
 };
