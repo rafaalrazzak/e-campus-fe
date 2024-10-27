@@ -8,8 +8,8 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: "assets.siakadcloud.com",
-            },
+                hostname: "cdn.kita.blue"
+            }
         ],
     },
 };
