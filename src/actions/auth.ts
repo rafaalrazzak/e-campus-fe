@@ -1,6 +1,7 @@
 "use server";
 
 import { actionClient } from "@/actions/safe-action";
+import { Cookies } from "@/constants";
 import { api } from "@/lib/api";
 import { serverToast } from "@/lib/toast/server-toast";
 
@@ -22,9 +23,7 @@ export const login = actionClient
             const response = await api.post<{
                 token: string;
             }>("auth/login", { json: { email, password } });
-
-            console.log("🚀 ~ file: auth.ts ~ line 54 ~ actionClient.schema ~ response", response);
-
+            
             if (!response.ok) {
                 throw new Error("Email atau password salah");
             }
@@ -39,7 +38,7 @@ export const login = actionClient
 
                 const cookieStore = await cookies();
 
-                cookieStore.set("session_token", data.token, {
+                cookieStore.set(Cookies.SESSION, data.token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
                     sameSite: "strict",
