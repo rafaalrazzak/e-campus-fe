@@ -13,6 +13,9 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
     Button,
     DropdownMenu,
     DropdownMenuContent,
@@ -42,7 +45,8 @@ const Logo: React.FC = () => (
 
 const UserNavigation: React.FC<{
     isMobile?: boolean;
-}> = ({ isMobile }) => {
+    className?: string;
+}> = ({ isMobile, className }) => {
     const session = useSession();
 
     if (!session) {
@@ -54,41 +58,52 @@ const UserNavigation: React.FC<{
     }
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild className="cursor-pointer">
-                <Image src={session.picture} alt={session.name} width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{session.name}</p>
-                        <p className="text-xs leading-none text-muted-foreground">{session.email}</p>
+        <div className={className}>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild className="cursor-pointer">
+                    <div className="flex gap-2 items-center">
+                        <Avatar>
+                            <AvatarImage src={session.photo_url} alt={session.name} width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
+                            <AvatarFallback>
+                                <span>{session.name[0]}</span>
+                            </AvatarFallback>
+                        </Avatar>
+
+                        {isMobile && <span className="text-sm">{session.name}</span>}
                     </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/settings">
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/notifications">
-                        <Bell className="mr-2 h-4 w-4" />
-                        <span>Notifications</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                    onSelect={(event: Event) => {
-                        event.preventDefault(); /* signOut(); */
-                    }}
-                >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="start" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                        <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium leading-none">{session.name}</p>
+                            <p className="text-xs leading-none text-muted-foreground">{session.email}</p>
+                        </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href="/settings">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Settings</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/notifications">
+                            <Bell className="mr-2 h-4 w-4" />
+                            <span>Notifications</span>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                        onSelect={(event: Event) => {
+                            event.preventDefault(); /* signOut(); */
+                        }}
+                    >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
     );
 };
 
@@ -201,7 +216,7 @@ export const Navbar: React.FC = () => {
                 <Logo />
                 <DesktopNav />
                 <div className="flex items-center gap-4">
-                    <UserNavigation />
+                    <UserNavigation className="hidden lg:flex" />
                     <MobileNav />
                 </div>
             </div>
