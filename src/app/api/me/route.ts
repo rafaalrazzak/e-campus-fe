@@ -15,7 +15,7 @@ export async function GET() {
         });
     }
 
-    const session = await api.get<SessionData>("auth/session", {
+    const session = await api.get<SessionData>("users/me", {
         headers: {
             Authorization: sessionCookie.value,
         },

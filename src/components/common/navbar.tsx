@@ -61,16 +61,18 @@ const UserNavigation: React.FC<{
         <div className={className}>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild className="cursor-pointer">
-                    <div className="flex gap-2 items-center">
-                        <Avatar>
-                            <AvatarImage src={session.photo_url} alt={session.name} width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
-                            <AvatarFallback>
-                                <span>{session.name[0]}</span>
-                            </AvatarFallback>
-                        </Avatar>
+                    {session && (
+                        <div className="flex gap-2 items-center">
+                            <Avatar>
+                                <AvatarImage src={session.photo_url} alt={session.name} width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
+                                <AvatarFallback>
+                                    <span>{session.name[0]}</span>
+                                </AvatarFallback>
+                            </Avatar>
 
-                        {isMobile && <span className="text-sm">{session.name}</span>}
-                    </div>
+                            {isMobile && <span className="text-sm">{session.name}</span>}
+                        </div>
+                    )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="start" forceMount>
                     <DropdownMenuLabel className="font-normal">
