@@ -23,6 +23,11 @@ export const URLS = {
         BASE: "/dashboard",
         schedule: "/dashboard/schedule",
         settings: "/dashboard/settings",
-        myCourses: "/dashboard/my-courses",
+        accademic: {
+            courses: {
+                base: "/dashboard/academic/courses",
+                detail: (courseId: string) => `/dashboard/academic/courses/${courseId}`,
+            },
+        },
     },
 };
