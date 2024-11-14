@@ -39,7 +39,7 @@ body {
         --dark: 0 0% 4%; /* HSL(0, 0%, 4%) | HEX: #0A0A0A */
         --dark-foreground: 0 0% 98%; /* HSL(0, 0%, 98%) | HEX: #FCFCFC */
 
-        --radius: 2rem;
+        --radius: 1.5rem;
     }
 
     .dark {
