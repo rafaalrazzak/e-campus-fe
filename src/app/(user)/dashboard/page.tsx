@@ -1,8 +1,8 @@
 import type { SubjectCardProps } from "@/components/common";
 
-import Modals from "@/app/dashboard/modals";
-import { SeeScheduleClient } from "@/app/dashboard/see-schedule-client";
-import { TransportationClient } from "@/app/dashboard/transportation-client";
+import Modals from "@/app/(user)/dashboard/modals";
+import { SeeScheduleClient } from "@/app/(user)/dashboard/see-schedule-client";
+import { TransportationClient } from "@/app/(user)/dashboard/transportation-client";
 import { Hero, Section, SubjectCard } from "@/components/common";
 import { CourseCard } from "@/components/common/course";
 import { Button } from "@/components/ui";
@@ -21,7 +21,7 @@ const subjects: SubjectCardProps[] = [
         instructor: "Dr. Smith",
         room: "Room 101",
         participants: 20,
-        linkCourse: "/academic/learn/web-development",
+        linkCourse: URLS.dashboard.accademic.courses.detail("web-development"),
     },
     {
         status: "active",
@@ -33,7 +33,7 @@ const subjects: SubjectCardProps[] = [
         instructor: "Prof. Ilham Kurniawan Situmorang",
         room: "Room 202",
         participants: 25,
-        linkCourse: "/academic/learn/database-systems",
+        linkCourse: URLS.dashboard.accademic.courses.detail("database-systems"),
     },
     {
         status: "inactive",
@@ -45,7 +45,7 @@ const subjects: SubjectCardProps[] = [
         instructor: "Dr. Lee",
         room: "Room 303",
         participants: 18,
-        linkCourse: "/academic/learn/artificial-intelligence",
+        linkCourse: URLS.dashboard.accademic.courses.detail("artificial-intelligence"),
     },
 ];
 
@@ -74,14 +74,14 @@ export default function Page() {
                 <TransportationClient />
 
                 <Section
-                    title="Mata kuliah"
+                    title="Mata Kuliah"
                     button={
-                        <Button asLink href={URLS.dashboard.myCourses} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
+                        <Button asLink href={URLS.dashboard.accademic.courses.base} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
                             Lihat Mata Kuliah
                         </Button>
                     }
                 >
-                    <CourseCard name="Web Development" instructor="Dr. Smith" day="Senin" time="09:00 - 10:30" progress={50} />
+                    <CourseCard name="Web Development" instructor="Dr. Smith" day={1} timeStart="09:00" duration={120} progress={50} />
                 </Section>
             </main>
         </Modals>

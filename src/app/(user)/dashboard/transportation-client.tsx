@@ -75,7 +75,7 @@ function Client() {
     });
 
     return (
-        <Section title="Transportasi menuju kampus">
+        <Section title="Transportasi Menuju Kampus">
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between gap-2">
                     <Input leftIcon={<Search size={16} />} placeholder="Cari lokasi Anda" className="grow" />
