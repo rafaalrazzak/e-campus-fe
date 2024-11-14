@@ -11,7 +11,7 @@ export type SessionData = {
     created_at: string;
     updated_at: string;
     department_name: string;
-    photo_url?: string; 
+    photo_url?: string;
     study_plan_status?: string;
     study_plan_grade?: string;
 };
