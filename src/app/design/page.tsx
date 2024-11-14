@@ -11,7 +11,7 @@ import { SelectDesigns } from "@/components/ui/story/select.story";
 import { TabsDesigns } from "@/components/ui/story/tabs.story";
 
 const DesignPage: React.FC = () => (
-    <div className="container mx-auto my-8 flex flex-col gap-8 px-4">
+    <div className="container my-8 flex flex-col gap-8 px-4">
         <AccordionDesigns />
         <AvatarDesigns />
         <BadgeDesigns />
