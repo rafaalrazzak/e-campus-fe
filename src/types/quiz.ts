@@ -1,10 +1,3 @@
-export interface Question {
-    id: number;
-    text: string;
-    options: string[];
-    correctAnswer: number;
-}
-
 export interface QuizState {
     currentIndex: number;
     answers: (number | null)[];
@@ -16,10 +9,14 @@ export interface QuizState {
     timeElapsed: number;
     streak: number;
     isPaused: boolean;
-    lastAnswerTime: number;
 }
 
-export interface StorageValidation {
-    isValid: boolean;
-    error?: string;
+export interface Question {
+    id: string;
+    text: string;
+    options: Array<{
+        id: string;
+        text: string;
+    }>;
+    correctAnswer: string;
 }
