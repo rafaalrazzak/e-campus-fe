@@ -1,6 +1,6 @@
 export interface QuizState {
     currentIndex: number;
-    answers: (number | null)[];
+    answers: (string | null)[];
     timeLeft: number;
     isTimerMode: boolean;
     isCompleted: boolean;
