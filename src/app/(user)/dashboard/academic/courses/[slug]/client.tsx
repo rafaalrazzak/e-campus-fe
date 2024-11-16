@@ -5,6 +5,8 @@ import { Progress, Badge, Card, CardHeader } from "@/components/ui";
 import { FilterBar } from "@/components/common/filters/filter-bar";
 import { FileText, Video, CheckCircle, Calendar, Layers, FileCode, PenTool, Grid2x2, LayoutList } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
+import { URLS } from "@/constants/urls";
 
 // Types
 type ContentType = "document" | "video" | "task" | "quiz";
@@ -133,7 +135,7 @@ const CourseHeader: React.FC = () => {
 };
 
 const ContentItem: React.FC<{ item: ContentItem }> = ({ item }) => (
-    <div className="flex items-center justify-between p-3 hover:bg-secondary/50 rounded-sm">
+    <Link href={URLS.dashboard.accademic.courses.dynamicPage("test", item.type, item.id)} className="flex items-center justify-between p-3 hover:bg-secondary/50 rounded-sm">
         <div className="flex items-center gap-3">
             <div className="shrink-0">{ICONS[item.type]}</div>
             <div className="flex flex-col">
@@ -154,7 +156,7 @@ const ContentItem: React.FC<{ item: ContentItem }> = ({ item }) => (
             </div>
         </div>
         {item.done && <CheckCircle className="w-5 h-5 text-emerald-500" />}
-    </div>
+    </Link>
 );
 
 const ContentGroup: React.FC<{ title: string; items: ContentItem[]; layout: LayoutType }> = ({ title, items, layout }) => (
