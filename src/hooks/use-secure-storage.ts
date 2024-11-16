@@ -1,6 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { encrypt, decrypt, generateKeyQuiz } from "@/lib/crypto";
-import { StorageValidation } from "@/types/quiz";
+
+interface StorageValidation {
+    isValid: boolean;
+    error?: string;
+}
 
 export function useSecureStorage<T>(key: string, initialValue: T, validator?: (value: T) => StorageValidation) {
     // Generate a unique session key
