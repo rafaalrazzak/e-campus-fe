@@ -48,7 +48,7 @@ export const QuizQuestion = memo(function QuizQuestion({
         <CardContent className="space-y-6">
             <h2 className="text-xl font-semibold leading-tight">{question.text}</h2>
 
-            <RadioGroup value={selectedAnswer ?? undefined} onValueChange={onAnswer} className="space-y-3">
+            <RadioGroup key={question.id} value={selectedAnswer ?? undefined} onValueChange={onAnswer} className="space-y-3">
                 {question.options.map((option) => (
                     <div
                         key={option.id}

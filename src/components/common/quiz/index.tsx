@@ -9,19 +9,10 @@ import { QuizQuestion } from "./quiz-question";
 import { QuizProgress } from "./quiz-progress";
 
 export function Quiz() {
-    const quiz = useQuiz(QUESTIONS);
-    const { state, handleAnswer, navigate, toggleTimer, togglePause, reset, finish, score, progress, remaining, avgTimePerQuestion, isLastQuestion, canNavigate } = quiz;
-
-    if (!state) return null;
+    const { state, handleAnswer, navigateToQuestion, toggleTimer, togglePause, resetQuiz, finishQuiz, score, progress, remaining, avgTimePerQuestion, isLastQuestion } = useQuiz(QUESTIONS);
 
     if (state.isCompleted) {
-        return <QuizResults score={score} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={reset} />;
-    }
-
-    const currentQuestion = QUESTIONS[state.currentIndex];
-
-    if (!currentQuestion) {
-        return null;
+        return <QuizResults score={score ?? 0} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={resetQuiz} />;
     }
 
     return (
@@ -39,16 +30,16 @@ export function Quiz() {
                     onPauseToggle={togglePause}
                 />
                 <QuizQuestion
-                    currentIndex={state.currentIndex}
+                    question={QUESTIONS[state.currentIndex]}
                     selectedAnswer={state.answers[state.currentIndex]}
                     isPaused={state.isPaused}
-                    isTimerMode={state.isTimerMode}
-                    question={currentQuestion}
                     isLastQuestion={isLastQuestion}
-                    canNavigate={canNavigate}
                     onAnswer={handleAnswer}
-                    onFinish={finish}
-                    onNavigate={navigate}
+                    onFinish={finishQuiz}
+                    onNavigate={navigateToQuestion}
+                    currentIndex={state.currentIndex}
+                    isTimerMode={state.isTimerMode}
+                    canNavigate={!state.isPaused && (state.isTimerMode || state.answers[state.currentIndex] !== null)}
                 />
             </Card>
             <QuizProgress
@@ -59,7 +50,7 @@ export function Quiz() {
                 remaining={remaining}
                 timeElapsed={state.timeElapsed}
                 avgTimePerQuestion={avgTimePerQuestion}
-                onNavigate={navigate}
+                onNavigate={navigateToQuestion}
             />
         </div>
     );
