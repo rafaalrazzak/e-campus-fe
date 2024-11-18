@@ -36,6 +36,10 @@ export function Quiz() {
                     isLastQuestion={isLastQuestion}
                     onAnswer={handleAnswer}
                     onFinish={finishQuiz}
+                    onNavigate={navigateToQuestion}
+                    currentIndex={state.currentIndex}
+                    isTimerMode={state.isTimerMode}
+                    canNavigate={!state.isPaused && (state.isTimerMode || state.answers[state.currentIndex] !== null)}
                 />
             </Card>
             <QuizProgress
