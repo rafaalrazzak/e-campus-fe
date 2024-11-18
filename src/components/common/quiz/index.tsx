@@ -9,27 +9,13 @@ import { QuizQuestion } from "./quiz-question";
 import { QuizProgress } from "./quiz-progress";
 
 export function Quiz() {
-    const {
-        state,
-        handleAnswer,
-        navigateToQuestion,
-        toggleTimer,
-        togglePause,
-        resetQuiz,
-        finishQuiz,
-        nextQuestion,
-        previousQuestion,
-        score,
-        progress,
-        remaining,
-        avgTimePerQuestion,
-        isLastQuestion,
-        canGoNext,
-        canGoPrevious,
-    } = useQuiz(QUESTIONS);
+    const quiz = useQuiz(QUESTIONS);
+    const { state, handleAnswer, navigate, toggleTimer, togglePause, reset, finish, score, progress, remaining, avgTimePerQuestion, isLastQuestion, canNavigate } = quiz;
+
+    if (!state) return null;
 
     if (state.isCompleted) {
-        return <QuizResults score={score} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={resetQuiz} />;
+        return <QuizResults score={score} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={reset} />;
     }
 
     const currentQuestion = QUESTIONS[state.currentIndex];
@@ -53,17 +39,16 @@ export function Quiz() {
                     onPauseToggle={togglePause}
                 />
                 <QuizQuestion
-                    question={currentQuestion}
+                    currentIndex={state.currentIndex}
                     selectedAnswer={state.answers[state.currentIndex]}
                     isPaused={state.isPaused}
-                    isLastQuestion={isLastQuestion}
                     isTimerMode={state.isTimerMode}
-                    canGoNext={canGoNext}
-                    canGoPrevious={canGoPrevious}
+                    question={currentQuestion}
+                    isLastQuestion={isLastQuestion}
+                    canNavigate={canNavigate}
                     onAnswer={handleAnswer}
-                    onFinish={finishQuiz}
-                    onNext={nextQuestion}
-                    onPrevious={previousQuestion}
+                    onFinish={finish}
+                    onNavigate={navigate}
                 />
             </Card>
             <QuizProgress
@@ -74,7 +59,7 @@ export function Quiz() {
                 remaining={remaining}
                 timeElapsed={state.timeElapsed}
                 avgTimePerQuestion={avgTimePerQuestion}
-                onNavigate={navigateToQuestion}
+                onNavigate={navigate}
             />
         </div>
     );

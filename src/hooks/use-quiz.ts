@@ -3,14 +3,14 @@ import { useSecureStorage } from "@/hooks";
 import type { Question, QuizState } from "@/types/quiz";
 import { createId } from "@paralleldrive/cuid2";
 
-const TIMER_DURATION = 30; // seconds
-const TICK_INTERVAL = 1000; // 1 second in milliseconds
+const TIMER_DURATION = 30;
+const TICK_INTERVAL = 1000;
 
 export function useQuiz(questions: readonly Question[]) {
-    const initialState = useMemo(
+    const initialState = useMemo<QuizState>(
         () => ({
             currentIndex: 0,
-            answers: new Array(questions.length).fill(null),
+            answers: Array(questions.length).fill(null),
             timeLeft: TIMER_DURATION,
             isTimerMode: true,
             isCompleted: false,
@@ -24,20 +24,21 @@ export function useQuiz(questions: readonly Question[]) {
     );
 
     const [state, setState] = useSecureStorage<QuizState>("quiz-state", initialState);
-    const timerRef = useRef<ReturnType<typeof setInterval>>();
-    const lastTickRef = useRef<number>(Date.now());
+    const timerRef = useRef<NodeJS.Timeout>();
+    const lastTickRef = useRef(Date.now());
 
-    const handleTimerTick = useCallback(() => {
-        if (!state || state.isPaused || state.isCompleted) return;
-
+    const updateTimer = useCallback(() => {
         const now = Date.now();
         const delta = Math.min(now - lastTickRef.current, TICK_INTERVAL * 2);
         lastTickRef.current = now;
 
         setState((prev) => {
-            if (!prev) return prev;
+            if (!prev || prev.isPaused || prev.isCompleted) return prev;
 
-            if (prev.timeLeft <= 1 && prev.isTimerMode) {
+            const timeLeft = Math.max(0, prev.timeLeft - 1);
+            const timeElapsed = prev.timeElapsed + delta;
+
+            if (timeLeft <= 0 && prev.isTimerMode) {
                 const nextIndex = prev.currentIndex + 1;
                 const isCompleted = nextIndex >= questions.length;
 
@@ -46,34 +47,22 @@ export function useQuiz(questions: readonly Question[]) {
                     currentIndex: isCompleted ? prev.currentIndex : nextIndex,
                     timeLeft: TIMER_DURATION,
                     isCompleted,
-                    timeElapsed: prev.timeElapsed + delta,
+                    timeElapsed,
                     streak: 0,
                 };
             }
 
-            return {
-                ...prev,
-                timeLeft: Math.max(0, prev.timeLeft - 1),
-                timeElapsed: prev.timeElapsed + delta,
-            };
+            return { ...prev, timeLeft, timeElapsed };
         });
-    }, [questions.length, setState, state]);
+    }, [questions.length, setState]);
 
     useEffect(() => {
-        if (!state || state.isCompleted || state.isPaused) {
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-            }
-            return;
+        if (!state?.isCompleted && !state?.isPaused) {
+            timerRef.current = setInterval(updateTimer, TICK_INTERVAL);
+            return () => clearInterval(timerRef.current);
         }
-
-        timerRef.current = setInterval(handleTimerTick, TICK_INTERVAL);
-        return () => {
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-            }
-        };
-    }, [handleTimerTick, state]);
+        clearInterval(timerRef.current);
+    }, [updateTimer, state?.isCompleted, state?.isPaused]);
 
     const actions = useMemo(
         () => ({
@@ -88,71 +77,53 @@ export function useQuiz(questions: readonly Question[]) {
                     const nextIndex = prev.currentIndex + 1;
                     const isCompleted = prev.isTimerMode && nextIndex >= questions.length;
 
+                    const newAnswers = [...prev.answers];
+                    newAnswers[prev.currentIndex] = answerId;
+
                     return {
                         ...prev,
-                        answers: Object.assign([], prev.answers, { [prev.currentIndex]: answerId }),
+                        answers: newAnswers,
                         currentIndex: prev.isTimerMode ? nextIndex : prev.currentIndex,
                         timeLeft: TIMER_DURATION,
                         isCompleted,
-                        // Only update streak in timer mode
                         streak: prev.isTimerMode ? (isCorrect ? prev.streak + 1 : 0) : 0,
                         timeElapsed: isCompleted ? Date.now() - prev.startTime : prev.timeElapsed,
                     };
                 });
             },
 
-            navigateToQuestion: (index: number) => {
-                if (!state || index < 0 || index >= questions.length || state.isTimerMode || state.isPaused) return;
-                setState((prev) => (prev ? { ...prev, currentIndex: index, timeLeft: TIMER_DURATION } : prev));
-            },
+            navigate: (index: number) => {
+                if (!state || state.isTimerMode || state.isPaused || index < 0 || index >= questions.length) return;
 
-            nextQuestion: () => {
-                if (!state || state.isTimerMode || state.isPaused || state.isCompleted) return;
-                setState((prev) => {
-                    if (!prev || prev.currentIndex >= questions.length - 1) return prev;
-                    return {
-                        ...prev,
-                        currentIndex: prev.currentIndex + 1,
-                        timeLeft: TIMER_DURATION,
-                    };
-                });
-            },
-
-            previousQuestion: () => {
-                if (!state || state.isTimerMode || state.isPaused || state.isCompleted) return;
-                setState((prev) => {
-                    if (!prev || prev.currentIndex <= 0) return prev;
-                    return {
-                        ...prev,
-                        currentIndex: prev.currentIndex - 1,
-                        timeLeft: TIMER_DURATION,
-                    };
-                });
+                setState(
+                    (prev) =>
+                        prev && {
+                            ...prev,
+                            currentIndex: index,
+                            timeLeft: TIMER_DURATION,
+                        }
+                );
             },
 
             toggleTimer: (enabled: boolean) => {
-                setState((prev) =>
-                    prev
-                        ? {
-                              ...prev,
-                              isTimerMode: enabled,
-                              timeLeft: TIMER_DURATION,
-                              // Reset streak when switching modes
-                              streak: 0,
-                          }
-                        : prev
+                setState(
+                    (prev) =>
+                        prev && {
+                            ...prev,
+                            isTimerMode: enabled,
+                            timeLeft: TIMER_DURATION,
+                            streak: 0,
+                        }
                 );
             },
 
             togglePause: () => {
-                setState((prev) => (prev ? { ...prev, isPaused: !prev.isPaused } : prev));
+                setState((prev) => prev && { ...prev, isPaused: !prev.isPaused });
                 lastTickRef.current = Date.now();
             },
 
-            resetQuiz: () => {
-                if (timerRef.current) {
-                    clearInterval(timerRef.current);
-                }
+            reset: () => {
+                clearInterval(timerRef.current);
                 setState({
                     ...initialState,
                     sessionKey: createId(),
@@ -160,15 +131,14 @@ export function useQuiz(questions: readonly Question[]) {
                 });
             },
 
-            finishQuiz: () => {
-                setState((prev) =>
-                    prev
-                        ? {
-                              ...prev,
-                              isCompleted: true,
-                              timeElapsed: Date.now() - prev.startTime,
-                          }
-                        : prev
+            finish: () => {
+                setState(
+                    (prev) =>
+                        prev && {
+                            ...prev,
+                            isCompleted: true,
+                            timeElapsed: Date.now() - prev.startTime,
+                        }
                 );
             },
         }),
@@ -184,29 +154,25 @@ export function useQuiz(questions: readonly Question[]) {
                 avgTimePerQuestion: 0,
                 isLastQuestion: false,
                 currentQuestion: null,
-                canGoNext: false,
-                canGoPrevious: false,
+                canNavigate: false,
                 streak: 0,
                 showStreak: false,
             };
 
+        const score = state.answers.reduce((total, answer, index) => total + (answer === questions[index]?.correctAnswer ? 1 : 0), 0);
+
         return {
-            score: state.answers.reduce((total, answer, index) => total + (answer === questions[index]?.correctAnswer ? 1 : 0), 0),
+            score,
             progress: Math.min(((state.currentIndex + 1) / questions.length) * 100, 100),
             remaining: Math.max(questions.length - (state.currentIndex + 1), 0),
             avgTimePerQuestion: state.currentIndex > 0 ? Math.round(state.timeElapsed / state.currentIndex) : 0,
             isLastQuestion: state.currentIndex === questions.length - 1,
             currentQuestion: questions[state.currentIndex],
-            canGoNext: !state.isTimerMode && !state.isPaused && !state.isCompleted && state.currentIndex < questions.length - 1,
-            canGoPrevious: !state.isTimerMode && !state.isPaused && !state.isCompleted && state.currentIndex > 0,
+            canNavigate: !state.isTimerMode && !state.isPaused && !state.isCompleted,
             streak: state.streak,
             showStreak: state.isTimerMode,
         };
     }, [questions, state]);
 
-    return {
-        state,
-        ...actions,
-        ...stats,
-    };
+    return { state, ...actions, ...stats };
 }

@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -12,25 +12,49 @@ interface QuizQuestionProps {
     isPaused: boolean;
     isLastQuestion: boolean;
     isTimerMode: boolean;
-    canGoNext: boolean;
-    canGoPrevious: boolean;
+    canNavigate: boolean;
     onAnswer: (id: string) => void;
     onFinish: () => void;
-    onNext: () => void;
-    onPrevious: () => void;
+    onNavigate: (index: number) => void;
+    currentIndex: number;
 }
 
-export const QuizQuestion = memo(({ question, selectedAnswer, isPaused, isLastQuestion, isTimerMode, canGoNext, canGoPrevious, onAnswer, onFinish, onNext, onPrevious }: QuizQuestionProps) => {
-    const showNavButtons = !isTimerMode;
-    const showFinishButton = (isTimerMode && selectedAnswer !== null && isLastQuestion) || (!isTimerMode && isLastQuestion);
+export const QuizQuestion = memo(function QuizQuestion({
+    question,
+    selectedAnswer,
+    isPaused,
+    isLastQuestion,
+    isTimerMode,
+    canNavigate,
+    onAnswer,
+    onFinish,
+    onNavigate,
+    currentIndex,
+}: QuizQuestionProps) {
+    const handlePrevious = useCallback(() => {
+        onNavigate(currentIndex - 1);
+    }, [currentIndex, onNavigate]);
+
+    const handleNext = useCallback(() => {
+        onNavigate(currentIndex + 1);
+    }, [currentIndex, onNavigate]);
+
+    const showNavigation = !isTimerMode;
+    const showFinish = (isTimerMode && selectedAnswer && isLastQuestion) || (!isTimerMode && isLastQuestion);
+    const canGoPrevious = canNavigate && currentIndex > 0;
+    const canGoNext = canNavigate && selectedAnswer && !isLastQuestion;
 
     return (
         <CardContent className="space-y-6">
-            <h2 className="text-xl font-semibold">{question.text}</h2>
+            <h2 className="text-xl font-semibold leading-tight">{question.text}</h2>
 
-            <RadioGroup key={question.id} value={selectedAnswer ?? undefined} onValueChange={onAnswer} className="space-y-3">
+            <RadioGroup value={selectedAnswer ?? undefined} onValueChange={onAnswer} className="space-y-3">
                 {question.options.map((option) => (
-                    <div key={option.id} className={`flex items-center space-x-2 rounded-lg border p-4 ${isPaused ? "opacity-50 pointer-events-none" : ""}`}>
+                    <div
+                        key={option.id}
+                        className={`flex items-center space-x-2 rounded-lg border p-4 transition-opacity
+              ${isPaused ? "opacity-50 pointer-events-none" : "hover:bg-gray-50"}`}
+                    >
                         <RadioGroupItem value={option.id} id={option.id} disabled={isPaused} />
                         <Label htmlFor={option.id} className="flex-grow cursor-pointer">
                             {option.text}
@@ -40,15 +64,15 @@ export const QuizQuestion = memo(({ question, selectedAnswer, isPaused, isLastQu
             </RadioGroup>
 
             <div className="flex justify-between mt-6">
-                {showNavButtons && (
+                {showNavigation && (
                     <>
-                        <Button onClick={onPrevious} disabled={!canGoPrevious || isPaused} variant="outline" className="flex items-center gap-2">
+                        <Button onClick={handlePrevious} disabled={!canGoPrevious || isPaused} variant="outline" className="flex items-center gap-2">
                             <ChevronLeft className="w-4 h-4" />
                             Previous
                         </Button>
 
                         {!isLastQuestion && (
-                            <Button onClick={onNext} disabled={!canGoNext || isPaused || !selectedAnswer} variant="primary" className="flex items-center gap-2">
+                            <Button onClick={handleNext} disabled={!canGoNext || isPaused} variant="primary" className="flex items-center gap-2">
                                 Next
                                 <ChevronRight className="w-4 h-4" />
                             </Button>
@@ -56,7 +80,7 @@ export const QuizQuestion = memo(({ question, selectedAnswer, isPaused, isLastQu
                     </>
                 )}
 
-                {showFinishButton && (
+                {showFinish && (
                     <Button onClick={onFinish} disabled={!selectedAnswer || isPaused} variant="primary" className="ml-auto">
                         Finish Quiz
                     </Button>
@@ -65,5 +89,3 @@ export const QuizQuestion = memo(({ question, selectedAnswer, isPaused, isLastQu
         </CardContent>
     );
 });
-
-QuizQuestion.displayName = "QuizQuestion";
