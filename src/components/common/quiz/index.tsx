@@ -9,10 +9,33 @@ import { QuizQuestion } from "./quiz-question";
 import { QuizProgress } from "./quiz-progress";
 
 export function Quiz() {
-    const { state, handleAnswer, navigateToQuestion, toggleTimer, togglePause, resetQuiz, finishQuiz, score, progress, remaining, avgTimePerQuestion, isLastQuestion } = useQuiz(QUESTIONS);
+    const {
+        state,
+        handleAnswer,
+        navigateToQuestion,
+        toggleTimer,
+        togglePause,
+        resetQuiz,
+        finishQuiz,
+        nextQuestion,
+        previousQuestion,
+        score,
+        progress,
+        remaining,
+        avgTimePerQuestion,
+        isLastQuestion,
+        canGoNext,
+        canGoPrevious,
+    } = useQuiz(QUESTIONS);
 
     if (state.isCompleted) {
-        return <QuizResults score={score ?? 0} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={resetQuiz} />;
+        return <QuizResults score={score} totalQuestions={QUESTIONS.length} timeElapsed={state.timeElapsed} avgTimePerQuestion={avgTimePerQuestion} onReset={resetQuiz} />;
+    }
+
+    const currentQuestion = QUESTIONS[state.currentIndex];
+
+    if (!currentQuestion) {
+        return null;
     }
 
     return (
@@ -30,12 +53,17 @@ export function Quiz() {
                     onPauseToggle={togglePause}
                 />
                 <QuizQuestion
-                    question={QUESTIONS[state.currentIndex]}
+                    question={currentQuestion}
                     selectedAnswer={state.answers[state.currentIndex]}
                     isPaused={state.isPaused}
                     isLastQuestion={isLastQuestion}
+                    isTimerMode={state.isTimerMode}
+                    canGoNext={canGoNext}
+                    canGoPrevious={canGoPrevious}
                     onAnswer={handleAnswer}
                     onFinish={finishQuiz}
+                    onNext={nextQuestion}
+                    onPrevious={previousQuestion}
                 />
             </Card>
             <QuizProgress
