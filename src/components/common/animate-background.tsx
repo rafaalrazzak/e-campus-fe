@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export function AnimatedBackground({ className }: { className?: string }) {
     return (
-        <div className={cn("pointer-events-none absolute inset-0 overflow-hidden bg-white", className)}>
+        <div className={cn("pointer-events-none absolute -z-[1] inset-0 overflow-hidden bg-white", className)}>
             {/* SVG Dotted Pattern */}
             <motion.svg
                 width="100%"

@@ -10,7 +10,7 @@ export type HeroProps = {
 export function Hero({ onlyImage = false, children, className }: HeroProps) {
     return (
         <section className={cn("relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden rounded-b-3xl p-4 text-center", className)}>
-            <AnimatedBackground />
+            <AnimatedBackground className="z-0" />
 
             <div className="container relative z-20 flex flex-col justify-center gap-8">
                 {!onlyImage && (
