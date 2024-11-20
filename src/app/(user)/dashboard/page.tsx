@@ -1,5 +1,3 @@
-import type { SubjectCardProps } from "@/components/common";
-
 import Modals from "@/app/(user)/dashboard/modals";
 import { SeeScheduleClient } from "@/app/(user)/dashboard/see-schedule-client";
 import { TransportationClient } from "@/app/(user)/dashboard/transportation-client";
@@ -10,45 +8,7 @@ import { URLS } from "@/constants/urls";
 
 import { BookOpen, CalendarDaysIcon } from "lucide-react";
 import { DashboardLayout } from "@/components/common/dashboard/layout";
-
-const subjects: SubjectCardProps[] = [
-    {
-        status: "done",
-        duration: "90 min",
-        attendance: "Hadir",
-        timeRange: "09:00 - 10:30",
-        subject: "Web Development",
-        topic: "Introduction to React",
-        instructor: "Dr. Smith",
-        room: "Room 101",
-        participants: 20,
-        linkCourse: URLS.dashboard.accademic.courses.detail("web-development"),
-    },
-    {
-        status: "active",
-        duration: "90 min",
-        attendance: "Belum Hadir",
-        timeRange: "11:00 - 12:30",
-        subject: "Database Systems",
-        topic: "SQL Fundamentals",
-        instructor: "Prof. Ilham Kurniawan Situmorang",
-        room: "Room 202",
-        participants: 25,
-        linkCourse: URLS.dashboard.accademic.courses.detail("database-systems"),
-    },
-    {
-        status: "inactive",
-        duration: "90 min",
-        attendance: "Belum Hadir",
-        timeRange: "14:00 - 15:30",
-        subject: "Artificial Intelligence",
-        topic: "Machine Learning Basics",
-        instructor: "Dr. Lee",
-        room: "Room 303",
-        participants: 18,
-        linkCourse: URLS.dashboard.accademic.courses.detail("artificial-intelligence"),
-    },
-];
+import { generateRandomCourse } from "@/lib/mocks";
 
 export default function Page() {
     return (
@@ -66,7 +26,7 @@ export default function Page() {
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {subjects.map((subject, index) => (
+                        {generateRandomCourse(3).map((subject, index) => (
                             <SubjectCard key={index} {...subject} />
                         ))}
                     </div>
@@ -83,7 +43,7 @@ export default function Page() {
                             </Button>
                         }
                     >
-                        <CourseCard name="Web Development" instructor="Dr. Smith" day={1} timeStart="09:00" duration={120} progress={50} />
+                        <CourseCard {...generateRandomCourse(1)[0]} />
                     </Section>
                 </main>
             </Modals>

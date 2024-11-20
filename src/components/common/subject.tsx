@@ -4,27 +4,15 @@ import type { BadgeProps } from "@/components/ui";
 
 import { Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import { Course } from "@/types/course";
 
 import { format } from "date-fns";
 import { Book, BookOpenText, CalendarIcon, CheckCircleIcon, ClockIcon, MapPinIcon, QrCodeIcon, User, UsersIcon } from "lucide-react";
 import { useCallback, type ReactNode } from "react";
 
-type Status = "inactive" | "active" | "done";
-type Attendance = "Hadir" | "Tidak Hadir" | "Belum Hadir" | "Izin" | "Sakit";
-
 export type SubjectCardProps = {
-    status: Status;
-    duration: string;
-    attendance: Attendance;
-    timeRange: string;
-    subject: string;
-    topic: string;
-    instructor: string;
-    room: string;
-    participants: number;
-    linkCourse: string;
     onScan?: () => void;
-};
+} & Course;
 
 type InfoItemProps = {
     icon: ReactNode;
@@ -56,7 +44,7 @@ const InfoItem = ({ icon, text, size, bold, color = "secondary" }: InfoItemProps
 );
 
 const statusConfig: Record<
-    Status,
+    Course["status"],
     {
         color: string;
         text: string;
@@ -84,14 +72,14 @@ const statusConfig: Record<
     },
 };
 
-export const SubjectCard = ({ status, duration, attendance, timeRange, subject, topic, instructor, room, participants, linkCourse, onScan }: SubjectCardProps) => {
+export const SubjectCard = ({ status, duration, attendance, subjectName, topic, date, instructor, room, participants, linkCourse, onScan }: SubjectCardProps) => {
     const { color, text, badgeVariant, textColor } = statusConfig[status];
 
     return (
         <Card>
             <CardHeader className={cn("-m-4 p-4", color, textColor)}>
                 <div className="flex items-center justify-between gap-4">
-                    <CardTitle className="text-xl font-bold">{subject}</CardTitle>
+                    <CardTitle className="text-xl font-bold">{subjectName}</CardTitle>
                     <Badge size="sm" variant={badgeVariant} className="shrink-0 text-xs font-semibold">
                         {text}
                     </Badge>
@@ -100,7 +88,7 @@ export const SubjectCard = ({ status, duration, attendance, timeRange, subject, 
 
             <CardContent className="my-4 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                    <InfoItem icon={<ClockIcon className="size-5" />} text={timeRange} color="dark" size="lg" bold />
+                    <InfoItem icon={<ClockIcon className="size-5" />} text={`${format(date, "HH:mm")} - ${format(new Date(date.getTime() + duration * 60000), "HH:mm")}`} color="dark" size="lg" bold />
                     <Badge size="sm" variant={attendance === "Hadir" ? "success" : "warning"} className="shrink-0">
                         {attendance}
                     </Badge>
@@ -112,7 +100,7 @@ export const SubjectCard = ({ status, duration, attendance, timeRange, subject, 
                     <InfoItem icon={<User className="size-4" />} text={instructor} size="sm" />
                     <InfoItem icon={<MapPinIcon className="size-4" />} text={room} size="sm" />
                     <InfoItem icon={<UsersIcon className="size-4" />} text={`${participants} mahasiswa/i`} size="sm" />
-                    <InfoItem icon={<CalendarIcon className="size-4 text-muted-foreground" />} text={duration} size="sm" />
+                    <InfoItem icon={<CalendarIcon className="size-4 text-muted-foreground" />} text={`${duration} menit`} size="sm" />
                 </div>
             </CardContent>
 

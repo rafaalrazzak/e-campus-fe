@@ -15,7 +15,18 @@ export const formatDay = (date: Date) => dateFormat(date, "EEEE");
 
 export const formatTime = (date: Date) => dateFormat(date, "HH:mm");
 
-export const getDayName = (day: number) => {
-    const days = ["", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-    return days[day] || "Tidak Diketahui";
+export const formatDuration = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return [hours && `${hours} jam`, mins && `${mins} menit`].filter(Boolean).join(" ");
+};
+
+export const getDayName = (date: Date) => {
+    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    return days[date.getDay()] || "Tidak Diketahui";
+};
+
+export const getTimeRange = (start: Date, duration: number) => {
+    const end = new Date(start.getTime() + duration * 60000);
+    return `${dateFormat(start, "HH:mm")} - ${dateFormat(end, "HH:mm")}`;
 };

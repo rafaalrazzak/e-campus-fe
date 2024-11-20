@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Progress } from "@/components/ui";
-import { CourseCard, CourseProps } from "@/components/common/course";
+import { Progress, ScrollArea } from "@/components/ui";
+import { CourseCard } from "@/components/common/course";
 import { FilterBar } from "@/components/common/filters/filter-bar";
 import { getDayName } from "@/lib/utils";
+import { MOCK_COURSES } from "@/lib/mocks";
+import { Course } from "@/types/course";
 
 type GroupByType = "none" | "date";
 type SortByType = "none" | "progress";
@@ -13,11 +15,6 @@ interface Filters {
     groupBy: GroupByType;
     sortBy: SortByType;
 }
-
-const SAMPLE_CONTENT: CourseProps[] = [
-    { name: "Pemrograman Web 1", instructor: "Ilham", day: 1, timeStart: "09:00", duration: 90, progress: 50 },
-    { name: "Algoritma dan Struktur Data", instructor: "Ilham", day: 2, timeStart: "12:00", duration: 90, progress: 75 },
-];
 
 const FILTER_SETTINGS = [
     {
@@ -41,22 +38,23 @@ const FILTER_SETTINGS = [
 ];
 
 // Helper functions for grouping and sorting content
-const groupByDay = (content: CourseProps[]): Record<number, CourseProps[]> =>
+const groupByDay = (content: Course[]): Record<string, Course[]> =>
     content.reduce(
         (acc, item) => {
-            (acc[item.day] ||= []).push(item);
+            const dayName = getDayName(new Date(item.date));
+            (acc[dayName] ||= []).push(item);
             return acc;
         },
-        {} as Record<number, CourseProps[]>
+        {} as Record<string, Course[]>
     );
 
-const sortByProgress = (content: CourseProps[]): CourseProps[] => [...content].sort((a, b) => b.progress - a.progress);
+const sortByProgress = (content: Course[]): Course[] => [...content].sort((a, b) => b.progress - a.progress);
 
 export const CourseContent: React.FC = () => {
     const [filters, setFilters] = useState<Filters>({ groupBy: "none", sortBy: "none" });
 
     // Apply sorting and grouping based on filters
-    let displayedContent = SAMPLE_CONTENT;
+    let displayedContent = MOCK_COURSES;
     if (filters.sortBy === "progress") displayedContent = sortByProgress(displayedContent);
     const groupedContent = filters.groupBy === "date" ? groupByDay(displayedContent) : { All: displayedContent };
 
@@ -72,18 +70,20 @@ export const CourseContent: React.FC = () => {
                 <FilterBar filters={filters} onChange={(key, value) => setFilters((prev) => ({ ...prev, [key]: value }))} settings={FILTER_SETTINGS} variant="popover" />
             </div>
 
-            <section className="flex flex-col gap-4">
-                {Object.entries(groupedContent).map(([group, items]) => (
-                    <div key={group}>
-                        {filters.groupBy === "date" && <h2 className="text-lg font-semibold mb-2">{getDayName(Number(group))}</h2>}
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {items.map((item, idx) => (
-                                <CourseCard key={idx} {...item} />
-                            ))}
+            <ScrollArea className="p-4 h-[calc(100vh-18.5rem)]">
+                <div className="space-y-4">
+                    {Object.entries(groupedContent).map(([group, items]) => (
+                        <div key={group}>
+                            {filters.groupBy === "date" && <h2 className="text-lg font-semibold mb-2">{group === "All" ? "Semua Jadwal" : `Hari ${getDayName(new Date(items[0].date))}`}</h2>}
+                            <div className="grid md:grid-cols-2 gap-4">
+                                {items.map((item, idx) => (
+                                    <CourseCard key={idx} {...item} />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </section>
+                    ))}
+                </div>
+            </ScrollArea>
         </div>
     );
 };

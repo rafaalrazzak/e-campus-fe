@@ -7,19 +7,17 @@ import { CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { cn, dateFormat } from "@/lib/utils";
-import { Schedule } from "@/types/schedule";
+import { cn, dateFormat, getTimeRange } from "@/lib/utils";
+import { Course } from "@/types/course";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 const MOBILE_DAYS = 3;
 const DESKTOP_DAYS = 7;
 
-const ScheduleEvent = memo(({ event }: { event: Schedule }) => (
+const ScheduleEvent = memo(({ event }: { event: Course }) => (
     <div className="absolute inset-0 m-1 p-1 bg-primary/10 text-primary text-xs rounded overflow-hidden hover:bg-primary/30 cursor-pointer" style={{ height: `${(event.duration / 60) * 100}%` }}>
-        <div className="text-secondary-foreground">
-            {dateFormat(event.date, "HH:mm")} - {dateFormat(new Date(event.date.getTime() + event.duration * 60000), "HH:mm")}
-        </div>
+        <div className="text-secondary-foreground">{getTimeRange(event.date, event.duration)}</div>
         <div className="font-medium truncate">{event.subjectName}</div>
         <div className="text-xs truncate">{event.room}</div>
     </div>
@@ -38,7 +36,7 @@ const TimeColumn = memo(({ hour }: { hour: number }) => (
     </div>
 ));
 
-export const WeeklyCalendar = ({ events = [] }: { events: Schedule[] }) => {
+export const WeeklyCalendar = ({ events = [] }: { events: Course[] }) => {
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const isMobile = useIsMobile();
 
