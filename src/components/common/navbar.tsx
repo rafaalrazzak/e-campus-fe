@@ -35,13 +35,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui";
 import { URLS } from "@/constants/urls";
-
-const Logo: React.FC = () => (
-    <Link href="/" className="flex items-center" prefetch={false}>
-        <Image src="/logo.svg" alt="Acme Inc" width={32} height={32} />
-        <span className="sr-only">Acme Inc</span>
-    </Link>
-);
+import { Logo } from "./logo";
 
 const UserNavigation: React.FC<{
     isMobile?: boolean;
@@ -215,7 +209,7 @@ export const Navbar: React.FC = () => {
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
             <div className="container flex h-16 items-center justify-between px-4">
-                <Logo />
+                <Logo withLink />
                 <DesktopNav />
                 <div className="flex items-center gap-4">
                     <UserNavigation className="hidden lg:flex" />

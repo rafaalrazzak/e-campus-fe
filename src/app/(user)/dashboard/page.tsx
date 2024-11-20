@@ -70,7 +70,7 @@ export default function Page() {
                 </div>
             </Hero>
 
-            <main className="container mx-auto flex flex-col gap-8 px-4">
+            <main className="container flex flex-col gap-8 px-4">
                 <TransportationClient />
 
                 <Section

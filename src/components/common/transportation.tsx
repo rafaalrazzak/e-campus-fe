@@ -51,7 +51,7 @@ export function TransportationCard({ title, travelTime, timeRange, isReduceCarbo
                     </Badge>
                 </div>
 
-                <p className="text-sm text-secondary-foreground">Waktu tempuh dan rute ke kampus STT Nurul Fikri dari lokasi Anda. Selalu pertimbangkan waktu tempuh agar tidak terlambat.</p>
+                <p className="text-sm text-secondary-foreground">Waktu tempuh dan rute ke kampus Kita University dari lokasi Anda. Selalu pertimbangkan waktu tempuh agar tidak terlambat.</p>
 
                 <hr />
 

@@ -7,7 +7,7 @@ const config: Config = {
     content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
     theme: {
         container: {
-            center: true,
+            center: "true",
         },
         extend: {
             colors: {
@@ -44,6 +44,16 @@ const config: Config = {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
+                sidebar: {
+                    DEFAULT: "hsl(var(--sidebar-background))",
+                    foreground: "hsl(var(--sidebar-foreground))",
+                    primary: "hsl(var(--sidebar-primary))",
+                    "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+                    accent: "hsl(var(--sidebar-accent))",
+                    "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+                    border: "hsl(var(--sidebar-border))",
+                    ring: "hsl(var(--sidebar-ring))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -68,16 +78,30 @@ const config: Config = {
                     },
                 },
                 "fade-in": {
-                    from: { opacity: "0" },
-                    to: { opacity: "1" },
+                    from: {
+                        opacity: "0",
+                    },
+                    to: {
+                        opacity: "1",
+                    },
                 },
                 "scale-in": {
-                    "0%": { transform: "scale(0.95)" },
-                    "100%": { transform: "scale(1)" },
+                    "0%": {
+                        transform: "scale(0.95)",
+                    },
+                    "100%": {
+                        transform: "scale(1)",
+                    },
                 },
                 "slide-up-fade": {
-                    "0%": { opacity: "0", transform: "translateY(2px)" },
-                    "100%": { opacity: "1", transform: "translateY(0)" },
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(2px)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateY(0)",
+                    },
                 },
             },
             animation: {
