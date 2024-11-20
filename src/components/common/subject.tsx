@@ -3,8 +3,8 @@
 import type { BadgeProps } from "@/components/ui";
 
 import { Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import { Course } from "@/types/course";
+import { cn, getTimeRange } from "@/lib/utils";
+import { Course, CourseAttendance } from "@/types/course";
 
 import { format } from "date-fns";
 import { Book, BookOpenText, CalendarIcon, CheckCircleIcon, ClockIcon, MapPinIcon, QrCodeIcon, User, UsersIcon } from "lucide-react";
@@ -88,8 +88,8 @@ export const SubjectCard = ({ status, duration, attendance, subjectName, topic, 
 
             <CardContent className="my-4 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                    <InfoItem icon={<ClockIcon className="size-5" />} text={`${format(date, "HH:mm")} - ${format(new Date(date.getTime() + duration * 60000), "HH:mm")}`} color="dark" size="lg" bold />
-                    <Badge size="sm" variant={attendance === "Hadir" ? "success" : "warning"} className="shrink-0">
+                    <InfoItem icon={<ClockIcon className="size-5" />} text={getTimeRange(date, duration)} color="dark" size="lg" bold />
+                    <Badge size="sm" variant={attendance === CourseAttendance.Present ? "success" : "warning"} className="shrink-0">
                         {attendance}
                     </Badge>
                 </div>
