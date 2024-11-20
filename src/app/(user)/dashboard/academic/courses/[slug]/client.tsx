@@ -169,7 +169,7 @@ export const CourseDetail: React.FC = () => {
                     <FilterBar filters={filters} onChange={(key, value) => setFilters((prev) => ({ ...prev, [key]: value }))} settings={FILTER_SETTINGS} variant="popover" />
                 </div>
             </div>
-            <ScrollArea className="h-[calc(100vh-18.5rem)]">
+            <ScrollArea className="p-4 h-[calc(100vh-18.5rem)]">
                 <div className="space-y-4">
                     {groupedContent.map(([group, items]) => (
                         <ContentGroup key={group} title={group} items={items} layout={filters.layout} />
