@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, GraduationCap, Settings2 } from "lucide-react";
+import { Calendar, GraduationCap, LayoutDashboard, Settings2 } from "lucide-react";
 
 import { NavMain } from "@/components/common/dashboard/nav-main";
 import { NavUser } from "@/components/common/dashboard/nav-user";
@@ -16,6 +16,11 @@ const data = {
         avatar: "/kita.svg",
     },
     navMain: [
+        {
+            title: "Dashboard",
+            url: URLS.dashboard.base,
+            icon: LayoutDashboard,
+        },
         {
             title: "Jadwal Kuliah",
             url: URLS.dashboard.schedule,
@@ -55,7 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 <Logo />
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-semibold">Kita</span>
-                                    <span className="truncate text-xs">Campus</span>
+                                    <span className="truncate text-xs">University</span>
                                 </div>
                             </a>
                         </SidebarMenuButton>

@@ -119,7 +119,7 @@ export default function AnimatedScheduleModal() {
     }, []);
 
     return (
-        <div className="container relative p-4 flex flex-col gap-4 min-h-screen justify-between">
+        <div className="flex flex-col gap-4 min-h-screen justify-between">
             <div className="flex-grow overflow-auto flex flex-col gap-4">
                 <WeeklyCalendar schedule={schedule} />
                 <AnimatePresence>
@@ -130,7 +130,7 @@ export default function AnimatedScheduleModal() {
                     )}
                 </AnimatePresence>
             </div>
-            <div className="flex flex-col space-y-2 fixed bottom-4 inset-x-4">
+            <div className="flex flex-col space-y-2 sticky bottom-0 px-4">
                 {!showCard && (
                     <div className="flex flex-wrap gap-2">
                         {suggestions.map((suggestion, index) => (
