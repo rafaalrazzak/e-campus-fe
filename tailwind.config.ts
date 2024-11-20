@@ -104,6 +104,23 @@ const config: Config = {
                         transform: "translateY(0)",
                     },
                 },
+                scanX: {
+                    to: {
+                        transform: "translateX(-100%)",
+                        left: "100%",
+                    },
+                },
+                scanY: {
+                    "33%": {
+                        clipPath: "inset(0 0 0 -100px)",
+                    },
+                    "50%": {
+                        clipPath: "inset(0 0 0 0)",
+                    },
+                    "83%": {
+                        clipPath: "inset(0 -100px 0 0)",
+                    },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",

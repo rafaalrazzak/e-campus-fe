@@ -2,6 +2,13 @@
     "name": "e-campus-fe",
     "version": "0.1.0",
     "private": true,
+    "contributors": [
+        {
+            "name": "Rafa Al Razzak",
+            "email": "rafaar@kita.blue",
+            "url": "https://kita.blue"
+        }
+    ],
     "scripts": {
         "preinstall": "bun --version || curl https://bun.sh/install | bash",
         "prepare": "husky",
@@ -30,6 +37,7 @@
         "@radix-ui/react-tabs": "^1.1.1",
         "@radix-ui/react-toast": "^1.2.2",
         "@radix-ui/react-tooltip": "^1.1.4",
+        "@yudiel/react-qr-scanner": "^2.0.8",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "cmdk": "1.0.4",
@@ -40,6 +48,7 @@
         "lucide-react": "^0.460.0",
         "next": "15.0.3",
         "next-safe-action": "^7.9.9",
+        "qrcode.react": "^4.1.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "server-only": "^0.0.1",
@@ -101,8 +110,7 @@
             "tailwindcss/no-arbitrary-value": "off",
             "tailwindcss/no-contradicting-classname": "off",
             "tailwindcss/enforces-negative-arbitrary-values": "off",
-            "react/prop-types": "off",
-            "import/no-namespace": "off"
+            "react/prop-types": "off"
         }
     }
 }

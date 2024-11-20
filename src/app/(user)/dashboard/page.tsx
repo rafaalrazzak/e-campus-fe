@@ -43,7 +43,11 @@ export default function Page() {
                             </Button>
                         }
                     >
-                        <CourseCard {...generateRandomCourse(1)[0]} />
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            {generateRandomCourse(3).map((subject, index) => (
+                                <CourseCard key={index} {...subject} />
+                            ))}
+                        </div>
                     </Section>
                 </main>
             </Modals>

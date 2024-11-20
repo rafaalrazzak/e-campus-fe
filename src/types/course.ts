@@ -5,11 +5,11 @@ export enum CourseStatus {
 }
 
 export enum CourseAttendance {
-    Present = "Present",
-    Absent = "Absent",
-    NotYetPresent = "Not Yet Present",
-    Excused = "Excused",
-    Sick = "Sick",
+    Present = "Hadir",
+    Absent = "Tidak Hadir",
+    NotYetPresent = "Belum Hadir",
+    Excused = "Izin",
+    Sick = "Sakit",
 }
 
 export enum CourseContentType {
