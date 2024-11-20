@@ -9,6 +9,7 @@ import { Button } from "@/components/ui";
 import { URLS } from "@/constants/urls";
 
 import { BookOpen, CalendarDaysIcon } from "lucide-react";
+import { DashboardLayout } from "@/components/common/dashboard/layout";
 
 const subjects: SubjectCardProps[] = [
     {
@@ -51,39 +52,41 @@ const subjects: SubjectCardProps[] = [
 
 export default function Page() {
     return (
-        <Modals>
-            <Hero className="items-start gap-8 text-start" onlyImage>
-                <div className="flex flex-col justify-between gap-4 md:flex-row">
-                    <div className="space-y-2">
-                        <h1 className="text-3xl font-bold text-primary">Jadwal Kuliah Hari Ini</h1>
-                        <SeeScheduleClient />
-                    </div>
-                    <Button asLink href={URLS.dashboard.schedule} variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
-                        Lihat Jadwal
-                    </Button>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {subjects.map((subject, index) => (
-                        <SubjectCard key={index} {...subject} />
-                    ))}
-                </div>
-            </Hero>
-
-            <main className="container flex flex-col gap-8 px-4">
-                <TransportationClient />
-
-                <Section
-                    title="Mata Kuliah"
-                    button={
-                        <Button asLink href={URLS.dashboard.accademic.courses.base} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
-                            Lihat Mata Kuliah
+        <DashboardLayout title="Dashboard">
+            <Modals>
+                <Hero className="items-start gap-8 text-start" onlyImage>
+                    <div className="flex flex-col justify-between gap-4 md:flex-row">
+                        <div className="space-y-2">
+                            <h1 className="text-3xl font-bold text-primary">Jadwal Kuliah Hari Ini</h1>
+                            <SeeScheduleClient />
+                        </div>
+                        <Button asLink href={URLS.dashboard.schedule} variant="secondary-primary" leftIcon={<CalendarDaysIcon size={16} />}>
+                            Lihat Jadwal
                         </Button>
-                    }
-                >
-                    <CourseCard name="Web Development" instructor="Dr. Smith" day={1} timeStart="09:00" duration={120} progress={50} />
-                </Section>
-            </main>
-        </Modals>
+                    </div>
+
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {subjects.map((subject, index) => (
+                            <SubjectCard key={index} {...subject} />
+                        ))}
+                    </div>
+                </Hero>
+
+                <main className="container flex flex-col gap-8 px-4">
+                    <TransportationClient />
+
+                    <Section
+                        title="Mata Kuliah"
+                        button={
+                            <Button asLink href={URLS.dashboard.accademic.courses.base} size="sm" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
+                                Lihat Mata Kuliah
+                            </Button>
+                        }
+                    >
+                        <CourseCard name="Web Development" instructor="Dr. Smith" day={1} timeStart="09:00" duration={120} progress={50} />
+                    </Section>
+                </main>
+            </Modals>
+        </DashboardLayout>
     );
 }

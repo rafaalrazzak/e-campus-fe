@@ -23,11 +23,7 @@ export function NavMain({
 
     const isActiveRoute = (url?: string) => {
         if (!url) return false;
-        // Exact match for root path
-        if (url === "/" && pathname === "/") return true;
-        // Check if current path starts with the item's URL (for nested routes)
-        if (url !== "/") return pathname.startsWith(url);
-        return false;
+        return pathname === url;
     };
 
     const hasActiveChild = (items?: { url: string }[]) => {
@@ -38,10 +34,11 @@ export function NavMain({
         <SidebarGroup>
             <SidebarMenu>
                 {items.map((item) => {
-                    const isActive = isActiveRoute(item.url) || hasActiveChild(item.items);
+                    const isActive = isActiveRoute(item.url);
+                    const hasActive = hasActiveChild(item.items);
 
                     return (
-                        <Collapsible key={item.title} asChild defaultOpen={isActive}>
+                        <Collapsible key={item.title} asChild defaultOpen={isActive || hasActive}>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip={item.title} className={cn(isActive && "bg-primary/5 text-primary font-semibold")}>
                                     <a href={item.url}>
@@ -52,7 +49,7 @@ export function NavMain({
                                 {item.items?.length ? (
                                     <>
                                         <CollapsibleTrigger asChild>
-                                            <SidebarMenuAction className="data-[state=open]:rotate-90">
+                                            <SidebarMenuAction className={cn("data-[state=open]:rotate-90", hasActive && "rotate-90")}>
                                                 <ChevronRight className="w-4 h-4" />
                                                 <span className="sr-only">Toggle</span>
                                             </SidebarMenuAction>

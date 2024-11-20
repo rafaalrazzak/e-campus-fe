@@ -20,6 +20,7 @@ body {
 
         --primary: 205 77% 45%; /* HSL(205, 77%, 45%) | HEX: #0094D8 */
         --primary-foreground: 0 0% 100%; /* HSL(0, 0%, 100%) | HEX: #FFFFFF */
+        --primary-light: 213, 97%, 87%; /* HSL(213, 97%, 87%) | HEX: #bfdbfe */
 
         --secondary: 0 0% 96%; /* HSL(0, 0%, 96%) | HEX: #F6F6F6 */
         --secondary-foreground: 0 0% 15%; /* HSL(0, 0%, 15%) | HEX: #262626 */
