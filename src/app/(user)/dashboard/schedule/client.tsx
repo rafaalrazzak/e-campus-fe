@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import { Fragment, memo, useMemo, useState } from "react";
 import { addDays, startOfWeek, isSameDay, isToday } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { CardTitle } from "@/components/ui/card";
@@ -15,7 +15,7 @@ const HOURS = Array.from({ length: 24 }, (_, i) => i);
 const MOBILE_DAYS = 3;
 const DESKTOP_DAYS = 7;
 
-const ScheduleEvent = React.memo(({ event }: { event: Schedule }) => (
+const ScheduleEvent = memo(({ event }: { event: Schedule }) => (
     <div className="absolute inset-0 m-1 p-1 bg-primary/10 text-primary text-xs rounded overflow-hidden hover:bg-primary/30 cursor-pointer" style={{ height: `${(event.duration / 60) * 100}%` }}>
         <div className="text-secondary-foreground">
             {dateFormat(event.date, "HH:mm")} - {dateFormat(new Date(event.date.getTime() + event.duration * 60000), "HH:mm")}
@@ -25,14 +25,14 @@ const ScheduleEvent = React.memo(({ event }: { event: Schedule }) => (
     </div>
 ));
 
-const DayHeader = React.memo(({ day }: { day: Date }) => (
+const DayHeader = memo(({ day }: { day: Date }) => (
     <div className="flex items-center justify-center gap-2 h-full">
         <span className="text-sm text-secondary-foreground">{dateFormat(day, "EEE")}</span>
         <div className={cn("flex items-center justify-center w-8 h-8 rounded-full", isToday(day) ? "bg-primary text-white font-semibold" : "hover:bg-secondary")}>{dateFormat(day, "d")}</div>
     </div>
 ));
 
-const TimeColumn = React.memo(({ hour }: { hour: number }) => (
+const TimeColumn = memo(({ hour }: { hour: number }) => (
     <div className="sticky left-0 bg-white z-10 pr-2 py-3 text-center">
         <span className="text-xs text-secondary-foreground">{hour.toString().padStart(2, "0")}:00</span>
     </div>
@@ -87,7 +87,7 @@ export const WeeklyCalendar = ({ events = [] }: { events: Schedule[] }) => {
             <ScrollArea className="h-[calc(100vh-15rem)] p-4">
                 <div className={cn("grid", gridColumns)}>
                     {HOURS.map((hour) => (
-                        <React.Fragment key={hour}>
+                        <Fragment key={hour}>
                             <TimeColumn hour={hour} />
                             {days.map((day, dayIndex) => (
                                 <div
@@ -101,7 +101,7 @@ export const WeeklyCalendar = ({ events = [] }: { events: Schedule[] }) => {
                                         ))}
                                 </div>
                             ))}
-                        </React.Fragment>
+                        </Fragment>
                     ))}
                 </div>
             </ScrollArea>
