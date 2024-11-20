@@ -14,7 +14,7 @@ interface AutoRefreshQRDisplayProps {
     className?: string;
 }
 
-export function AutoRefreshQRDisplay({ courseId, className }: AutoRefreshQRDisplayProps) {
+function AutoRefreshQRDisplay({ courseId, className }: AutoRefreshQRDisplayProps) {
     const { qrCode, isExpired, timeLeft, error, refreshQR } = useAutoRefreshQR(courseId);
 
     if (error) {
