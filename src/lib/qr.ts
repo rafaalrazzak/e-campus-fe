@@ -45,7 +45,6 @@ export class QRGenerator {
             nonce,
         };
 
-        console.log(payload);
 
         const signature = await this.sign(payload);
 
