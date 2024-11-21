@@ -4,7 +4,7 @@ export const URLS = {
     visionMission: "/vision-mission",
     curriculum: "/curriculum",
     academnic: {
-        BASE: "/academic",
+        base: "/academic",
         courses: {
             list: "/academic/courses",
             detail: (courseId: string) => `/academic/courses/${courseId}`,
@@ -20,7 +20,7 @@ export const URLS = {
         detail: (researchId: string) => `/research/${researchId}`,
     },
     dashboard: {
-        BASE: "/dashboard",
+        base: "/dashboard",
         schedule: "/dashboard/schedule",
         settings: "/dashboard/settings",
         accademic: {

@@ -16,6 +16,7 @@ const config: Config = {
                 primary: {
                     DEFAULT: "hsl(var(--primary))",
                     foreground: "hsl(var(--primary-foreground))",
+                    light: "hsl(var(--primary-light))",
                 },
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
@@ -44,6 +45,16 @@ const config: Config = {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
+                sidebar: {
+                    DEFAULT: "hsl(var(--sidebar-background))",
+                    foreground: "hsl(var(--sidebar-foreground))",
+                    primary: "hsl(var(--sidebar-primary))",
+                    "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+                    accent: "hsl(var(--sidebar-accent))",
+                    "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+                    border: "hsl(var(--sidebar-border))",
+                    ring: "hsl(var(--sidebar-ring))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -68,16 +79,47 @@ const config: Config = {
                     },
                 },
                 "fade-in": {
-                    from: { opacity: "0" },
-                    to: { opacity: "1" },
+                    from: {
+                        opacity: "0",
+                    },
+                    to: {
+                        opacity: "1",
+                    },
                 },
                 "scale-in": {
-                    "0%": { transform: "scale(0.95)" },
-                    "100%": { transform: "scale(1)" },
+                    "0%": {
+                        transform: "scale(0.95)",
+                    },
+                    "100%": {
+                        transform: "scale(1)",
+                    },
                 },
                 "slide-up-fade": {
-                    "0%": { opacity: "0", transform: "translateY(2px)" },
-                    "100%": { opacity: "1", transform: "translateY(0)" },
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(2px)",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateY(0)",
+                    },
+                },
+                scanX: {
+                    to: {
+                        transform: "translateX(-100%)",
+                        left: "100%",
+                    },
+                },
+                scanY: {
+                    "33%": {
+                        clipPath: "inset(0 0 0 -100px)",
+                    },
+                    "50%": {
+                        clipPath: "inset(0 0 0 0)",
+                    },
+                    "83%": {
+                        clipPath: "inset(0 -100px 0 0)",
+                    },
                 },
             },
             animation: {

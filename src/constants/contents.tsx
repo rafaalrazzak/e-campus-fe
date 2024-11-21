@@ -12,7 +12,7 @@ export type NavLink = {
 export const navLinks: NavLink[] = [
     { href: "/", label: "Beranda" },
     {
-        href: URLS.academnic.BASE,
+        href: URLS.academnic.base,
         label: "Akademik",
         children: [
             {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
-import { Navbar } from "@/components/common";
 
 import { Inter } from "next/font/google";
 
@@ -23,8 +22,7 @@ export default function RootLayout({
         <html lang="en">
             <Providers>
                 <body className={`${inter.className} antialiased`}>
-                    <Navbar />
-                    <main className="mx-auto flex flex-col gap-8 pb-8">{children}</main>
+                    <main className="flex flex-col gap-8">{children}</main>
                 </body>
             </Providers>
         </html>

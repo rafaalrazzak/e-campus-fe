@@ -3,28 +3,18 @@
 import type { BadgeProps } from "@/components/ui";
 
 import { Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import { cn, getTimeRange } from "@/lib/utils";
+import { Course, CourseAttendance } from "@/types/course";
 
 import { format } from "date-fns";
 import { Book, BookOpenText, CalendarIcon, CheckCircleIcon, ClockIcon, MapPinIcon, QrCodeIcon, User, UsersIcon } from "lucide-react";
 import { useCallback, type ReactNode } from "react";
-
-type Status = "inactive" | "active" | "done";
-type Attendance = "Hadir" | "Tidak Hadir" | "Belum Hadir" | "Izin" | "Sakit";
+import { useQRAttendanceModal } from "../modals/attendance";
+import { AttendanceRecord } from "@/types/attendance";
 
 export type SubjectCardProps = {
-    status: Status;
-    duration: string;
-    attendance: Attendance;
-    timeRange: string;
-    subject: string;
-    topic: string;
-    instructor: string;
-    room: string;
-    participants: number;
-    linkCourse: string;
-    onScan?: () => void;
-};
+    onScan?: (record: AttendanceRecord) => Promise<void>;
+} & Course;
 
 type InfoItemProps = {
     icon: ReactNode;
@@ -56,7 +46,7 @@ const InfoItem = ({ icon, text, size, bold, color = "secondary" }: InfoItemProps
 );
 
 const statusConfig: Record<
-    Status,
+    Course["status"],
     {
         color: string;
         text: string;
@@ -84,55 +74,60 @@ const statusConfig: Record<
     },
 };
 
-export const SubjectCard = ({ status, duration, attendance, timeRange, subject, topic, instructor, room, participants, linkCourse, onScan }: SubjectCardProps) => {
+export const SubjectCard = ({ status, duration, attendance, subjectName, topic, date, instructor, room, participants, linkCourse, onScan }: SubjectCardProps) => {
     const { color, text, badgeVariant, textColor } = statusConfig[status];
 
+    const { QRModal, setShowQRModal } = useQRAttendanceModal();
+
     return (
-        <Card>
-            <CardHeader className={cn("-m-4 p-4", color, textColor)}>
-                <div className="flex items-center justify-between gap-4">
-                    <CardTitle className="text-xl font-bold">{subject}</CardTitle>
-                    <Badge size="sm" variant={badgeVariant} className="shrink-0 text-xs font-semibold">
-                        {text}
-                    </Badge>
-                </div>
-            </CardHeader>
+        <>
+            <QRModal courseId={subjectName} onAttendanceRecord={onScan} />
+            <Card>
+                <CardHeader className={cn("-m-4 p-4", color, textColor)}>
+                    <div className="flex items-center justify-between gap-4">
+                        <CardTitle className="text-xl font-bold truncate">{subjectName}</CardTitle>
+                        <Badge size="sm" variant={badgeVariant} className="shrink-0 text-xs font-semibold">
+                            {text}
+                        </Badge>
+                    </div>
+                </CardHeader>
 
-            <CardContent className="my-4 flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                    <InfoItem icon={<ClockIcon className="size-5" />} text={timeRange} color="dark" size="lg" bold />
-                    <Badge size="sm" variant={attendance === "Hadir" ? "success" : "warning"} className="shrink-0">
-                        {attendance}
-                    </Badge>
-                </div>
+                <CardContent className="my-4 flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        <InfoItem icon={<ClockIcon className="size-5" />} text={getTimeRange(date, duration)} color="dark" size="lg" bold />
+                        <Badge size="sm" variant={attendance === CourseAttendance.Present ? "success" : "warning"} className="shrink-0">
+                            {attendance}
+                        </Badge>
+                    </div>
 
-                <p className="line-clamp-2 text-lg font-medium">{topic}</p>
+                    <p className="line-clamp-2 text-lg font-medium">{topic}</p>
 
-                <div className="grid grid-cols-2 gap-3">
-                    <InfoItem icon={<User className="size-4" />} text={instructor} size="sm" />
-                    <InfoItem icon={<MapPinIcon className="size-4" />} text={room} size="sm" />
-                    <InfoItem icon={<UsersIcon className="size-4" />} text={`${participants} mahasiswa/i`} size="sm" />
-                    <InfoItem icon={<CalendarIcon className="size-4 text-muted-foreground" />} text={duration} size="sm" />
-                </div>
-            </CardContent>
+                    <div className="grid grid-cols-2 gap-3">
+                        <InfoItem icon={<User className="size-4" />} text={instructor} size="sm" />
+                        <InfoItem icon={<MapPinIcon className="size-4" />} text={room} size="sm" />
+                        <InfoItem icon={<UsersIcon className="size-4" />} text={`${participants} mahasiswa/i`} size="sm" />
+                        <InfoItem icon={<CalendarIcon className="size-4 text-muted-foreground" />} text={`${duration} menit`} size="sm" />
+                    </div>
+                </CardContent>
 
-            <CardFooter className="gap-2">
-                {status === "done" ? (
-                    <Button variant="outline" size="full" disabled className="grow">
-                        <CheckCircleIcon className="size-4" />
-                        Kehadiran Tercatat
+                <CardFooter className="gap-2">
+                    {status === "done" ? (
+                        <Button variant="outline" size="full" disabled className="grow">
+                            <CheckCircleIcon className="size-4" />
+                            Kehadiran Tercatat
+                        </Button>
+                    ) : (
+                        <Button variant={status === "active" ? "primary" : "secondary"} size="full" onClick={() => setShowQRModal(true)} disabled={status !== "active"} className="grow">
+                            <QrCodeIcon className="size-4" />
+                            {status === "active" ? "Scan Kehadiran" : "Belum Dapat Scan"}
+                        </Button>
+                    )}
+                    <Button asLink variant="secondary" size="icon" className="shrink-0" href={linkCourse}>
+                        <BookOpenText className="size-4" />
                     </Button>
-                ) : (
-                    <Button variant={status === "active" ? "primary" : "secondary"} size="full" onClick={onScan} disabled={status !== "active"} className="grow">
-                        <QrCodeIcon className="size-4" />
-                        {status === "active" ? "Scan Kehadiran" : "Belum Dapat Scan"}
-                    </Button>
-                )}
-                <Button asLink variant="secondary" size="icon" className="shrink-0" href={linkCourse}>
-                    <BookOpenText className="size-4" />
-                </Button>
-            </CardFooter>
-        </Card>
+                </CardFooter>
+            </Card>
+        </>
     );
 };
 

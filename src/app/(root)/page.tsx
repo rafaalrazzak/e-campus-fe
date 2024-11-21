@@ -30,7 +30,7 @@ const blogPosts = [
         icon: "🏆",
         date: "Jumat, 16 Agustus 2024, 14:00",
         title: "Prestasi Mahasiswa dalam Kompetisi Nasional",
-        content: "Selamat kepada mahasiswa STT Nurul Fikri yang telah meraih juara dalam kompetisi programming tingkat nasional.",
+        content: "Selamat kepada mahasiswa Kita University yang telah meraih juara dalam kompetisi programming tingkat nasional.",
         links: [{ text: "Daftar Pemenang Kompetisi.pdf", url: "#" }],
     },
 ];
@@ -90,7 +90,7 @@ export default function Home() {
                     <div className="flex items-center">
                         <div className="text-primary-foreground">
                             <span className="text-sm">Fasilitas</span>
-                            <h2 className="text-2xl font-bold">Kampus STT Nurul Fikri</h2>
+                            <h2 className="text-2xl font-bold">Kampus Kita University</h2>
                         </div>
                     </div>
 
@@ -127,7 +127,7 @@ export default function Home() {
                 <section className="flex flex-col gap-8 rounded-2xl border p-8">
                     <div className="flex flex-col items-center space-y-4">
                         <h2 className="text-2xl font-bold">Riset dan Penelitian</h2>
-                        <p className="max-w-lg text-center">STT Nurul Fikri memiliki berbagai program riset dan penelitian yang dilakukan oleh dosen dan mahasiswa.</p>
+                        <p className="max-w-lg text-center">Kita University memiliki berbagai program riset dan penelitian yang dilakukan oleh dosen dan mahasiswa.</p>
                     </div>
 
                     <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
