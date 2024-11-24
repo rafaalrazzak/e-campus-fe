@@ -195,12 +195,12 @@ export const ContentItem: React.FC<{
                     <div className="flex flex-wrap gap-2">
                         {item.openTime && (
                             <Badge variant="muted" size="xs" className="bg-yellow-100 text-yellow-800" leftIcon={<Lock className="size-3" />}>
-                                Opens: {formatDate(item.openTime, true)}
+                                Dibuka: {formatDate(item.openTime, true)}
                             </Badge>
                         )}
                         {item.dueTime && (
                             <Badge variant="muted" size="xs" className="bg-red-100 text-red-800" leftIcon={<Calendar className="size-3" />}>
-                                Due: {formatDate(item.dueTime, true)}
+                                Tenggat: {formatDate(item.dueTime, true)}
                             </Badge>
                         )}
                     </div>
