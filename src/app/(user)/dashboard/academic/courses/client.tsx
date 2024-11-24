@@ -1,25 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import { Progress, ScrollArea } from "@/components/ui";
-import { CourseCard } from "@/components/common/course";
-import { FilterBar } from "@/components/common/filters/filter-bar";
-import { getDayName } from "@/lib/utils";
+import React, { useCallback, useMemo, useState, useTransition } from "react";
+import { useRouterStuff } from "@/hooks";
 import { MOCK_COURSES } from "@/lib/mocks";
+import { getDayName } from "@/lib/utils";
+import { CourseHeader, CourseSearch, CourseFiltersBar, CourseList, CourseFilters } from "@/components/common/course";
 import { Course } from "@/types/course";
-
-type GroupByType = "none" | "date";
-type SortByType = "none" | "progress";
-
-interface Filters {
-    groupBy: GroupByType;
-    sortBy: SortByType;
-}
+import { useDebounceValue } from "@/hooks";
 
 const FILTER_SETTINGS = [
     {
         id: "groupBy",
-        label: "Group By",
+        label: "Grup Berdasarkan",
         type: "radio" as const,
         options: [
             { value: "none", label: "None" },
@@ -28,7 +20,7 @@ const FILTER_SETTINGS = [
     },
     {
         id: "sortBy",
-        label: "Sort By",
+        label: "Urutkan Berdasarkan",
         type: "radio" as const,
         options: [
             { value: "none", label: "None" },
@@ -37,53 +29,104 @@ const FILTER_SETTINGS = [
     },
 ];
 
-// Helper functions for grouping and sorting content
-const groupByDay = (content: Course[]): Record<string, Course[]> =>
-    content.reduce(
-        (acc, item) => {
-            const dayName = getDayName(new Date(item.date));
-            (acc[dayName] ||= []).push(item);
-            return acc;
+const TOTAL_COURSES = MOCK_COURSES.length;
+const COMPLETED_COUNT = MOCK_COURSES.reduce((count, course) => (course.progress === 100 ? count + 1 : 0), 0);
+
+const useCoursesFilter = (initialFilters: Partial<CourseFilters>) => {
+    const [filters, setFilters] = useState(initialFilters);
+    const [isPending, startTransition] = useTransition();
+
+    // Memoize the search term to prevent unnecessary recalculations
+    const debouncedSearch = useDebounceValue(filters.search || "", 300);
+
+    const processedCourses = useMemo(() => {
+        // Only filter if there's a search term
+        const filtered = debouncedSearch
+            ? MOCK_COURSES.filter((course) => {
+                  const term = debouncedSearch.toLowerCase();
+                  return course.subjectName.toLowerCase().includes(term) || course.instructor.toLowerCase().includes(term);
+              })
+            : MOCK_COURSES;
+
+        // Sort if needed
+        const sorted = filters.sortBy === "progress" ? [...filtered].sort((a, b) => b.progress - a.progress) : filtered;
+
+        // Group if needed
+        if (filters.groupBy !== "date") {
+            return { All: sorted };
+        }
+
+        // Use reduce for single pass grouping
+        return sorted.reduce(
+            (groups, course) => {
+                const dayName = getDayName(new Date(course.date));
+                if (!groups[dayName]) groups[dayName] = [];
+                groups[dayName].push(course);
+                return groups;
+            },
+            {} as Record<string, Course[]>
+        );
+    }, [debouncedSearch, filters.sortBy, filters.groupBy]);
+
+    return {
+        filters,
+        setFilters,
+        processedCourses,
+        isPending,
+    };
+};
+
+const CourseGroup = React.memo(({ group, courses, showGroupHeader }: { group: string; courses: Course[]; showGroupHeader: boolean }) => (
+    <div key={group}>
+        {showGroupHeader && <h2 className="text-lg font-semibold mb-2">{group === "All" ? "All Schedules" : `Hari ${group}`}</h2>}
+        <CourseList courses={courses} />
+    </div>
+));
+CourseGroup.displayName = "CourseGroup";
+
+export const CourseListPage: React.FC = () => {
+    const { searchParamsObj, queryParams } = useRouterStuff();
+
+    const initialFilters: Partial<CourseFilters> = {
+        search: searchParamsObj.search || "",
+        groupBy: (searchParamsObj.groupBy as CourseFilters["groupBy"]) || "none",
+        sortBy: (searchParamsObj.sortBy as CourseFilters["sortBy"]) || "none",
+        view: "all",
+    };
+
+    const { filters, setFilters, processedCourses, isPending } = useCoursesFilter(initialFilters);
+
+    // Memoize handlers to prevent unnecessary re-renders
+    const handleSearchChange = useCallback(
+        (value: string) => {
+            queryParams({ set: { search: value }, replace: true });
+            setFilters((prev) => ({ ...prev, search: value }));
         },
-        {} as Record<string, Course[]>
+        [queryParams]
     );
 
-const sortByProgress = (content: Course[]): Course[] => [...content].sort((a, b) => b.progress - a.progress);
-
-export const CourseContent: React.FC = () => {
-    const [filters, setFilters] = useState<Filters>({ groupBy: "none", sortBy: "none" });
-
-    // Apply sorting and grouping based on filters
-    let displayedContent = MOCK_COURSES;
-    if (filters.sortBy === "progress") displayedContent = sortByProgress(displayedContent);
-    const groupedContent = filters.groupBy === "date" ? groupByDay(displayedContent) : { All: displayedContent };
+    const handleFilterChange = useCallback(
+        <K extends keyof CourseFilters>(key: K, value: Partial<CourseFilters>[K]) => {
+            queryParams({ set: { [key]: value || "" }, replace: true });
+            setFilters((prev) => ({ ...prev, [key]: value }));
+        },
+        [queryParams]
+    );
 
     return (
         <div className="p-4 flex flex-col gap-4">
-            <header className="border-b pb-4">
-                <h1 className="text-2xl font-semibold">Mata Kuliah Saya</h1>
-                <Progress value={60} className="w-full h-2 my-2" />
-                <p className="text-sm text-secondary-foreground">3 dari 5 item selesai</p>
-            </header>
+            <CourseHeader title="My Courses" completed={COMPLETED_COUNT} total={TOTAL_COURSES} />
 
-            <div className="flex justify-end">
-                <FilterBar filters={filters} onChange={(key, value) => setFilters((prev) => ({ ...prev, [key]: value }))} settings={FILTER_SETTINGS} variant="popover" />
+            <div className="flex justify-between gap-2">
+                <CourseSearch value={filters.search || ""} onChange={handleSearchChange} disabled={isPending} />
+                <CourseFiltersBar filtersOptions={FILTER_SETTINGS} filters={filters} onChange={handleFilterChange} />
             </div>
 
-            <ScrollArea className="h-[calc(100vh-18.5rem)]">
-                <div className="space-y-4">
-                    {Object.entries(groupedContent).map(([group, items]) => (
-                        <div key={group}>
-                            {filters.groupBy === "date" && <h2 className="text-lg font-semibold mb-2">{group === "All" ? "Semua Jadwal" : `Hari ${getDayName(new Date(items[0].date))}`}</h2>}
-                            <div className="grid md:grid-cols-2 gap-4">
-                                {items.map((item, idx) => (
-                                    <CourseCard key={idx} {...item} />
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </ScrollArea>
+            <div className="space-y-4">
+                {Object.entries(processedCourses).map(([group, courses]) => (
+                    <CourseGroup key={group} group={group} courses={courses} showGroupHeader={filters.groupBy === "date"} />
+                ))}
+            </div>
         </div>
     );
 };
