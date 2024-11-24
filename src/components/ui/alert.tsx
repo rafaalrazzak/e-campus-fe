@@ -8,6 +8,7 @@ const alertVariants = cva("relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 
         variant: {
             default: "bg-background text-foreground",
             success: "border-green-500/50 text-green-500 dark:border-green-500 [&>svg]:text-green-500",
+            warning: "border-yellow-500/50 text-yellow-500 dark:border-yellow-500 [&>svg]:text-yellow-500",
             destructive: "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
         },
     },
