@@ -15,7 +15,7 @@ const FILTER_SETTINGS = [
         type: "radio" as const,
         options: [
             { value: "none", label: "None" },
-            { value: "date", label: "Date" },
+            { value: "date", label: "Hari" },
         ],
     },
     {
@@ -24,7 +24,7 @@ const FILTER_SETTINGS = [
         type: "radio" as const,
         options: [
             { value: "none", label: "None" },
-            { value: "progress", label: "Progress" },
+            { value: "progress", label: "Progres" },
         ],
     },
 ];

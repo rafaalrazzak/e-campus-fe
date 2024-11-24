@@ -54,9 +54,9 @@ export const FILTER_SETTINGS: readonly FilterSetting[] = [
         label: "View",
         type: "radio",
         options: [
-            { value: "all", label: "All Content" },
-            { value: "active", label: "In Progress" },
-            { value: "completed", label: "Completed" },
+            { value: "all", label: "Semua" },
+            { value: "active", label: "Dalam Progres" },
+            { value: "completed", label: "Selesai" },
         ],
     },
     {
@@ -65,9 +65,9 @@ export const FILTER_SETTINGS: readonly FilterSetting[] = [
         type: "radio",
         options: [
             { value: "none", label: "None" },
-            { value: "category", label: "Category" },
-            { value: "type", label: "Type" },
-            { value: "date", label: "Date" },
+            { value: "category", label: "Kategori" },
+            { value: "type", label: "Tipe" },
+            { value: "date", label: "Hari" },
         ],
     },
 ] as const;
