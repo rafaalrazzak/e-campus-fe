@@ -19,13 +19,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
     const inputType = isPassword && showPassword ? "text" : type;
 
     return (
-        <div className="w-full">
+        <div className="size-full">
             {label && (
                 <label htmlFor={inputId} className="block text-sm font-medium text-muted-foreground">
                     {label}
                 </label>
             )}
-            <div className="relative">
+            <div className="relative size-full">
                 {leftIcon && <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">{leftIcon}</div>}
                 <input
                     ref={ref}
