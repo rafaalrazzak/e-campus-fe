@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useCallback, useMemo, useState } from "react";
-import Link from "next/link";
-import { Badge, Card, CardHeader, ScrollArea } from "@/components/ui";
+import { Card, CardHeader, ScrollArea } from "@/components/ui";
 import { FilterBar } from "@/components/common/filters/filter-bar";
-import { FileText, Video, CheckCircle, Calendar, Lock, PenTool, FileCode, Grid2x2, LayoutList } from "lucide-react";
+import { Grid2x2, LayoutList } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { URLS } from "@/constants/urls";
 import { MOCK_COURSE } from "@/lib/mocks";
 import { CourseContent } from "@/types/course";
-import { CourseHeader } from "@/components/common/course";
+import { ContentItem, CourseHeader } from "@/components/common/course";
 import { useRouterStuff } from "@/hooks";
 
 // Types and Constants
@@ -18,13 +16,6 @@ type CourseFilters = {
     groupBy: "category" | "type" | "date" | "none";
     layout: "grid" | "list";
 };
-
-const CONTENT_ICONS = {
-    document: <FileText className="w-5 h-5 text-emerald-500" />,
-    video: <Video className="w-5 h-5 text-violet-500" />,
-    task: <PenTool className="w-5 h-5 text-orange-500" />,
-    quiz: <FileCode className="w-5 h-5 text-red-500" />,
-} as const;
 
 const FILTER_SETTINGS = [
     {
@@ -128,36 +119,6 @@ const useContentProcessor = (content: readonly CourseContent[]) => {
     };
 };
 
-const ContentItem = React.memo<{ item: CourseContent }>(({ item }) => (
-    <Link href={URLS.dashboard.accademic.courses.dynamicPage("test", item.type, item.id)} className="flex items-center justify-between p-3 hover:bg-secondary/50 rounded-sm">
-        <div className="flex items-center gap-3">
-            <span className="shrink-0">{CONTENT_ICONS[item.type]}</span>
-            <div>
-                <span className="font-medium">{item.title}</span>
-                <div className="flex flex-col gap-2 text-xs text-muted-foreground">
-                    <span>{formatDate(new Date(item.date))}</span>
-                    <div className="flex flex-wrap gap-2">
-                        {item.openTime && (
-                            <Badge variant="muted" size="xs" className="bg-yellow-100 text-yellow-800">
-                                <Lock className="size-3 mr-1" />
-                                Opens: {formatDate(item.openTime, true)}
-                            </Badge>
-                        )}
-                        {item.dueTime && (
-                            <Badge variant="muted" size="xs" className="bg-red-100 text-red-800">
-                                <Calendar className="size-3 mr-1" />
-                                Due: {formatDate(item.dueTime, true)}
-                            </Badge>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {item.done && <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />}
-    </Link>
-));
-ContentItem.displayName = "ContentItem";
-
 const ContentGroup = React.memo<{
     title: string;
     items: readonly CourseContent[];
@@ -188,13 +149,13 @@ export const CourseDetail: React.FC = () => {
 
     return (
         <>
-            <div className="border-b p-4">
+            <div className="flex flex-col gap-4 border-b p-4">
                 <CourseHeader title={course.subjectName} code={course.code} instructor={course.instructor} completed={completedItems} total={totalItems} />
                 <div className="flex justify-end">
                     <FilterBar filters={filters} onChange={updateFilters} settings={FILTER_SETTINGS} variant="popover" />
                 </div>
             </div>
-            <ScrollArea className="p-4 h-[calc(100vh-18.5rem)]">
+            <ScrollArea className="p-4 h-[calc(100vh-21.5rem)] lg:h-[calc(100vh-19rem)]">
                 <div className="space-y-4">
                     {Object.entries(processedContent).map(([group, items]) => (
                         <ContentGroup key={group} title={group} items={items} layout={filters.layout} />
