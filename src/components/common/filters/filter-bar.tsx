@@ -24,9 +24,8 @@ export const FilterBar = <T extends Record<string, any>>({ filters, settings, on
         return (
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant="outline" size="sm" className="gap-2">
-                        <Settings2 className="w-4 h-4" />
-                        Settings
+                    <Button variant="outline" size="fit" leftIcon={<Settings2 className="w-4 h-4" />} className="px-4">
+                        Pengaturan
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-72">{content}</PopoverContent>
