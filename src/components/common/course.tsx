@@ -1,5 +1,5 @@
 import { Button, Badge, CardHeader, Input, Card, CardContent, CardFooter, CardTitle, Progress } from "@/components/ui";
-import { formatDate, getDayName, getTimeRange } from "@/lib/utils";
+import { cn, formatDate, getDayName, getTimeRange } from "@/lib/utils";
 import { Course } from "@/types/course";
 import { CalendarDays, Clock, BookOpen, User } from "lucide-react";
 import React from "react";
@@ -121,37 +121,25 @@ export const groupContent = (content: readonly CourseContent[], groupBy: CourseF
     );
 };
 
-export const CourseCard: React.FC<Course> = ({ subjectName, instructor, date, duration, progress, linkCourse }) => {
+export const CourseCard: React.FC<Course> = ({ subjectName, instructor, date, duration, progress, linkCourse, code }) => {
     return (
-        <Card>
-            <CardContent className="flex flex-col gap-3">
-                <CardTitle className="line-clamp-1">{subjectName}</CardTitle>
+        <Link href={linkCourse}>
+            <Card className="cursor-pointer hover:bg-secondary/50">
+                <CardHeader>
+                    <h3 className="font-semibold">{subjectName}</h3>
+                    <p className="text-sm text-muted-foreground">
+                        {code} - {instructor}
+                    </p>
 
-                <div className="flex flex-col gap-2 text-secondary-foreground">
-                    <div className="flex items-center gap-1">
-                        <User size={16} /> {instructor}
+                    <div className="flex gap-1 text-xs text-muted-foreground">
+                        <span>Hari {getDayName(date)}</span>
+                        <span>&#x2022;</span>
+                        <span>Jam {getTimeRange(date, duration)}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <CalendarDays size={16} /> {getDayName(date)}
-                        <Clock size={16} /> {getTimeRange(date, duration)}
-                    </div>
-                </div>
-
-                <div className="text-muted-foreground">
-                    <Progress value={progress} className="w-full h-2 my-2" />
-                    <div className="flex justify-between text-xs font-medium">
-                        <span>Progress</span>
-                        <span>{progress}%</span>
-                    </div>
-                </div>
-            </CardContent>
-
-            <CardFooter>
-                <Button asLink href={linkCourse} size="full" variant="secondary-primary" leftIcon={<BookOpen size={16} />}>
-                    Lihat Detail
-                </Button>
-            </CardFooter>
-        </Card>
+                    <CourseProgress completed={Math.floor(progress)} total={100} className="mt-2" />
+                </CardHeader>
+            </Card>
+        </Link>
     );
 };
 
@@ -160,11 +148,14 @@ export const CourseProgress: React.FC<{
     total: number;
     className?: string;
 }> = ({ completed, total, className }) => (
-    <div className={className}>
+    <div className={cn("flex flex-col gap-2", className)}>
         <Progress value={(completed / total) * 100} className="h-2" />
-        <p className="text-sm text-muted-foreground mt-2">
-            {completed} dari {total} item selesai
-        </p>
+        <div className="flex justify-between text-xs text-muted-foreground">
+            <p>
+                {completed} dari {total} item selesai
+            </p>
+            <span>{total - completed}%</span>
+        </div>
     </div>
 );
 
@@ -246,7 +237,7 @@ export const CourseSearch: React.FC<{
     disabled?: boolean;
 }> = ({ value, onChange, disabled }) => (
     <Input
-        placeholder="Cari kursus..."
+        placeholder="Cari mata kuliah..."
         className="size-full lg:max-w-64"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -266,23 +257,7 @@ export const CourseList: React.FC<{
 }> = ({ courses }) => (
     <div className="grid md:grid-cols-2 gap-4">
         {courses.map((course) => (
-            <Link key={course.id} href={URLS.dashboard.accademic.courses.detail(course.code)}>
-                <Card key={course.id} className="cursor-pointer hover:bg-secondary/50">
-                    <CardHeader>
-                        <h3 className="font-semibold">{course.subjectName}</h3>
-                        <p className="text-sm text-muted-foreground">
-                            {course.code} - {course.instructor}
-                        </p>
-
-                        <div className="flex gap-1 text-xs text-muted-foreground">
-                            <span>Hari {getDayName(course.date)}</span>
-                            <span>&#x2022;</span>
-                            <span>Jam {getTimeRange(course.date, course.duration)}</span>
-                        </div>
-                        <CourseProgress completed={Math.floor(course.progress)} total={100} className="mt-2" />
-                    </CardHeader>
-                </Card>
-            </Link>
+            <CourseCard key={course.id} {...course} />
         ))}
     </div>
 );
