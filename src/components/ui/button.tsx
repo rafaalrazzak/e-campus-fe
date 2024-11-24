@@ -75,6 +75,7 @@ type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
+    loading?: boolean;
 } & (
         | {
               asLink?: false;
@@ -97,7 +98,7 @@ type ButtonBaseProps = VariantProps<typeof buttonVariants> & {
 
 type ButtonProps = ButtonBaseProps & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href"> & Partial<Pick<LinkProps, "href">>;
 
-const Button = React.forwardRef<HTMLElement, ButtonProps>(({ className, variant, size, asChild = false, asLink = false, leftIcon, rightIcon, children, rounded, border, ...props }, ref) => {
+const Button = React.forwardRef<HTMLElement, ButtonProps>(({ className, variant, size, loading, asChild = false, asLink = false, leftIcon, rightIcon, children, rounded, border, ...props }, ref) => {
     const Comp = asChild ? motion.create(Slot) : asLink ? motion.create(Link) : motion.button;
 
     const baseClasses = cn(buttonVariants({ border, variant, size, className, rounded }), "overflow-hidden relative");
@@ -113,9 +114,19 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({ className, variant,
             {...props}
         >
             <span className="relative z-10 flex items-center gap-1">
-                {leftIcon && <span>{leftIcon}</span>}
-                {children}
-                {rightIcon && <span>{rightIcon}</span>}
+                {loading ? (
+                    <span className="flex items-center gap-2">
+                        <span className="size-2 bg-current rounded-full animate-pulse" />
+                        <span className="size-2 bg-current rounded-full animate-pulse" />
+                        <span className="size-2 bg-current rounded-full animate-pulse" />
+                    </span>
+                ) : (
+                    <>
+                        {leftIcon && <span>{leftIcon}</span>}
+                        {children}
+                        {rightIcon && <span>{rightIcon}</span>}
+                    </>
+                )}
             </span>
         </Comp>
     );
