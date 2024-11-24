@@ -1,14 +1,12 @@
 {
-    "name": "e-campus-fe",
-    "version": "0.1.0",
+    "name": "@kita/ecampus-frontend",
+    "version": "1.0.0",
     "private": true,
-    "contributors": [
-        {
-            "name": "Rafa Al Razzak",
-            "email": "rafaar@kita.blue",
-            "url": "https://kita.blue"
-        }
-    ],
+    "license": "Apache-2.0",
+    "author": {
+        "name": "Rafa Al Razzak",
+        "email": "rafaar@kita.blue"
+    },
     "scripts": {
         "preinstall": "bun --version || curl https://bun.sh/install | bash",
         "prepare": "husky",
