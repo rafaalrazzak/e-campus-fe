@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Suspense, useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
-import { Progress, Badge, Card, CardHeader, ScrollArea } from "@/components/ui";
+import { Badge, Card, CardHeader, ScrollArea } from "@/components/ui";
 import { FilterBar } from "@/components/common/filters/filter-bar";
 import { FileText, Video, CheckCircle, Calendar, Lock, PenTool, FileCode, Grid2x2, LayoutList } from "lucide-react";
 import { formatDate } from "@/lib/utils";
@@ -187,7 +187,7 @@ export const CourseDetail: React.FC = () => {
     const { filters, updateFilters, processedContent } = useContentProcessor(course.content);
 
     return (
-        <Suspense>
+        <>
             <div className="border-b p-4">
                 <CourseHeader title={course.subjectName} code={course.code} instructor={course.instructor} completed={completedItems} total={totalItems} />
                 <div className="flex justify-end">
@@ -201,6 +201,6 @@ export const CourseDetail: React.FC = () => {
                     ))}
                 </div>
             </ScrollArea>
-        </Suspense>
+        </>
     );
 };

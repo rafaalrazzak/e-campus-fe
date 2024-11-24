@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useCallback, useMemo, useState, useTransition } from "react";
+import React, { useCallback, useMemo, useState, useTransition } from "react";
 import { useRouterStuff } from "@/hooks";
 import { MOCK_COURSES } from "@/lib/mocks";
 import { getDayName } from "@/lib/utils";
@@ -114,21 +114,19 @@ export const CourseListPage: React.FC = () => {
     );
 
     return (
-        <Suspense>
-            <div className="p-4 flex flex-col gap-4">
-                <CourseHeader title="My Courses" completed={COMPLETED_COUNT} total={TOTAL_COURSES} />
+        <div className="p-4 flex flex-col gap-4">
+            <CourseHeader title="My Courses" completed={COMPLETED_COUNT} total={TOTAL_COURSES} />
 
-                <div className="flex justify-between gap-2">
-                    <CourseSearch value={filters.search || ""} onChange={handleSearchChange} disabled={isPending} />
-                    <CourseFiltersBar filtersOptions={FILTER_SETTINGS} filters={filters} onChange={handleFilterChange} />
-                </div>
-
-                <div className="space-y-4">
-                    {Object.entries(processedCourses).map(([group, courses]) => (
-                        <CourseGroup key={group} group={group} courses={courses} showGroupHeader={filters.groupBy === "date"} />
-                    ))}
-                </div>
+            <div className="flex justify-between gap-2">
+                <CourseSearch value={filters.search || ""} onChange={handleSearchChange} disabled={isPending} />
+                <CourseFiltersBar filtersOptions={FILTER_SETTINGS} filters={filters} onChange={handleFilterChange} />
             </div>
-        </Suspense>
+
+            <div className="space-y-4">
+                {Object.entries(processedCourses).map(([group, courses]) => (
+                    <CourseGroup key={group} group={group} courses={courses} showGroupHeader={filters.groupBy === "date"} />
+                ))}
+            </div>
+        </div>
     );
 };
