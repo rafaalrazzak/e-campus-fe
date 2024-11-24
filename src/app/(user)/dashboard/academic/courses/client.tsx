@@ -115,7 +115,7 @@ export const CourseListPage: React.FC = () => {
 
     return (
         <div className="p-4 flex flex-col gap-4">
-            <CourseHeader title="My Courses" completed={COMPLETED_COUNT} total={TOTAL_COURSES} />
+            <CourseHeader title="Mata Kuliah Saya" completed={COMPLETED_COUNT} total={TOTAL_COURSES} />
 
             <div className="flex justify-between gap-2">
                 <CourseSearch value={filters.search || ""} onChange={handleSearchChange} disabled={isPending} />
