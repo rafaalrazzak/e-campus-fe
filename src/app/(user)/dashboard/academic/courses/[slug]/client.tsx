@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { Progress, Badge, Card, CardHeader, ScrollArea } from "@/components/ui";
 import { FilterBar } from "@/components/common/filters/filter-bar";
@@ -187,7 +187,7 @@ export const CourseDetail: React.FC = () => {
     const { filters, updateFilters, processedContent } = useContentProcessor(course.content);
 
     return (
-        <div>
+        <Suspense>
             <div className="border-b p-4">
                 <CourseHeader title={course.subjectName} code={course.code} instructor={course.instructor} completed={completedItems} total={totalItems} />
                 <div className="flex justify-end">
@@ -201,6 +201,6 @@ export const CourseDetail: React.FC = () => {
                     ))}
                 </div>
             </ScrollArea>
-        </div>
+        </Suspense>
     );
 };
