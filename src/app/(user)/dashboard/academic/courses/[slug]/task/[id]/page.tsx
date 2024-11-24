@@ -3,7 +3,7 @@ import { TaskSubmissionForm } from "./client";
 
 export default function SubmitTaskPage() {
     return (
-        <DashboardLayout title="Kirim Tugas" withPadding>
+        <DashboardLayout title="Kirim Tugas" withPadding withBreadcrumb>
             <TaskSubmissionForm />
         </DashboardLayout>
     );
