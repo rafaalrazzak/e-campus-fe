@@ -13,7 +13,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     return (
         <div className="relative items-center justify-center h-vh overflow-hidden">
             <Navbar />
-            <div className="flex flex-col h-full text-secondary-foreground">
+            <div className="flex flex-col h-full text-secondary-foreground items-center justify-center py-4">
                 <h2 className="mb-4 text-2xl font-semibold">Sepertinya terjadi kesalahan.</h2>
                 <Button onClick={reset}>Coba lagi</Button>
             </div>
