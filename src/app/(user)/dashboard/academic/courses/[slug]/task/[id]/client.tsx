@@ -47,7 +47,7 @@ const SuccessMessage = () => (
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-center flex flex-col gap-2">
             <h3 className="text-xl font-semibold text-green-500">Tugas Berhasil Dikirim!</h3>
-            <p className="text-secondary">Anda akan dialihkan ke dashboard mata kuliah...</p>
+            <p className="text-secondary-foreground">Anda akan dialihkan ke dashboard mata kuliah...</p>
         </motion.div>
     </motion.div>
 );
