@@ -9,8 +9,7 @@ export interface QuizState {
     timeElapsed: number;
     streak: number;
     isPaused: boolean;
-  }
-  
+}
 
 export interface Question {
     id: string;
