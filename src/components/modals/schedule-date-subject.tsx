@@ -7,7 +7,7 @@ import { Modal } from "@/components/ui";
 import { useScheduleModalContext } from "@/hooks/contexts";
 
 import { useCallback, useMemo } from "react";
-import { SubjectCalendar } from "../common/calendar-subject";
+import { SubjectCalendar } from "../common/subject-calendar";
 
 type ScheduleModalProps = {
     showModal: boolean;
