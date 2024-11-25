@@ -101,7 +101,7 @@ type ButtonProps = ButtonBaseProps & Omit<React.ButtonHTMLAttributes<HTMLButtonE
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({ className, variant, size, loading, asChild = false, asLink = false, leftIcon, rightIcon, children, rounded, border, ...props }, ref) => {
     const Comp = asChild ? motion.create(Slot) : asLink ? motion.create(Link) : motion.button;
 
-    const baseClasses = cn(buttonVariants({ border, variant, size, className, rounded }), "overflow-hidden relative");
+    const baseClasses = cn(buttonVariants({ border, variant, size, rounded }), "overflow-hidden relative", className);
 
     return (
         <Comp
