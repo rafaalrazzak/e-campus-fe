@@ -25,7 +25,7 @@ type ContentProps = {
     className?: string;
 };
 
-export const DrawerContent: React.FC<ContentProps> = ({ title, children, className }) => (
+ const DrawerContent: React.FC<ContentProps> = ({ title, children, className }) => (
     <Drawer.Content className={cn("bg-background border-t flex flex-col fixed bottom-0 left-0 right-0 max-h-[96%] rounded-t-[10px] z-50", className)}>
         <div className="sticky top-0 z-20 my-3 flex w-full flex-col items-center justify-center gap-2 rounded-t-[10px] bg-inherit">
             <div className="h-1 w-12 rounded-full bg-border" />
@@ -35,7 +35,7 @@ export const DrawerContent: React.FC<ContentProps> = ({ title, children, classNa
     </Drawer.Content>
 );
 
-export const DialogContent: React.FC<ContentProps> = ({ title, children, className }) => (
+const DialogContent: React.FC<ContentProps> = ({ title, children, className }) => (
     <Dialog.Content
         onOpenAutoFocus={(e: Event) => e.preventDefault()}
         onCloseAutoFocus={(e: Event) => e.preventDefault()}
