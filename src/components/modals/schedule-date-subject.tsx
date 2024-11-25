@@ -3,10 +3,11 @@
 import type { SubjectCalendarCardProps } from "@/components/common";
 import type { Dispatch, SetStateAction } from "react";
 
-import { Calendar, Modal } from "@/components/ui";
+import { Modal } from "@/components/ui";
 import { useScheduleModalContext } from "@/hooks/contexts";
 
 import { useCallback, useMemo } from "react";
+import { SubjectCalendar } from "../common/calendar-subject";
 
 type ScheduleModalProps = {
     showModal: boolean;
@@ -100,7 +101,7 @@ export function ScheduleModal({ showModal, setShowModal }: ScheduleModalProps) {
     return (
         <Modal showModal={showModal} setShowModal={setShowModal} className="max-w-screen-lg" title="Jadwal Perkuliahan">
             <div className="grid w-full gap-6 p-4 md:px-12 md:py-6">
-                <Calendar items={exampleSubjectSchedule} isSubject />
+                <SubjectCalendar items={exampleSubjectSchedule} isSubject />
             </div>
         </Modal>
     );
