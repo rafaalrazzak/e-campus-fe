@@ -21,7 +21,7 @@ export const Select: React.FC<SelectProps> = ({ label, options, onChange, value,
             {label && <label className="block text-sm font-medium text-muted-foreground">{label}</label>}
             <div className="relative inline-block w-full">
                 <select
-                    className="block w-full appearance-none rounded-md border border-border bg-background px-4 py-2 pr-8 text-sm leading-tight focus:border-secondary focus:outline-none"
+                    className="block w-full appearance-none rounded-md border bg-background px-4 py-2 pr-8 text-sm leading-tight focus:border-secondary focus:outline-none"
                     value={value}
                     onChange={(e) => onChange && onChange(e.target.value)}
                 >
