@@ -7,7 +7,19 @@ import { cn } from "@/lib/utils";
 
 const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
+type PopoverProps = {
+    label?: string;
+    className?: string;
+} & React.ComponentProps<typeof PopoverPrimitive.PopoverTrigger>;
+
+const PopoverTrigger: React.FC<PopoverProps> = ({ label, children, className, ...props }) => (
+    <div className="flex flex-col gap-2">
+        {label && <label className="block text-sm font-medium text-muted-foreground">{label}</label>}
+        <PopoverPrimitive.Trigger className={className} {...props}>
+            {children}
+        </PopoverPrimitive.Trigger>
+    </div>
+);
 
 const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive.Content>, React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>>(
     ({ className, align = "center", sideOffset = 4, ...props }, ref) => (
