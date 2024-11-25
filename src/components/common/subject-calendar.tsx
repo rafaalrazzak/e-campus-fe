@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useMemo, useState } from "react";
 import { Calendar } from "@/components/ui";
 import { SubjectCalendarCard } from "@/components/common";
