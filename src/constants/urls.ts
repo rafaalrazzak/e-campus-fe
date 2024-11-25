@@ -29,6 +29,10 @@ export const URLS = {
                 detail: (courseId: string) => `/dashboard/academic/courses/${courseId}`,
                 dynamicPage: (courseId: string, type: string, id: string) => `/dashboard/academic/courses/${courseId}/${type}/${id}`,
             },
+            tasks: {
+                base: "/dashboard/academic/tasks",
+                detail: (taskId: string) => `/dashboard/academic/tasks/${taskId}`,
+            },
         },
     },
 };
