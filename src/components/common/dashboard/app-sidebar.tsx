@@ -37,7 +37,7 @@ const data = {
                 },
                 {
                     title: "Tugas",
-                    url: "#",
+                    url: URLS.dashboard.accademic.tasks.base,
                 },
             ],
         },
