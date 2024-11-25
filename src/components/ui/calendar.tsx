@@ -1,111 +1,92 @@
 "use client";
 
-import type { SubjectCalendarCardProps } from "@/components/common";
-
-import { SubjectCalendarCard } from "@/components/common";
-import { Button } from "@/components/ui/button";
-import { cn, formatDate } from "@/lib/utils";
-
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState, useMemo, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ChevronLeft, ChevronRight, CalendarIcon, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { format, startOfWeek, isSameMonth, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, isToday } from "date-fns";
+import { id } from "date-fns/locale";
 
-const DAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"] as const;
-const MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"] as const;
+const DAYS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+const MONTHS = Array.from({ length: 12 }, (_, i) => format(new Date(2021, i, 1), "MMMM", { locale: id }));
+const HOURS = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, "0"));
+const MINUTES = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0"));
 
-export type BaseCalendarItem = {
-    date: Date;
-    title: string;
+export type CalendarProps = {
+    onDateSelect?: (date: Date) => void;
+    highlightedDates?: Date[];
+    className?: string;
+    showTime?: boolean;
 };
 
-export type CalendarProps<T extends boolean> = {
-    isSubject?: T;
-    items: T extends true ? SubjectCalendarCardProps[] : BaseCalendarItem[];
-    onItemClick?: (item: T extends true ? SubjectCalendarCardProps : BaseCalendarItem) => void;
-};
-
-const CalendarItem = <T extends boolean>({
-    item,
-    isSubject,
-    onItemClick,
-}: {
-    item: T extends true ? SubjectCalendarCardProps : BaseCalendarItem;
-    isSubject: T;
-    onItemClick?: CalendarProps<T>["onItemClick"];
-}) => {
-    if (isSubject) {
-        return <SubjectCalendarCard {...(item as SubjectCalendarCardProps)} onClick={onItemClick as (item: SubjectCalendarCardProps) => void} />;
-    }
-
-    return (
-        <div className="flex items-center space-x-2 rounded bg-muted p-2 text-sm">
-            <div className="h-4 w-1 rounded bg-primary" />
-            <div className="flex w-full items-center justify-between gap-2 font-medium">
-                <span className="line-clamp-2">{(item as BaseCalendarItem).title}</span>
-                <span className="shrink-0 text-muted-foreground">{item.date.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}</span>
-            </div>
-        </div>
-    );
-};
-
-export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = false as T }: CalendarProps<T>) => {
+export const Calendar: React.FC<CalendarProps> = ({ onDateSelect, highlightedDates = [], className, showTime = false }) => {
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [viewMode, setViewMode] = useState<"month" | "list" | "monthSelect" | "yearSelect">("month");
+    const [viewMode, setViewMode] = useState<"calendar" | "months" | "years">("calendar");
+    const [selectedHour, setSelectedHour] = useState((selectedDate || currentDate).getHours().toString().padStart(2, "0"));
+    const [selectedMinute, setSelectedMinute] = useState((selectedDate || currentDate).getMinutes().toString().padStart(2, "0"));
+
+    const getDaysInMonth = useCallback((date: Date): Date[] => {
+        const start = startOfWeek(startOfMonth(date), { weekStartsOn: 1 });
+        const end = endOfMonth(date);
+        return eachDayOfInterval({ start, end });
+    }, []);
+
+    const isHighlighted = useCallback((date: Date) => highlightedDates.some((d) => isSameDay(d, date)), [highlightedDates]);
 
     const navigate = useCallback(
         (increment: number) => {
             setCurrentDate((date) => {
-                if (viewMode === "yearSelect") {
-                    return new Date(date.getFullYear() + increment * 12, date.getMonth(), 1);
-                } else if (viewMode === "monthSelect") {
-                    return new Date(date.getFullYear() + increment, date.getMonth(), 1);
+                const newDate = new Date(date);
+                if (viewMode === "years") {
+                    newDate.setFullYear(date.getFullYear() + increment * 12);
+                } else if (viewMode === "months") {
+                    newDate.setFullYear(date.getFullYear() + increment);
+                } else {
+                    newDate.setMonth(date.getMonth() + increment);
                 }
-                return new Date(date.getFullYear(), date.getMonth() + increment, 1);
+                return newDate;
             });
         },
         [viewMode]
     );
 
-    const filteredItems = useMemo(() => items.filter((item) => item.date.getMonth() === currentDate.getMonth() && item.date.getFullYear() === currentDate.getFullYear()), [items, currentDate]);
+    const handleDateSelect = useCallback(
+        (date: Date) => {
+            const newDate = new Date(date);
+            if (showTime) {
+                newDate.setHours(parseInt(selectedHour));
+                newDate.setMinutes(parseInt(selectedMinute));
+            }
+            setSelectedDate(newDate);
+            onDateSelect?.(newDate);
+        },
+        [showTime, selectedHour, selectedMinute, onDateSelect]
+    );
 
-    const getDaysInMonth = useCallback((date: Date): Date[] => {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const daysArray = [];
+    const handleTimeChange = useCallback(
+        (type: "hour" | "minute", value: string) => {
+            const newDate = new Date(selectedDate || currentDate);
+            if (type === "hour") {
+                newDate.setHours(parseInt(value));
+                setSelectedHour(value);
+            } else {
+                newDate.setMinutes(parseInt(value));
+                setSelectedMinute(value);
+            }
 
-        // Calculate the number of days to add from the previous month
-        let prevMonthDays = firstDay.getDay() - 1; // Adjust for Monday start
-        if (prevMonthDays === -1) prevMonthDays = 6; // Sunday should be 6 days back from Monday
+            onDateSelect?.(newDate);
+        },
+        [selectedDate, currentDate, onDateSelect]
+    );
 
-        // Add days from previous month
-        for (let i = prevMonthDays; i > 0; i--) {
-            const prevMonthDay = new Date(year, month, -i + 1);
-            daysArray.push(prevMonthDay);
-        }
-
-        // Add days of current month
-        for (let i = 1; i <= lastDay.getDate(); i++) {
-            daysArray.push(new Date(year, month, i));
-        }
-
-        // Add days from next month to complete the grid
-        const remainingDays = 42 - daysArray.length;
-        for (let i = 1; i <= remainingDays; i++) {
-            daysArray.push(new Date(year, month + 1, i));
-        }
-
-        return daysArray;
-    }, []);
-
-    const hasItem = useCallback((date: Date) => filteredItems.some((item) => item.date.toDateString() === date.toDateString()), [filteredItems]);
-
-    const renderDayView = useMemo(
+    const renderCalendarView = useMemo(
         () => (
             <div className="grid grid-cols-7 gap-1">
                 {DAYS.map((day) => (
-                    <div key={day} className="p-1 text-center text-xs font-bold text-muted-foreground">
+                    <div key={day} className="p-1 text-center text-xs font-medium text-muted-foreground">
                         {day}
                     </div>
                 ))}
@@ -113,54 +94,45 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
                     <Button
                         key={index}
                         variant="ghost"
-                        onClick={() => setSelectedDate(date)}
+                        onClick={() => handleDateSelect(date)}
                         className={cn(
-                            "relative h-8 w-full p-0 text-xs group",
-                            date.getMonth() !== currentDate.getMonth() && "text-muted-foreground opacity-50",
-                            date.toDateString() === new Date().toDateString() && "font-bold text-primary",
-                            selectedDate && date.toDateString() === selectedDate.toDateString() && "bg-primary text-primary-foreground"
+                            "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+                            !isSameMonth(date, currentDate) && "text-muted-foreground opacity-50",
+                            isToday(date) && "text-primary",
+                            selectedDate && isSameDay(selectedDate, date) && "bg-primary text-primary-foreground",
+                            isHighlighted(date) && "ring-2 ring-primary ring-offset-2"
                         )}
                     >
-                        <div className="flex flex-col items-center justify-center gap-1">
-                            <span>{date.getDate()}</span>
-                            {hasItem(date) && <span className="size-1 rounded-full bg-destructive group-hover:bg-background" />}
-                        </div>
+                        {date.getDate()}
                     </Button>
                 ))}
             </div>
         ),
-        [currentDate, selectedDate, getDaysInMonth, hasItem]
+        [currentDate, selectedDate, getDaysInMonth, isHighlighted, handleDateSelect]
     );
 
-    const renderListView = useMemo(
+    const renderMonthsView = useMemo(
         () => (
-            <div className="space-y-2">
-                {filteredItems.map((item, index) => (
-                    <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
+            <div className="grid grid-cols-3 gap-2">
+                {MONTHS.map((month, index) => (
+                    <Button
+                        key={month}
+                        variant={currentDate.getMonth() === index ? "primary" : "ghost"}
+                        onClick={() => {
+                            setCurrentDate(new Date(currentDate.getFullYear(), index, 1));
+                            setViewMode("calendar");
+                        }}
+                        className="text-sm"
+                    >
+                        {month}
+                    </Button>
                 ))}
             </div>
         ),
-        [filteredItems, isSubject, onItemClick]
+        [currentDate]
     );
 
-    const renderMonthSelect = () => (
-        <div className="grid grid-cols-3 gap-2">
-            {MONTHS.map((month, index) => (
-                <Button
-                    key={month}
-                    variant={currentDate.getMonth() === index ? "primary" : "outline"}
-                    onClick={() => {
-                        setCurrentDate(new Date(currentDate.getFullYear(), index, 1));
-                        setViewMode("month");
-                    }}
-                >
-                    {month}
-                </Button>
-            ))}
-        </div>
-    );
-
-    const renderYearSelect = () => {
+    const renderYearsView = useMemo(() => {
         const currentYear = currentDate.getFullYear();
         const years = Array.from({ length: 12 }, (_, i) => currentYear - 5 + i);
 
@@ -169,85 +141,79 @@ export const Calendar = <T extends boolean>({ items, onItemClick, isSubject = fa
                 {years.map((year) => (
                     <Button
                         key={year}
-                        variant={year === currentYear ? "primary" : "outline"}
+                        variant={currentDate.getFullYear() === year ? "primary" : "ghost"}
                         onClick={() => {
                             setCurrentDate(new Date(year, currentDate.getMonth(), 1));
-                            setViewMode("monthSelect");
+                            setViewMode("months");
                         }}
+                        className="text-sm"
                     >
                         {year}
                     </Button>
                 ))}
             </div>
         );
-    };
+    }, [currentDate]);
 
-    const renderItems = useMemo(() => {
-        if (!selectedDate) return null;
-
-        const itemsForSelectedDate = filteredItems.filter((item) => item.date.toDateString() === selectedDate.toDateString());
-
-        return (
-            <div className="mt-4 flex flex-col gap-4">
-                {itemsForSelectedDate.length ? null : <div className="text-center text-muted-foreground">Tidak ada kegiatan</div>}
-
-                {isSubject && itemsForSelectedDate.length ? (
-                    <div className="flex flex-col">
-                        <span className="text-xs text-secondary-foreground">Jadwal kelas</span>
-                        <span className="text-lg font-bold">{formatDate(selectedDate)}</span>
-                    </div>
-                ) : null}
-                <div className="flex flex-col gap-4">
-                    {itemsForSelectedDate.map((item, index) => (
-                        <CalendarItem key={index} item={item as T extends true ? SubjectCalendarCardProps : BaseCalendarItem} isSubject={isSubject} onItemClick={onItemClick} />
-                    ))}
-                </div>
-            </div>
-        );
-    }, [selectedDate, filteredItems, isSubject, onItemClick]);
-
-    const toggleViewMode = () => {
-        setViewMode((prevMode) => {
-            switch (prevMode) {
-                case "month":
-                case "list":
-                    return "monthSelect";
-                case "monthSelect":
-                    return "yearSelect";
-                case "yearSelect":
-                    return "month";
+    const toggleViewMode = useCallback(() => {
+        setViewMode((current) => {
+            switch (current) {
+                case "calendar":
+                    return "months";
+                case "months":
+                    return "years";
+                case "years":
+                    return "calendar";
                 default:
-                    return "month";
+                    return "calendar";
             }
         });
-    };
+    }, []);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className={cn("w-full space-y-4 p-4", className)}>
             <div className="flex items-center justify-between">
-                <Button variant="ghost" className="flex items-center text-lg font-bold" onClick={toggleViewMode}>
-                    {viewMode === "yearSelect"
+                <Button variant="ghost" className="text-left font-medium" onClick={toggleViewMode}>
+                    {viewMode === "years"
                         ? `${currentDate.getFullYear() - 5} - ${currentDate.getFullYear() + 6}`
-                        : viewMode === "monthSelect"
+                        : viewMode === "months"
                           ? currentDate.getFullYear().toString()
-                          : `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
-                    <ChevronDown className="ml-1 size-4" />
+                          : format(currentDate, "MMMM yyyy", { locale: id })}
+                    <CalendarIcon className="ml-2 h-4 w-4" />
                 </Button>
 
                 <div className="flex space-x-2">
                     <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
-                        <ChevronLeft className="size-4" />
+                        <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <Button variant="outline" size="icon" onClick={() => navigate(1)}>
-                        <ChevronRight className="size-4" />
+                        <ChevronRight className="h-4 w-4" />
                     </Button>
                 </div>
             </div>
-            {viewMode === "month" && renderDayView}
-            {viewMode === "list" && renderListView}
-            {viewMode === "monthSelect" && renderMonthSelect()}
-            {viewMode === "yearSelect" && renderYearSelect()}
-            {renderItems}
+
+            {viewMode === "calendar" && renderCalendarView}
+            {viewMode === "months" && renderMonthsView}
+            {viewMode === "years" && renderYearsView}
+
+            {showTime && (
+                <div className="flex items-center space-x-2 w-full">
+                    <Clock className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-[120px] justify-start text-left font-normal">
+                                {selectedHour}:{selectedMinute}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[280px] p-0" align="start">
+                            <div className="grid grid-cols-2 gap-2 p-2">
+                                <Select value={selectedHour} onChange={(value) => handleTimeChange("hour", value)} options={HOURS.map((hour) => ({ value: hour, label: hour }))} />
+                                <Select value={selectedMinute} onChange={(value) => handleTimeChange("minute", value)} options={MINUTES.map((minute) => ({ value: minute, label: minute }))} />
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                </div>
+            )}
         </div>
     );
 };
