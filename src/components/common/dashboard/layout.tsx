@@ -20,7 +20,7 @@ export function DashboardLayout({
     withBreadcrumb?: boolean;
 }) {
     return (
-        <SidebarInset className="h-[90vh] flex flex-col">
+        <SidebarInset className="max-h-[90vh] flex flex-col">
             <header className={cn("flex shrink-0 border-b", withBreadcrumb ? "h-24" : "h-16")}>
                 <div className="flex flex-col justify-center gap-2 px-4">
                     <div className="flex items-center gap-2">
