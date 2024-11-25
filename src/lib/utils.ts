@@ -3,6 +3,9 @@ import { type ClassValue, clsx } from "clsx";
 import { format as formatDateFns } from "date-fns";
 import { id } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
+import { createId } from "@paralleldrive/cuid2";
+
+export const generateId = () => createId();
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
