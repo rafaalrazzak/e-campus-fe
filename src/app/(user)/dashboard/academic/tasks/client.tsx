@@ -326,13 +326,12 @@ export const TaskManagement: React.FC = () => {
             </DndContext>
 
             <Modal
-                isOpen={isDialogOpen}
-                onClose={() => {
+                open={isDialogOpen}
+                onOpenChange={() => {
                     setIsDialogOpen(false);
                     setSelectedTask(null);
                 }}
                 title={selectedTask ? "Edit Tugas" : "Buat Tugas"}
-                preventClose
             >
                 <TaskForm
                     initialData={selectedTask ?? undefined}
